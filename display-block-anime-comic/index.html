@@ -7,22 +7,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,700;1,700&family=Mochiy+Pop+One&display=swap" rel="stylesheet">
-
   <style>
     :root {
-      --manga-ink: #111116;
-      --manga-paper: #fffcf0;
-      --manga-halftone: #e8e2cd;
-      --shonen-yellow: #ffde00;
-      --shonen-orange: #ff5500;
-      --shonen-red: #ff1f4b;
-      --shonen-blue: #00b4d8;
-      --shonen-cyan: #00f0ff;
-      --shonen-purple: #7209b7;
-      --shonen-green: #06d6a0;
-      --comic-shadow: 4px 4px 0 #111116;
-      --comic-shadow-lg: 7px 7px 0 #111116;
-      --comic-border: 3.5px solid #111116;
+      --manga-ink: #0b1329;
+      --manga-paper: #f0fdf4;
+      --manga-halftone: #cce3de;
+      --shonen-yellow: #00b4d8;   /* Steel Cyan / Primary Theme Glow */
+      --shonen-orange: #0284c7;   /* Steel Blue */
+      --shonen-red: #0369a1;      /* Deep Slate Blue */
+      --shonen-blue: #0ea5e9;     /* Sky Steel */
+      --shonen-cyan: #00f0ff;     /* Radiant Cyan Glow */
+      --shonen-purple: #8b5cf6;   /* Royal Purple */
+      --shonen-green: #10b981;    /* Emerald Green */
+      --comic-shadow: 4px 4px 0 #0b1329;
+      --comic-shadow-lg: 7px 7px 0 #0b1329;
+      --comic-border: 3.5px solid #0b1329;
     }
 
     * {
@@ -35,7 +34,7 @@
     body {
       background-color: var(--manga-paper);
       background-image: 
-        radial-gradient(circle, #2b3b4f 1.2px, transparent 1.2px);
+        radial-gradient(circle, #2b2b36 1.2px, transparent 1.2px);
       background-size: 14px 14px;
       color: var(--manga-ink);
       font-family: 'Comic Neue', cursive, sans-serif;
@@ -44,6 +43,7 @@
       position: relative;
     }
 
+    /* Manga Action Speedlines Overlay (Global Vignette) */
     body::before {
       content: "";
       position: fixed;
@@ -56,7 +56,9 @@
       z-index: 99;
     }
 
-    /* 1. MANGA TOP BANNER & TICKER */
+    /* =========================================================
+       1. MANGA TOP BANNER & TICKER (SHONEN JUMP STYLE)
+    ========================================================= */
     .manga-ticker-bar:hover .ticker-content {
       animation-play-state: paused !important;
     }
@@ -95,34 +97,1821 @@
       border: 2px solid #000;
       margin: 0 8px;
       font-size: 13px;
+      text-shadow: 1px 1px 0 #000;
       box-shadow: 2px 2px 0 #000;
     }
 
-    /* 2. COMIC BOOK HEADER */
+    /* =========================================================
+       2. ANIME COMIC HEADER (TITLE SPLASH PANEL)
+    ========================================================= */
     header {
       background: #ffffff;
       border-bottom: var(--comic-border);
-      box-shadow: var(--comic-shadow);
-      padding: 6px 16px !important;
+      padding: 6px 135px 6px 12px !important;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 10px !important;
       position: sticky;
       top: 0;
       z-index: 90;
-      display: flex !important;
-      flex-direction: row !important;
-      justify-content: space-between !important;
-      align-items: center !important;
-      gap: 12px !important;
-      flex-wrap: nowrap !important;
-      height: 58px !important;
-      min-height: 58px !important;
-      max-height: 58px !important;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), margin-bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 0 #111;
+      background-image: repeating-linear-gradient(45deg, #fff, #fff 10px, #fffbeb 10px, #fffbeb 20px);
+      transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      white-space: nowrap !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      box-sizing: border-box !important;
     }
 
     header.header-collapsed {
       transform: translateY(-100%);
     }
 
+    /* Floating Tab to Fold / Expand Header */
+    .header-toggle-tab {
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--shonen-yellow);
+      color: #000;
+      border: 2.5px solid #000;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 4px 0 #000;
+      padding: 4px 16px;
+      font-family: 'Bangers', cursive;
+      font-size: 13px;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 95;
+      transition: transform 0.15s, background-color 0.15s, color 0.15s;
+    }
+
+    .header-toggle-tab:hover {
+      background: var(--shonen-orange);
+      color: #fff;
+      transform: translateX(-50%) translateY(2px);
+    }
+
+    header.header-collapsed .header-toggle-tab {
+      background: var(--shonen-red);
+      color: #fff;
+      bottom: -30px;
+      box-shadow: 0 4px 0 #000;
+    }
+
+    header.header-collapsed .header-toggle-tab:hover {
+      background: var(--shonen-yellow);
+      color: #000;
+    }
+
+    .manga-title-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .title-avatar-panel {
+      width: 64px;
+      height: 64px;
+      background: var(--shonen-yellow);
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-3deg);
+      position: relative;
+    }
+
+    .title-avatar-panel img {
+      width: 44px;
+      height: 44px;
+      image-rendering: pixelated;
+      filter: drop-shadow(2px 2px 0 #000);
+    }
+
+    .title-avatar-panel .speech-burst {
+      position: absolute;
+      top: -10px;
+      right: -14px;
+      background: var(--shonen-red);
+      color: #fff;
+      font-family: 'Bangers', cursive;
+      font-size: 11px;
+      padding: 2px 6px;
+      border: 2px solid #000;
+      border-radius: 6px;
+      transform: rotate(8deg);
+      box-shadow: 2px 2px 0 #000;
+      white-space: nowrap;
+    }
+
+    .title-text-group h1 {
+      font-family: 'Bangers', cursive;
+      font-size: 32px;
+      letter-spacing: 1.5px;
+      color: var(--manga-ink);
+      line-height: 1;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0 var(--shonen-yellow), 4px 4px 0 #000;
+    }
+
+    .title-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      align-items: center;
+    }
+
+    .comic-badge {
+      font-family: 'Bangers', cursive;
+      font-size: 13px;
+      letter-spacing: 0.8px;
+      padding: 2px 10px;
+      border: 2.5px solid #000;
+      border-radius: 4px;
+      box-shadow: 2px 2px 0 #000;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Chemical Energy Vials Shelf */
+    .energy-shelf {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      padding: 6px 12px;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .energy-shelf::before {
+      content: "POTION POUCH";
+      position: absolute;
+      top: -9px;
+      left: 10px;
+      background: #111;
+      color: #fff;
+      font-family: 'Bangers', cursive;
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.8px;
+    }
+
+    .vial-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+    }
+
+    .vial-item img {
+      width: 20px;
+      height: 20px;
+      image-rendering: pixelated;
+    }
+
+    /* =========================================================
+       3. CONTROLS HUD (COMIC ACTION BUTTONS)
+    ========================================================= */
+    .hud-controls-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Mode Pill Bar (Manga Chapter / View Selector) */
+    .comic-mode-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #fff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      padding: 4px 6px;
+      border-radius: 8px;
+    }
+
+    .comic-mode-title {
+      font-family: 'Bangers', cursive;
+      font-size: 13px;
+      letter-spacing: 1px;
+      padding: 0 4px;
+      color: var(--shonen-red);
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    .manga-chip {
+      font-family: 'Bangers', cursive;
+      font-size: 14px;
+      letter-spacing: 0.8px;
+      padding: 4px 10px;
+      border: 2px solid #000;
+      background: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #000;
+      transition: all 0.12s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .manga-chip:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 #000;
+      background: var(--shonen-yellow);
+    }
+
+    .manga-chip.active {
+      background: var(--shonen-yellow);
+      transform: translate(1px, 1px);
+      box-shadow: 1.5px 1.5px 0 #000;
+    }
+
+    .manga-chip#mode-rarity.active {
+      background: var(--shonen-cyan);
+    }
+
+    .manga-chip#mode-decay.active {
+      background: var(--shonen-red);
+      color: #fff;
+    }
+
+    .manga-chip#mode-off.active {
+      background: #64748b;
+      color: #fff;
+    }
+
+    /* Target / Base Seeds Input Box */
+    .comic-input-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .comic-input-box label {
+      font-family: 'Bangers', cursive;
+      font-size: 14px;
+      letter-spacing: 0.8px;
+    }
+
+    .comic-input-box input {
+      width: 78px;
+      border: 2px solid #000;
+      padding: 3px 6px;
+      font-family: 'Bangers', cursive;
+      font-size: 16px;
+      text-align: center;
+      background: var(--shonen-yellow);
+      box-shadow: 2px 2px 0 #000;
+      border-radius: 4px;
+    }
+
+    .comic-input-box input:focus {
+      outline: none;
+      background: #fff;
+    }
+
+    .mini-btn {
+      padding: 2px 6px;
+      font-family: 'Bangers', cursive;
+      font-size: 12px;
+      border: 2px solid #000;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 1.5px 1.5px 0 #000;
+      cursor: pointer;
+    }
+
+    .mini-btn:hover {
+      background: var(--shonen-cyan);
+      transform: translate(-1px, -1px);
+      box-shadow: 2.5px 2.5px 0 #000;
+    }
+
+    /* Manga Action Buttons */
+    .action-btn {
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+      letter-spacing: 1px;
+      padding: 7px 14px;
+      border: var(--comic-border);
+      border-radius: 6px;
+      box-shadow: var(--comic-shadow);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.1s ease;
+      text-transform: uppercase;
+      background: #fff;
+    }
+
+    .action-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #000;
+    }
+
+    .action-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 #000;
+    }
+
+    .btn-harvest { background: var(--shonen-green); color: #000; }
+    .btn-forge { background: var(--shonen-orange); color: #fff; }
+    .btn-bottleneck { background: var(--shonen-cyan); color: #000; }
+    .btn-switch-edition { background: #111; color: var(--shonen-yellow); text-decoration: none; }
+
+    /* Limit Break (Awakening Mode) Button */
+    .btn-limitbreak {
+      background: linear-gradient(135deg, #ff0055 0%, #ff5500 50%, #ffde00 100%);
+      color: #fff;
+      text-shadow: 1.5px 1.5px 0 #000;
+      border: var(--comic-border);
+      position: relative;
+      overflow: hidden;
+      animation: limitBreakPulse 2s infinite alternate ease-in-out;
+    }
+    .btn-limitbreak:hover {
+      box-shadow: 6px 6px 0 #000, 0 0 15px rgba(255, 85, 0, 0.8);
+      transform: translate(-2px, -2px) scale(1.03);
+    }
+    .btn-limitbreak.active {
+      background: linear-gradient(135deg, #ffde00 0%, #ff0055 70%);
+      box-shadow: 0 0 20px rgba(255, 31, 75, 0.9), 3px 3px 0 #000;
+      animation: limitBreakPounding 0.8s infinite alternate ease-in-out;
+    }
+    @keyframes limitBreakPulse {
+      0% { box-shadow: 4px 4px 0 #000; }
+      100% { box-shadow: 5px 5px 0 #000, 0 0 12px rgba(255, 85, 0, 0.6); }
+    }
+    @keyframes limitBreakPounding {
+      0% { transform: scale(1); filter: brightness(1); }
+      100% { transform: scale(1.04); filter: brightness(1.15); }
+    }
+
+    /* Screen Shake Animation */
+    @keyframes screenShakeAnim {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      20% { transform: translate(-5px, 3px) rotate(-0.5deg); }
+      40% { transform: translate(4px, -3px) rotate(0.5deg); }
+      60% { transform: translate(-3px, -2px) rotate(-0.2deg); }
+      80% { transform: translate(3px, 2px) rotate(0.3deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    .screen-shake {
+      animation: screenShakeAnim 0.35s ease;
+    }
+
+    /* Limit Break Active Screen Environment */
+    body.limit-break-active {
+      background-color: #fff9ea;
+    }
+    body.limit-break-active header {
+      border-bottom-color: #ff1f4b;
+      box-shadow: 0 5px 0 #ff1f4b, 0 0 25px rgba(255, 31, 75, 0.35);
+    }
+    body.limit-break-active .manga-ticker-bar {
+      background: linear-gradient(90deg, #ff1f4b, #ff5500, #ffde00);
+      color: #fff;
+    }
+    body.limit-break-active .tier-0 .manga-card {
+      box-shadow: 8px 8px 0 #111, 0 0 25px rgba(255, 85, 0, 0.9) !important;
+      animation: awakenedAura 1.2s infinite alternate ease-in-out;
+    }
+    @keyframes awakenedAura {
+      0% { filter: drop-shadow(0 0 4px #ff5500); }
+      100% { filter: drop-shadow(0 0 16px #ffde00); }
+    }
+
+    /* Fullscreen Manga Speedlines Vignette for Limit Break */
+    .limit-break-speedlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 89;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(255, 60, 0, 0.12) 100%),
+                  repeating-conic-gradient(from 0deg, rgba(0,0,0,0.06) 0deg 3deg, transparent 3deg 6deg);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    body.limit-break-active .limit-break-speedlines {
+      opacity: 1;
+      animation: speedlineJitter 0.15s infinite alternate;
+    }
+    @keyframes speedlineJitter {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.015); }
+    }
+
+    /* Shūchūsen Burst (Concentrated Manga Speedlines) behind Display Box */
+    .shuchusen-burst-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 290px;
+      height: 290px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .shuchusen-burst {
+      width: 100%;
+      height: 100%;
+      background: repeating-conic-gradient(
+        from 0deg,
+        rgba(255, 222, 0, 0.45) 0deg 8deg,
+        transparent 8deg 16deg
+      );
+      border-radius: 50%;
+      animation: rotateBurst 24s linear infinite;
+      mask-image: radial-gradient(circle, black 32%, transparent 70%);
+      -webkit-mask-image: radial-gradient(circle, black 32%, transparent 70%);
+    }
+    @keyframes rotateBurst {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    body.limit-break-active .shuchusen-burst {
+      background: repeating-conic-gradient(
+        from 0deg,
+        rgba(255, 31, 75, 0.6) 0deg 6deg,
+        rgba(255, 222, 0, 0.6) 6deg 12deg,
+        transparent 12deg 20deg
+      );
+      animation-duration: 7s;
+    }
+
+    /* Manga Onomatopoeia SFX Stickers (Hidden to prevent outer card clutter) */
+    .manga-sfx-sticker {
+      display: none !important;
+    }
+    @keyframes sfxWobble {
+      0% { transform: translateY(0) rotate(var(--rot, -6deg)) scale(1); }
+      100% { transform: translateY(-4px) rotate(calc(var(--rot, -6deg) + 3deg)) scale(1.06); }
+    }
+    .sfx-doon {
+      top: -18px;
+      left: -20px;
+      --rot: -9deg;
+      background: var(--shonen-red);
+      font-size: 15px;
+      box-shadow: 3.5px 3.5px 0 #000;
+    }
+    .sfx-buku {
+      bottom: -12px;
+      right: -16px;
+      --rot: 8deg;
+      background: #10b981;
+    }
+    .sfx-bachi {
+      top: -14px;
+      right: -18px;
+      --rot: 10deg;
+      background: #0ea5e9;
+    }
+    .sfx-juu {
+      bottom: -10px;
+      left: -14px;
+      --rot: -7deg;
+      background: #84cc16;
+    }
+    .sfx-zuba {
+      top: -12px;
+      left: -12px;
+      --rot: -12deg;
+      background: #ef4444;
+    }
+    .sfx-toge {
+      top: -12px;
+      right: -12px;
+      --rot: 8deg;
+      background: #f59e0b;
+    }
+    .sfx-shaki {
+      bottom: -12px;
+      right: -14px;
+      --rot: 6deg;
+      background: #8b5cf6;
+    }
+
+    /* Manga Shonen Tier Rank Ribbons (Hidden from tree to prevent visual clutter) */
+    .manga-tier-ribbon {
+      display: none !important;
+    }
+    .rank-ss { background: var(--shonen-yellow); color: #000; font-size: 13.5px; border-width: 3px; }
+    .rank-s { background: #fee2e2; color: var(--shonen-red); font-size: 12.5px; }
+    .rank-a { background: #e0f2fe; color: #0369a1; }
+    .rank-b { background: #fef3c7; color: #b45309; }
+    .rank-d { background: #f1f5f9; color: #475569; }
+
+    /* Anime Action Cut-In Overlay (Special Move Flash) */
+    .anime-cutin-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .anime-cutin-overlay.active {
+      opacity: 1;
+    }
+    .cutin-stripe-bar {
+      width: 100vw;
+      height: 125px;
+      background: linear-gradient(90deg, #111 0%, #ff1f4b 15%, #ff5500 50%, #ffde00 85%, #111 100%);
+      border-top: 5px solid #000;
+      border-bottom: 5px solid #000;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10vw;
+      position: relative;
+      overflow: hidden;
+      transform: skewY(-3deg) scaleY(0);
+      transition: transform 0.22s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+    .anime-cutin-overlay.active .cutin-stripe-bar {
+      transform: skewY(-3deg) scaleY(1);
+    }
+    .cutin-avatar {
+      width: 90px;
+      height: 90px;
+      background: #fff;
+      border: 3.5px solid #000;
+      border-radius: 50%;
+      box-shadow: 4px 4px 0 #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(6deg);
+    }
+    .cutin-avatar img {
+      width: 66px;
+      height: 66px;
+      image-rendering: pixelated;
+    }
+    .cutin-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .cutin-kanji {
+      font-family: 'Mochiy Pop One', sans-serif;
+      font-size: 32px;
+      color: #fff;
+      text-shadow: 3px 3px 0 #000, -2px -2px 0 #000;
+      letter-spacing: 2px;
+    }
+    .cutin-sub {
+      font-family: 'Bangers', cursive;
+      font-size: 20px;
+      color: var(--shonen-yellow);
+      text-shadow: 2px 2px 0 #000;
+      letter-spacing: 1.5px;
+    }
+
+    /* Dr. Splicer VN Interaction Styling */
+    .assistant-hint-badge {
+      position: absolute;
+      top: -12px;
+      right: 14px;
+      background: var(--shonen-yellow);
+      color: #000;
+      border: 2px solid #000;
+      font-family: 'Bangers', cursive;
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      box-shadow: 2px 2px 0 #000;
+      letter-spacing: 0.8px;
+    }
+    .avatar-react {
+      animation: avatarBounce 0.35s ease;
+    }
+    @keyframes avatarBounce {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.25) rotate(12deg); }
+      100% { transform: scale(1); }
+    }
+    .anime-floater-emoji {
+      position: absolute;
+      top: -24px;
+      left: 18px;
+      font-size: 24px;
+      pointer-events: none;
+      animation: floatUpFade 1s forwards ease-out;
+    }
+    @keyframes floatUpFade {
+      0% { opacity: 1; transform: translateY(0) scale(0.6); }
+      50% { transform: translateY(-22px) scale(1.2); }
+      100% { opacity: 0; transform: translateY(-44px) scale(0.9); }
+    }
+
+    /* =========================================================
+       COMIC BOOK SPECIAL ASSETS (SPEECH BALLOONS, NARRATION & STAMPS)
+    ========================================================= */
+
+    /* Vintage Comics Code Authority Seal & Price Stamp */
+    .comic-issue-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .comic-price-pill {
+      background: var(--shonen-yellow);
+      border: 2.5px solid #000;
+      border-radius: 6px;
+      box-shadow: 2.5px 2.5px 0 #000;
+      padding: 3px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1;
+      transform: rotate(-3deg);
+    }
+
+    .comic-price-pill .price-val {
+      font-family: 'Bangers', cursive;
+      font-size: 16px;
+      color: var(--shonen-red);
+      letter-spacing: 0.8px;
+    }
+
+    .comic-price-pill .issue-no {
+      font-family: 'Comic Neue', cursive;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #000;
+      letter-spacing: 0.5px;
+    }
+
+    /* Approved by the Comics Code Authority */
+    .comics-code-badge {
+      width: 58px;
+      height: 70px;
+      background: #ffffff;
+      border: 3px solid #000;
+      box-shadow: 3px 3px 0 #000;
+      border-radius: 4px;
+      padding: 3px 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transform: rotate(2deg);
+      user-select: none;
+      position: relative;
+    }
+
+    .comics-code-badge .cc-inner {
+      width: 100%;
+      height: 100%;
+      border: 1.5px solid #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+    }
+
+    .comics-code-badge .cc-approved {
+      font-family: 'Bangers', cursive;
+      font-size: 8px;
+      letter-spacing: 0.5px;
+      color: #000;
+      line-height: 1;
+    }
+
+    .comics-code-badge .cc-by {
+      font-family: 'Comic Neue', cursive;
+      font-size: 6px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .comics-code-badge .cc-title {
+      font-family: 'Bangers', cursive;
+      font-size: 9px;
+      color: var(--shonen-red);
+      line-height: 1;
+      letter-spacing: 0.5px;
+    }
+
+    .comics-code-badge .cc-code {
+      font-family: 'Bangers', cursive;
+      font-size: 11px;
+      color: #000;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .comics-code-badge .cc-authority {
+      font-family: 'Bangers', cursive;
+      font-size: 7.5px;
+      color: #000;
+      line-height: 1;
+      letter-spacing: 0.5px;
+    }
+
+    /* Authentic Comic Speech Balloon with Pointer Tail */
+    .comic-speech-balloon {
+      position: absolute;
+      background: #ffffff;
+      border: 3px solid #111116;
+      border-radius: 12px;
+      padding: 6px 12px;
+      font-family: 'Comic Neue', cursive, sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      line-height: 1.25;
+      color: #111116;
+      box-shadow: 3.5px 3.5px 0 #111116;
+      z-index: 35;
+      max-width: 180px;
+      text-align: center;
+      pointer-events: none;
+      animation: balloonFloat 3s ease-in-out infinite alternate;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    @keyframes balloonFloat {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-4px); }
+    }
+
+    /* Downward Pointer Tail */
+    .balloon-tail-down::after {
+      content: "";
+      position: absolute;
+      bottom: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 11px solid #111116;
+    }
+    .balloon-tail-down::before {
+      content: "";
+      position: absolute;
+      bottom: -7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #ffffff;
+      z-index: 1;
+    }
+
+    /* Left Pointer Tail */
+    .balloon-tail-left::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -11px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 11px solid #111116;
+    }
+    .balloon-tail-left::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -7px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-right: 8px solid #ffffff;
+      z-index: 1;
+    }
+
+    /* Right Pointer Tail */
+    .balloon-tail-right::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -11px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 11px solid #111116;
+    }
+    .balloon-tail-right::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -7px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 8px solid #ffffff;
+      z-index: 1;
+    }
+
+    /* Jagged Comic Shout Burst Balloon (Explosion Speech Bubble) */
+    .comic-shout-balloon {
+      position: absolute;
+      background: var(--shonen-yellow);
+      border: 3px solid #111116;
+      padding: 7px 12px;
+      font-family: 'Bangers', cursive;
+      font-size: 12.5px;
+      letter-spacing: 0.6px;
+      color: #ff1f4b;
+      box-shadow: 4px 4px 0 #111116;
+      border-radius: 8px;
+      z-index: 36;
+      text-align: center;
+      max-width: 175px;
+      animation: shoutWobble 1.6s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes shoutWobble {
+      0% { transform: scale(1) rotate(-2deg); }
+      100% { transform: scale(1.05) rotate(2deg); }
+    }
+
+    /* Balloon Specific Positions */
+    .s-balloon-station {
+      top: -68px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 190px;
+    }
+    .s-balloon-toxic {
+      top: -12px;
+      right: -185px;
+      width: 165px;
+    }
+    .s-balloon-radio {
+      top: -12px;
+      left: -185px;
+      width: 165px;
+    }
+    .s-balloon-cactus {
+      top: -46px;
+      right: -150px;
+      width: 145px;
+    }
+    .s-balloon-spikes {
+      bottom: -62px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 155px;
+    }
+    .s-balloon-piano {
+      top: -46px;
+      left: -150px;
+      width: 145px;
+    }
+    .s-balloon-dirt {
+      bottom: -56px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+    }
+
+    /* Hide Speech Balloons When Toggled Off */
+    body.speech-bubbles-hidden .comic-speech-balloon,
+    body.speech-bubbles-hidden .comic-shout-balloon {
+      display: none !important;
+    }
+
+    .btn-comic-speech.active {
+      background: #ffde00;
+    }
+
+    /* Comic Book Narrative Panel Box (Hidden from outer tree to keep canvas clean) */
+    .comic-narrative-panel {
+      display: none !important;
+    }
+
+    /* Action Burst Stickers (Hidden from outer tree) */
+    .comic-action-burst {
+      display: none !important;
+    }
+    @keyframes burstJitter {
+      0% { transform: scale(1) rotate(var(--burst-rot, -12deg)); }
+      100% { transform: scale(1.1) rotate(calc(var(--burst-rot, -12deg) + 4deg)); }
+    }
+    .burst-pow {
+      top: 15px;
+      left: 30px;
+      --burst-rot: -14deg;
+      background: #ff5500;
+    }
+    .burst-zap {
+      top: 15px;
+      right: 30px;
+      --burst-rot: 12deg;
+      background: #00b4d8;
+    }
+    .burst-boom {
+      bottom: 25px;
+      left: 40px;
+      --burst-rot: -8deg;
+      background: #ff1f4b;
+    }
+
+    /* Comic Page Footer */
+    .comic-page-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1300px;
+      padding: 12px 16px 0;
+      margin-top: 24px;
+      border-top: 3px dashed #111;
+      font-family: 'Bangers', cursive;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #64748b;
+    }
+
+    /* =========================================================
+       4. TREE VIEWPORT & COMIC KOMA-WARI PANELS
+    ========================================================= */
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px 80px;
+      width: 100%;
+    }
+
+    .tree-viewport {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 30px 40px 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      cursor: grab;
+      position: relative;
+    }
+
+    .tree-viewport.grabbing {
+      cursor: grabbing;
+    }
+
+    .tree-canvas-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: top center;
+      transition: transform 0.15s ease;
+      min-width: max-content;
+      margin: 0 auto;
+      padding: 10px 40px;
+    }
+
+    .tree-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 16px;
+      width: 100%;
+      position: relative;
+    }
+
+    .sub-tree-compact {
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .sub-tree-compact .manga-card {
+      min-width: 78px;
+      padding: 6px 4px;
+    }
+
+    .tree-branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Comic Cell / Manga Card */
+    .manga-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #ffffff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      border-radius: 8px;
+      padding: 6px 6px 7px;
+      cursor: pointer;
+      transition: all 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      z-index: 5;
+      background-image: radial-gradient(#ddd 1px, transparent 1px);
+      background-size: 8px 8px;
+      min-width: 90px;
+      box-sizing: border-box;
+    }
+
+    .manga-card:hover {
+      transform: translate(-3px, -4px) rotate(-1.5deg) scale(1.04);
+      box-shadow: 7px 7px 0 #000;
+      z-index: 25;
+      background-color: #fffdf5;
+    }
+
+    .manga-card:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    /* Tier Variations for Manga Theme */
+    .tier-0 .manga-card, #card-display_box {
+      min-width: 140px;
+      background: #fff9db;
+      border-width: 4px;
+      box-shadow: var(--comic-shadow-lg);
+      padding: 10px 8px;
+    }
+    .tier-0 .manga-sprite-box { width: 68px; height: 68px; background: #fff; }
+    .tier-0 .manga-sprite-box img { width: 52px; height: 52px; }
+    .tier-0 .manga-card-label { font-size: 16px; color: var(--shonen-red); text-shadow: 1px 1px 0 #000; }
+    .tier-0 .comic-badge-tag, #card-display_box .comic-badge-tag {
+      font-size: 13px;
+      padding: 3px 6px;
+      margin-top: 4px;
+    }
+
+    .tier-1-left .manga-card { background: #e8fccf; }
+    .tier-1-right .manga-card { background: #ffe4e6; }
+    .tier-2-acid .manga-card { background: #dcfce7; }
+    .tier-2-barrel .manga-card { background: #ffedd5; }
+    .tier-2-bio .manga-card { background: #fef9c3; }
+    .tier-2-piano .manga-card { background: #f3e8ff; }
+    .tier-3 .manga-card { background: #ffffff; }
+
+    .tier-4 .manga-card, .tier-5 .manga-card {
+      padding: 5px 4px 6px;
+      min-width: 74px;
+    }
+    .tier-4 .manga-sprite-box, .tier-5 .manga-sprite-box {
+      width: 38px;
+      height: 38px;
+    }
+    .tier-4 .manga-sprite-box img, .tier-5 .manga-sprite-box img {
+      width: 30px;
+      height: 30px;
+    }
+    .tier-4 .manga-card-label, .tier-5 .manga-card-label {
+      font-size: 11px;
+      max-width: 76px;
+    }
+    .tier-4 .comic-badge-tag, .tier-5 .comic-badge-tag {
+      font-size: 9.5px;
+      padding: 1.5px 2px;
+      margin-top: 2px;
+      border-width: 1.5px;
+    }
+
+    /* Tier 6 Deep Roots (Crappy Sign, Brown Block, Bricks, Mushroom) */
+    .tier-6 .manga-card {
+      padding: 4px 3px 5px;
+      min-width: 66px;
+    }
+    .tier-6 .manga-sprite-box {
+      width: 30px;
+      height: 30px;
+    }
+    .tier-6 .manga-sprite-box img {
+      width: 22px;
+      height: 22px;
+    }
+    .tier-6 .manga-card-label {
+      font-size: 9.5px;
+      max-width: 66px;
+    }
+    .tier-6 .comic-badge-tag {
+      font-size: 8.5px;
+      padding: 1px 2px;
+      margin-top: 1.5px;
+      border-width: 1px;
+    }
+
+    /* Card Expand/Collapse Arrow Button */
+    .card-expand-btn {
+      order: 4;
+      margin-top: 3px;
+      background: var(--shonen-yellow);
+      border: 1.5px solid #000;
+      border-radius: 4px;
+      font-family: 'Bangers', cursive;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      padding: 1px 4px;
+      cursor: pointer;
+      box-shadow: 1px 1px 0 #000;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      width: 100%;
+      user-select: none;
+    }
+    .card-expand-btn:hover {
+      background: var(--shonen-orange);
+      color: #fff;
+    }
+
+    .collapsible-tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+    .collapsible-tree.collapsed {
+      display: none !important;
+    }
+
+    .manga-sprite-box {
+      order: 1;
+    }
+
+    .manga-card-label {
+      order: 2;
+      margin-top: 3px;
+      margin-bottom: 2px;
+      font-family: 'Bangers', cursive;
+      font-size: 12.5px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    /* Integrated In-Card Badge Tag (Keterangan di DALAM kartu) */
+    .comic-badge-tag {
+      order: 3;
+      position: relative;
+      top: auto;
+      right: auto;
+      width: 100%;
+      text-align: center;
+      font-family: 'Bangers', cursive;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      padding: 2px 4px;
+      border: 2px solid #000;
+      border-radius: 4px;
+      box-shadow: 1.5px 1.5px 0 #000;
+      transform: none;
+      z-index: 2;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: all 0.15s ease;
+      box-sizing: border-box;
+      display: block;
+      margin-top: 3px;
+    }
+
+    .manga-card:hover .comic-badge-tag {
+      transform: scale(1.04);
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    .badge-quota {
+      background: var(--shonen-yellow);
+      color: #000;
+    }
+
+    .badge-rarity {
+      background: var(--shonen-cyan);
+      color: #000;
+    }
+
+    .badge-decay {
+      background: var(--shonen-red);
+      color: #fff;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    .badge-hidden {
+      display: none !important;
+    }
+
+    /* Sprite Framing */
+    .manga-sprite-box {
+      width: 58px;
+      height: 58px;
+      background: #f8fafc;
+      border: 2.5px solid #000;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 2px 2px 0 rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .manga-sprite-box img {
+      width: 44px;
+      height: 44px;
+      image-rendering: pixelated;
+      filter: drop-shadow(1.5px 1.5px 0 #000);
+      transition: transform 0.15s ease;
+    }
+
+    .manga-card:hover .manga-sprite-box img {
+      transform: scale(1.15) rotate(3deg);
+    }
+
+    .manga-card-label {
+      font-family: 'Bangers', cursive;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      line-height: 1.1;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #111;
+    }
+
+    /* Manga Dramatic Bottleneck Pulse */
+    .manga-bottleneck {
+      border-color: #000;
+      position: relative;
+    }
+
+    .manga-bottleneck::after {
+      content: "ゴゴゴ";
+      position: absolute;
+      bottom: -10px;
+      left: -8px;
+      font-family: 'Mochiy Pop One', sans-serif;
+      font-size: 11px;
+      background: var(--shonen-purple);
+      color: #fff;
+      padding: 1px 5px;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 #000;
+      transform: rotate(-6deg);
+      border-radius: 4px;
+      pointer-events: none;
+      display: none;
+    }
+
+    .bottleneck-active.manga-bottleneck::after {
+      display: block;
+      animation: floatMenacing 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatMenacing {
+      0% { transform: translateY(0) rotate(-6deg); }
+      100% { transform: translateY(-4px) rotate(-3deg); }
+    }
+
+    .bottleneck-active {
+      background: #fffae6 !important;
+      border-width: 4px !important;
+      animation: mangaGlow 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes mangaGlow {
+      0% { box-shadow: 4px 4px 0 #000, 0 0 10px rgba(255, 85, 0, 0.4); }
+      100% { box-shadow: 6px 6px 0 #000, 0 0 18px rgba(255, 85, 0, 0.8); }
+    }
+
+    /* Vertical spacer between tree levels */
+    .wire-gap {
+      height: 52px;
+      width: 100%;
+    }
+
+    /* =========================================================
+       5. MANGA DATABOOK ANALYTICS GRID
+    ========================================================= */
+    .databook-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 1300px;
+      margin-top: 40px;
+      position: relative;
+      z-index: 20;
+    }
+
+    .databook-panel {
+      background: #fff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      border-radius: 8px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.15s ease;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 19px, #f1f5f9 20px);
+    }
+
+    .databook-panel:hover {
+      transform: translate(-2px, -3px);
+      box-shadow: 6px 6px 0 #000;
+    }
+
+    .panel-header-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2.5px solid #000;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    .panel-header-strip span {
+      font-family: 'Bangers', cursive;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #64748b;
+    }
+
+    .panel-header-strip .kanji-stamp {
+      font-family: 'Mochiy Pop One', sans-serif;
+      font-size: 11px;
+      background: #111;
+      color: #fff;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .databook-panel h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 32px;
+      letter-spacing: 1px;
+      line-height: 1;
+      color: #000;
+      margin-bottom: 6px;
+    }
+
+    .databook-panel p {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #475569;
+      line-height: 1.4;
+    }
+
+    /* Floating Manga Zoom Dock - Pixel-Perfect Seamless Comic Buckle */
+    .comic-zoom-dock {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: #ffffff;
+      border: 3px solid #000 !important;
+      box-shadow: 4px 4px 0 #000 !important;
+      padding: 3px 8px !important;
+      border-radius: 10px 0 0 10px !important; /* Flat right edge for flush tab seal */
+      border-right: none !important;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 80;
+      height: 42px !important; /* Exact locked height matching tab */
+      box-sizing: border-box;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    }
+
+    .comic-zoom-dock.collapsed {
+      transform: translateX(calc(-100% - 24px));
+      box-shadow: none;
+    }
+
+    .zoom-toggle-tab {
+      position: absolute;
+      right: -34px;
+      top: -3px; /* Exactly flush with top border */
+      height: 42px !important; /* Exact flush height matching dock */
+      width: 34px;
+      background: var(--shonen-yellow);
+      border: 3px solid #000 !important;
+      border-left: 2px solid #000 !important; /* Clean inner border divider */
+      border-radius: 0 10px 10px 0 !important;
+      box-shadow: 4px 4px 0 #000 !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+      color: #000;
+      user-select: none;
+      transition: background 0.15s, color 0.15s;
+      z-index: 82;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .zoom-toggle-tab:hover {
+      background: var(--shonen-orange);
+      color: #ffffff;
+    }
+
+    /* =========================================================
+       6. CHIBI SCIENTIST DIALOGUE BALLOON (VISUAL NOVEL HUD)
+    ========================================================= */
+    .manga-assistant-bubble {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ffffff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow-lg);
+      border-radius: 12px;
+      padding: 12px 16px;
+      max-width: 380px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      z-index: 85;
+      animation: bubblePop 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    }
+
+    .manga-assistant-bubble.collapsed {
+      transform: translateX(calc(100% + 14px));
+      box-shadow: none;
+    }
+
+    .assistant-toggle-tab {
+      position: absolute;
+      left: -38px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 52px;
+      background: var(--shonen-yellow);
+      border: var(--comic-border);
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+      box-shadow: -3.5px 3.5px 0 #111116;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Bangers', cursive;
+      font-size: 18px;
+      color: #111116;
+      user-select: none;
+      transition: background 0.15s, color 0.15s;
+      z-index: 90;
+    }
+
+    .assistant-toggle-tab:hover {
+      background: var(--shonen-orange);
+      color: #ffffff;
+    }
+
+    .assistant-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--shonen-yellow);
+      border: 2.5px solid #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    .assistant-avatar img {
+      width: 32px;
+      height: 32px;
+      image-rendering: pixelated;
+    }
+
+    .bubble-text h4 {
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+      letter-spacing: 0.8px;
+      color: var(--shonen-red);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .bubble-text p {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.35;
+    }
+
+    /* =========================================================
+       7. MANGA CHARACTER / ITEM DATABOOK MODAL
+    ========================================================= */
+    .manga-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 20px;
+    }
+
+    .manga-modal-overlay.active {
+      display: flex;
+    }
+
+    .databook-window {
+      background: #fffcf0;
+      border: 4px solid #000;
+      box-shadow: 10px 10px 0 #000;
+      width: 100%;
+      max-width: 560px;
+      border-radius: 10px;
+      overflow: hidden;
+      animation: modalKoma 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    @keyframes modalKoma {
+      0% { transform: scale(0.85) rotate(-2deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .databook-header {
+      background: var(--shonen-yellow);
+      border-bottom: 3.5px solid #000;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .databook-header h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: #000;
+    }
+
+    .databook-close {
+      background: var(--shonen-red);
+      color: #fff;
+      border: 2.5px solid #000;
+      font-family: 'Bangers', cursive;
+      font-size: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .databook-body {
+      padding: 20px;
+    }
+
+    .hero-stat-koma {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 16px;
+      border: 3px solid #000;
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 4px 4px 0 #000;
+      margin-bottom: 16px;
+    }
+
+    .hero-photo {
+      background: var(--shonen-yellow);
+      border: 2.5px solid #000;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 90px;
+    }
+
+    .hero-photo img {
+      width: 64px;
+      height: 64px;
+      image-rendering: pixelated;
+      filter: drop-shadow(2px 2px 0 #000);
+    }
+
+    .databook-stat-line {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1.5px dashed #cbd5e1;
+      padding: 3px 0;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .databook-stat-line b {
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+    }
+
+    .koma-equation-box {
+      border: 3px solid #000;
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 3px 3px 0 #000;
+      margin-bottom: 14px;
+    }
+
+    .koma-equation-box h4 {
+      font-family: 'Bangers', cursive;
+      font-size: 14px;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      color: #64748b;
+    }
+
+    .koma-equation-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 8px;
+    }
+
+    .recipe-cell {
+      border: 2px solid #000;
+      padding: 6px;
+      background: var(--shonen-yellow);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Bangers', cursive;
+      font-size: 11px;
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    .recipe-cell img {
+      width: 32px;
+      height: 32px;
+      image-rendering: pixelated;
+    }
+
+    /* Splicing Forge Anime Stage */
+    .fusion-circle {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .fusion-slot {
+      height: 90px;
+      border: 3px dashed #000;
+      background: #fff;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Bangers', cursive;
+      font-size: 13px;
+      box-shadow: 2px 2px 0 #000;
+      transition: all 0.1s;
+    }
+
+    .fusion-slot:hover {
+      background: var(--shonen-cyan);
+      border-style: solid;
+    }
+
+    .fusion-slot.loaded {
+      background: #fff;
+      border-style: solid;
+      border-width: 3px;
+    }
+
+    .fusion-slot img {
+      width: 44px;
+      height: 44px;
+      image-rendering: pixelated;
+    }
+
+    /* Comic Speech Balloon Toast */
+    #comic-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(140px);
+      background: var(--shonen-yellow);
+      border: 3.5px solid #000;
+      box-shadow: 6px 6px 0 #000;
+      padding: 10px 24px;
+      font-family: 'Bangers', cursive;
+      font-size: 19px;
+      letter-spacing: 1px;
+      border-radius: 8px;
+      z-index: 400;
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    #comic-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  
+    /* =========================================================
+       COMPACT HEADER & 3-MENU CLUSTER SYSTEM (SEJAJAR & NO OVERFLOW)
+    ========================================================= */
+    body {
+      overflow-x: hidden !important;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: var(--comic-border);
+      padding: 6px 14px !important;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 10px !important;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      box-shadow: 0 4px 0 #111;
+      background-image: repeating-linear-gradient(45deg, #fff, #fff 10px, #fffbeb 10px, #fffbeb 20px);
+      transition: transform 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28), margin-bottom 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      white-space: nowrap !important;
+      overflow: visible !important; /* CRITICAL: Allows pull tabs to hang visibly outside bottom */
+      box-sizing: border-box !important;
+      width: 100% !important;
+    }
+
+    header.header-collapsed {
+      transform: translateY(-100%);
+    }
+
+    /* Floating Pull Tab (Center) */
     .header-toggle-tab {
       position: absolute;
       bottom: -28px;
@@ -143,19 +1932,28 @@
       align-items: center;
       gap: 6px;
       z-index: 95;
-      transition: transform 0.15s, background-color 0.15s;
+      transition: transform 0.15s, background-color 0.15s, color 0.15s;
     }
 
     .header-toggle-tab:hover {
       background: var(--shonen-orange);
+      color: #fff;
       transform: translateX(-50%) translateY(2px);
     }
 
+    header.header-collapsed .header-toggle-tab {
+      background: var(--shonen-red);
+      color: #fff;
+      bottom: -28px;
+      box-shadow: 0 4px 0 #000;
+    }
+
+    /* Floating Saweria Pull Tab (Right - Stays Visible when Collapsed!) */
     .saweria-tab-btn {
       position: absolute;
       bottom: -28px;
       right: 24px;
-      background: #facc15;
+      background: var(--shonen-yellow);
       color: #000;
       border: 2.5px solid #000;
       border-top: none;
@@ -174,7 +1972,7 @@
     }
 
     .saweria-tab-btn:hover {
-      background: #f97316;
+      background: var(--shonen-orange);
       color: #fff;
       transform: translateY(2px);
     }
@@ -219,7 +2017,7 @@
       position: absolute;
       top: -8px !important;
       right: -8px !important;
-      background: #ef4444;
+      background: var(--shonen-red);
       color: #fff;
       font-family: 'Bangers', cursive;
       font-size: 9.5px !important;
@@ -256,62 +2054,6 @@
       align-items: center;
     }
 
-    .comic-badge {
-      font-family: 'Bangers', cursive;
-      font-size: 13px;
-      letter-spacing: 0.8px;
-      padding: 2px 10px;
-      border: 2.5px solid #000;
-      border-radius: 4px;
-      box-shadow: 2px 2px 0 #000;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    #zoom-readout {
-      font-family: 'Bangers', cursive !important;
-      font-size: 13.5px !important;
-      letter-spacing: 0.8px !important;
-      padding: 2px 10px !important;
-      border: 2.5px solid #000 !important;
-      border-radius: 4px !important;
-      box-shadow: 2px 2px 0 #000 !important;
-      background: var(--shonen-yellow) !important;
-      color: #000 !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      height: 26px !important;
-      box-sizing: border-box !important;
-      line-height: 1 !important;
-    }
-
-    .comic-zoom-dock .mini-btn {
-      padding: 1px 7px !important;
-      font-family: 'Bangers', cursive !important;
-      font-size: 12px !important;
-      height: 26px !important;
-      border: 2px solid #000 !important;
-      background: #fff;
-      border-radius: 4px !important;
-      box-shadow: 2px 2px 0 #000 !important;
-      cursor: pointer;
-      box-sizing: border-box;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 3px;
-    }
-
-    .comic-zoom-dock .mini-btn:hover {
-      background: var(--shonen-yellow);
-      color: #000;
-      transform: translate(-1px, -1px);
-      box-shadow: 2.5px 2.5px 0 #000 !important;
-    }
-
     .title-tags .comic-badge {
       font-family: 'Bangers', cursive;
       font-size: 10px !important;
@@ -327,6 +2069,7 @@
       height: 16px;
     }
 
+    /* 3 MENUS CLUSTER: STRICTLY SEJAJAR HORIZONTAL */
     .header-menus-cluster {
       display: flex !important;
       align-items: center !important;
@@ -350,7 +2093,6 @@
       flex-shrink: 0 !important;
     }
 
-    
     .comic-nav-title {
       font-family: 'Bangers', cursive;
       font-size: 12.5px !important;
@@ -359,7 +2101,6 @@
       color: var(--shonen-red);
       text-shadow: 1px 1px 0 #000;
       line-height: 1;
-      margin-right: 2px;
     }
 
     .manga-chip {
@@ -378,20 +2119,6 @@
       gap: 3px;
       height: 25px;
       box-sizing: border-box;
-    }
-
-    .manga-chip:hover {
-      background: var(--shonen-yellow);
-      color: #000;
-      transform: translate(-1px, -1px);
-      box-shadow: 2px 2px 0 #000 !important;
-    }
-
-    .manga-chip.active {
-      background: var(--shonen-yellow) !important;
-      color: #000 !important;
-      box-shadow: inset 1.5px 1.5px 0 #000 !important;
-      transform: translate(1px, 1px);
     }
 
     .comic-num-input {
@@ -423,13 +2150,24 @@
       box-shadow: 1.5px 1.5px 0 #000 !important;
       cursor: pointer;
       box-sizing: border-box;
-      transition: all 0.1s;
-    }
-    .mini-btn:hover {
-      background: var(--shonen-yellow);
-      color: #000;
     }
 
+    .nav-info-badge {
+      font-family: 'Bangers', cursive;
+      font-size: 12px !important;
+      letter-spacing: 0.5px;
+      padding: 2px 8px !important;
+      border: 1.5px solid #000 !important;
+      border-radius: 4px;
+      box-shadow: 1px 1px 0 #000 !important;
+      color: #000;
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      box-sizing: border-box;
+    }
+
+    /* MINI ACTION BUTTONS FOR MENU 3 (TOOLS) */
     .action-btn-mini {
       font-family: 'Bangers', cursive;
       font-size: 12px !important;
@@ -448,7 +2186,6 @@
       color: #000;
       height: 25px;
       box-sizing: border-box;
-      white-space: nowrap;
     }
     .action-btn-mini:hover {
       transform: translate(-1px, -1px);
@@ -462,10 +2199,9 @@
     .action-btn-mini.btn-buff-sim { background: var(--shonen-purple); color: #fff; }
     .action-btn-mini.btn-bottleneck { background: var(--shonen-cyan); color: #000; }
     .action-btn-mini.btn-comic-speech { background: #f1f5f9; color: #000; }
-    .action-btn-mini.btn-comic-speech.active { background: var(--shonen-yellow); color: #000; }
+    .action-btn-mini.btn-comic-speech.active { background: var(--shonen-yellow); }
 
-
-    /* VIEWPORT & TREE */
+    /* COMPACT VIEWPORT: ZERO WASTED SPACE */
     main {
       display: flex !important;
       flex-direction: column !important;
@@ -497,814 +2233,63 @@
       margin: 0 auto !important;
       padding: 4px 30px !important;
     }
-
-    .tree-row {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      width: 100%;
-      position: relative;
-      margin-top: 24px;
-    }
-
-    .tree-branch {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-
-    .wire-gap {
-      height: 24px;
-      width: 100%;
-    }
-
-    /* MANGA CARD */
-    .manga-card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      background: #ffffff;
-      border: var(--comic-border);
-      box-shadow: var(--comic-shadow);
-      border-radius: 8px;
-      padding: 6px 6px 7px;
-      cursor: pointer;
-      transition: all 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-      z-index: 5;
-      background-image: radial-gradient(#ddd 1px, transparent 1px);
-      background-size: 8px 8px;
-      min-width: 90px;
-      box-sizing: border-box;
-    }
-
-    .manga-card:hover {
-      transform: translate(-3px, -4px) rotate(-1.5deg) scale(1.04);
-      box-shadow: 7px 7px 0 #000;
-      z-index: 25;
-      background-color: #f0fdfa;
-    }
-
-    .manga-card:active {
-      transform: translate(2px, 2px);
-      box-shadow: 2px 2px 0 #000;
-    }
-
-    /* Tier Styles */
-    .tier-0 .manga-card, #card-display_block {
-      min-width: 146px;
-      background: #e0f2fe;
-      border-width: 4px;
-      box-shadow: var(--comic-shadow-lg);
-      padding: 10px 8px;
-    }
-    .tier-0 .manga-sprite-box { width: 68px; height: 68px; background: #fff; }
-    .tier-0 .manga-sprite-box img { width: 52px; height: 52px; }
-    .tier-0 .manga-card-label { font-size: 16px; color: var(--shonen-red); text-shadow: 1px 1px 0 #fff; }
-    .tier-0 .comic-badge-tag, #card-display_block .comic-badge-tag {
-      font-size: 13px;
-      padding: 3px 6px;
-      margin-top: 4px;
-    }
-
-    .tier-1-left .manga-card { background: #fef9c3; } /* Display Box branch */
-    .tier-1-right .manga-card { background: #e2e8f0; } /* Steel Block branch */
-    .tier-2-acid .manga-card { background: #dcfce7; }
-    .tier-2-barrel .manga-card { background: #ffedd5; }
-    .tier-2-bio .manga-card { background: #fef9c3; }
-    .tier-2-piano .manga-card { background: #f3e8ff; }
-    .tier-3 .manga-card { background: #ffffff; }
-
-    .tier-4 .manga-card, .tier-5 .manga-card {
-      padding: 5px 4px 6px;
-      min-width: 74px;
-    }
-    .tier-4 .manga-sprite-box, .tier-5 .manga-sprite-box {
-      width: 38px;
-      height: 38px;
-    }
-    .tier-4 .manga-sprite-box img, .tier-5 .manga-sprite-box img {
-      width: 30px;
-      height: 30px;
-    }
-    .tier-4 .manga-card-label, .tier-5 .manga-card-label {
-      font-size: 11px;
-      max-width: 76px;
-    }
-    .tier-4 .comic-badge-tag, .tier-5 .comic-badge-tag {
-      font-size: 9.5px;
-      padding: 1.5px 2px;
-      margin-top: 2px;
-      border-width: 1.5px;
-    }
-
-    .tier-6 .manga-card {
-      padding: 4px 3px 5px;
-      min-width: 66px;
-    }
-    .tier-6 .manga-sprite-box {
-      width: 30px;
-      height: 30px;
-    }
-    .tier-6 .manga-sprite-box img {
-      width: 22px;
-      height: 22px;
-    }
-    .tier-6 .manga-card-label {
-      font-size: 9.5px;
-      max-width: 66px;
-    }
-    .tier-6 .comic-badge-tag {
-      font-size: 8.5px;
-      padding: 1px 2px;
-      margin-top: 1.5px;
-      border-width: 1px;
-    }
-
-    .manga-sprite-box {
-      order: 1;
-      width: 44px;
-      height: 44px;
-      background: #f8fafc;
-      border: 2px solid #000;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 1.5px 1.5px 0 #000;
-    }
-
-    .manga-sprite-box img {
-      width: 34px;
-      height: 34px;
-      image-rendering: pixelated;
-    }
-
-    .manga-card-label {
-      order: 2;
-      margin-top: 3px;
-      margin-bottom: 2px;
-      font-family: 'Bangers', cursive;
-      font-size: 12.5px;
-      letter-spacing: 0.5px;
-      text-align: center;
-      line-height: 1.1;
-    }
-
-    .comic-badge-tag {
-      order: 3;
-      display: inline-block;
-      font-family: 'Bangers', cursive;
-      font-size: 10.5px;
-      letter-spacing: 0.5px;
-      padding: 2px 4px;
-      border: 2px solid #000;
-      border-radius: 4px;
-      box-shadow: 1px 1px 0 #000;
-      margin-top: 2px;
-      line-height: 1;
-      white-space: nowrap;
-      text-align: center;
-    }
-
-    .badge-quota { background: #fef08a; color: #854d0e; }
-    .badge-rarity { background: #bae6fd; color: #0369a1; }
-    .badge-decay { background: #fbcfe8; color: #9d174d; }
-    .badge-hidden { display: none !important; }
-
-    
-    /* Manga Shonen Tier Rank Ribbons & Narrative Panels (Hidden to match Science Station) */
-    .manga-tier-ribbon {
-      display: none !important;
-    }
-    .comic-narrative-panel {
-      display: none !important;
-    }
-    .comic-action-burst {
-      display: none !important;
-    }
-    .manga-sfx-sticker {
-      display: none !important;
-    }
-
-    .tree-viewport.grabbing {
-      cursor: grabbing !important;
-    }
-
-    /* SPEECH BALLOONS */
-    .comic-speech-balloon {
-      position: absolute;
-      background: #fff;
-      border: 2px solid #000;
-      border-radius: 8px;
-      padding: 4px 8px;
-      font-family: 'Comic Neue', cursive;
-      font-size: 10px;
-      font-weight: 700;
-      color: #000;
-      box-shadow: 2px 2px 0 #000;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 30;
-      animation: floatBalloon 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes floatBalloon {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-4px); }
-    }
-
-    .balloon-tail-down {
-      bottom: calc(100% + 12px);
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .balloon-tail-left {
-      left: calc(100% + 10px);
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    body.speech-bubbles-hidden .comic-speech-balloon {
-      display: none !important;
-    }
-
-    /* SFX STICKERS */
-    .manga-sfx-sticker {
-      display: none !important;
-    }
-
-    .shuchusen-burst-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 290px;
-      height: 290px;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .shuchusen-burst {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      animation: rotateBurst 24s linear infinite;
-      mask-image: radial-gradient(circle, black 32%, transparent 70%);
-      -webkit-mask-image: radial-gradient(circle, black 32%, transparent 70%);
-    }
-
-    @keyframes rotateBurst {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* 4 DATABOOK PANELS */
-    .databook-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      width: 100%;
-      max-width: 1200px;
-      margin-top: 36px;
-      z-index: 10;
-    }
-
-    .databook-panel {
-      background: #ffffff;
-      border: var(--comic-border);
-      box-shadow: var(--comic-shadow);
-      border-radius: 10px;
-      padding: 14px;
-      position: relative;
-    }
-
-    .panel-header-strip {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Bangers', cursive;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      margin-bottom: 6px;
-      border-bottom: 2px dashed #000;
-      padding-bottom: 4px;
-    }
-
-    .kanji-stamp {
-      font-family: 'Mochiy Pop One', sans-serif;
-      font-size: 10px;
-      background: #000;
-      color: #fff;
-      padding: 1px 4px;
-      border-radius: 3px;
-    }
-
-    .databook-panel h3 {
-      font-family: 'Bangers', cursive;
-      font-size: 22px;
-      letter-spacing: 1px;
-      line-height: 1;
-      color: #000;
-      margin-bottom: 6px;
-    }
-
-    .databook-panel p {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #475569;
-      line-height: 1.4;
-    }
-
-    /* ZOOM DOCK */
-    .comic-zoom-dock {
-      position: fixed;
-      bottom: 24px;
-      left: 24px;
-      background: #ffffff;
-      border: 3px solid #000 !important;
-      box-shadow: 4px 4px 0 #000 !important;
-      padding: 3px 8px !important;
-      border-radius: 10px 0 0 10px !important;
-      border-right: none !important;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      z-index: 80;
-      height: 42px !important;
-      box-sizing: border-box;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
-    }
-
-    .comic-zoom-dock.collapsed {
-      transform: translateX(calc(-100% - 24px));
-      box-shadow: none;
-    }
-
-    .zoom-toggle-tab {
-      position: absolute;
-      right: -34px;
-      top: -3px;
-      height: 42px !important;
-      width: 34px;
-      background: var(--shonen-yellow);
-      border: 3px solid #000 !important;
-      border-left: 2px solid #000 !important;
-      border-radius: 0 10px 10px 0 !important;
-      box-shadow: 4px 4px 0 #000 !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-family: 'Bangers', cursive;
-      font-size: 15px;
-      color: #000;
-      user-select: none;
-      transition: background 0.15s;
-      z-index: 82;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    .zoom-toggle-tab:hover {
-      background: var(--shonen-orange);
-    }
-
-    /* CHIBI ASSISTANT */
-    .manga-assistant-bubble {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #ffffff;
-      border: var(--comic-border);
-      box-shadow: var(--comic-shadow-lg);
-      border-radius: 12px;
-      padding: 12px 16px;
-      max-width: 380px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      z-index: 85;
-      animation: bubblePop 0.3s ease;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
-    }
-
+  
+    /* Display Block Master Overrides */
     .manga-assistant-bubble.collapsed {
-      transform: translateX(calc(100% + 14px));
-      box-shadow: none;
+      transform: translateX(calc(100% + 32px)) !important;
+      box-shadow: none !important;
     }
-
-    .assistant-toggle-tab {
-      position: absolute;
-      left: -38px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 36px;
-      height: 52px;
-      background: var(--shonen-yellow);
-      border: var(--comic-border);
-      border-right: none;
-      border-radius: 10px 0 0 10px;
-      box-shadow: -3.5px 3.5px 0 #111116;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-family: 'Bangers', cursive;
-      font-size: 18px;
-      color: #000;
-      user-select: none;
-      transition: background 0.15s;
-      z-index: 90;
-    }
-
-    .assistant-avatar {
-      width: 48px;
-      height: 48px;
-      background: var(--shonen-yellow);
-      border: 2.5px solid #000;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 2px 2px 0 #000;
-    }
-
-    .assistant-avatar img {
-      width: 32px;
-      height: 32px;
-      image-rendering: pixelated;
-    }
-
-    .bubble-text h4 {
-      font-family: 'Bangers', cursive;
-      font-size: 15px;
-      letter-spacing: 0.8px;
-      color: var(--shonen-red);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .bubble-text p {
-      font-size: 12px;
-      font-weight: 700;
-      color: #334155;
-      line-height: 1.4;
-    }
-
-    .assistant-hint-badge {
-      position: absolute;
-      top: -10px;
-      right: 12px;
-      background: #000;
-      color: #fff;
-      font-family: 'Bangers', cursive;
-      font-size: 9.5px;
-      padding: 1px 6px;
-      border-radius: 4px;
-      letter-spacing: 0.5px;
-    }
-
-    /* MODALS */
-    .manga-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(11, 19, 41, 0.7);
-      backdrop-filter: blur(3px);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-
-    .manga-modal-overlay.active {
-      display: flex;
-    }
-
-    .databook-window {
-      background: #ffffff;
-      border: 4px solid #000;
-      box-shadow: 8px 8px 0 #000;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 500px;
-      overflow: hidden;
-      animation: modalPop 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    }
-
-    @keyframes modalPop {
-      0% { transform: scale(0.9); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .databook-header {
-      background: var(--shonen-yellow);
-      color: #fff;
-      padding: 10px 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 3px solid #000;
-    }
-
-    .databook-header h3 {
-      font-family: 'Bangers', cursive;
-      font-size: 20px;
-      letter-spacing: 1px;
-    }
-
-    .databook-close {
-      background: #ef4444;
-      color: #fff;
-      border: 2px solid #000;
-      border-radius: 4px;
-      width: 28px;
-      height: 28px;
-      font-family: 'Bangers', cursive;
-      font-size: 16px;
-      cursor: pointer;
-      box-shadow: 1.5px 1.5px 0 #000;
-    }
-
-    .databook-body {
-      padding: 16px;
-      background-image: radial-gradient(#ddd 1px, transparent 1px);
-      background-size: 10px 10px;
-    }
-
-    .hero-stat-koma {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      background: #fff;
-      border: 2.5px solid #000;
-      padding: 12px;
-      border-radius: 8px;
-      box-shadow: 3px 3px 0 #000;
-      margin-bottom: 12px;
-    }
-
-    .hero-photo {
-      width: 72px;
-      height: 72px;
-      background: #e0f2fe;
-      border: 2px solid #000;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 2px 2px 0 #000;
-      flex-shrink: 0;
-    }
-
-    .hero-photo img {
-      width: 52px;
-      height: 52px;
-      image-rendering: pixelated;
-    }
-
-    .databook-stat-line {
-      font-size: 12px;
-      font-weight: 700;
-      color: #334155;
-      margin-bottom: 2px;
-    }
-
-    .koma-equation-box {
-      background: #fff;
-      border: 2px solid #000;
-      border-radius: 6px;
-      padding: 8px 12px;
-      box-shadow: 2px 2px 0 #000;
-      margin-bottom: 10px;
-    }
-
-    .koma-equation-box h4 {
-      font-family: 'Bangers', cursive;
-      font-size: 13px;
-      color: #64748b;
-      margin-bottom: 6px;
-    }
-
-    .koma-equation-flex {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .recipe-cell {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      background: #f8fafc;
-      border: 1.5px solid #000;
-      border-radius: 4px;
-      padding: 4px 6px;
-    }
-
-    .recipe-cell img {
-      width: 28px;
-      height: 28px;
-      image-rendering: pixelated;
-    }
-
-    .recipe-cell span {
-      font-family: 'Bangers', cursive;
-      font-size: 11px;
-    }
-
-    /* FUSION FORGE ARENA */
-    .fusion-circle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 16px;
-      background: #f8fafc;
-      border: 2px solid #000;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
-
-    .fusion-slot {
-      width: 70px;
-      height: 70px;
-      background: #fff;
-      border: 2px dashed #000;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-family: 'Bangers', cursive;
-      font-size: 11px;
-      color: #94a3b8;
-    }
-
-    .fusion-slot.loaded {
-      border: 2px solid #000;
-      color: #000;
-    }
-
-    .fusion-slot img {
-      width: 36px;
-      height: 36px;
-      image-rendering: pixelated;
-    }
-
-    .action-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--shonen-yellow);
-      color: #fff;
-      border: 2px solid #000;
-      border-radius: 6px;
-      padding: 8px 14px;
-      font-family: 'Bangers', cursive;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      cursor: pointer;
-      box-shadow: 2px 2px 0 #000;
-      transition: all 0.1s;
-    }
-
-    .action-btn:hover {
-      transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0 #000;
-    }
-
-    .action-btn.btn-harvest {
-      background: #10b981;
-    }
-
-    /* CUT-IN OVERLAY */
-    .anime-cutin-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      z-index: 150;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .anime-cutin-overlay.active {
-      display: flex;
-    }
-
-    .cutin-stripe-bar {
-      width: 100%;
-      height: 120px;
-      background: linear-gradient(90deg, #0369a1, #06b6d4, #22d3ee);
-      border-top: 4px solid #000;
-      border-bottom: 4px solid #000;
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      animation: cutinSlide 0.45s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    }
-
-    @keyframes cutinSlide {
-      0% { transform: scaleY(0); }
-      100% { transform: scaleY(1); }
-    }
-
-    .cutin-avatar {
-      width: 80px;
-      height: 80px;
-      background: #fff;
-      border: 3px solid #000;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 3px 3px 0 #000;
-    }
-
-    .cutin-avatar img {
-      width: 56px;
-      height: 56px;
-      image-rendering: pixelated;
-    }
-
-    .cutin-text {
-      color: #fff;
-      text-shadow: 2px 2px 0 #000;
-    }
-
-    .cutin-kanji {
-      font-family: 'Mochiy Pop One', sans-serif;
-      font-size: 28px;
-      letter-spacing: 2px;
-    }
-
-    .cutin-sub {
-      font-family: 'Bangers', cursive;
-      font-size: 16px;
-      letter-spacing: 1px;
-      color: #fef08a;
+    .manga-tier-ribbon, .comic-narrative-panel, .comic-action-burst {
+      display: none !important;
     }
   </style>
 </head>
 <body class="speech-bubbles-hidden">
 
-  <!-- Speedlines -->
+  <!-- Fullscreen Manga Speedlines Vignette for Limit Break Mode -->
   <div class="limit-break-speedlines"></div>
 
-  <!-- Action Cut-In -->
+  <!-- Anime Action Cut-In Overlay (Special Move Flash) -->
   <div class="anime-cutin-overlay" id="anime-cutin">
     <div class="cutin-stripe-bar">
       <div class="cutin-avatar">
         <img id="cutin-img" src="icons/display_block.png" alt="Cut-In Avatar">
       </div>
       <div class="cutin-text">
-        <div class="cutin-kanji" id="cutin-kanji">極意・剛鋼陳列!!</div>
-        <div class="cutin-sub" id="cutin-sub">SECRET TECHNIQUE: MONOLITHIC STEEL SHOWCASE!</div>
+        <div class="cutin-kanji" id="cutin-kanji">極意・鋼鉄陳列!!</div>
+        <div class="cutin-sub" id="cutin-sub">SECRET TECHNIQUE: STEEL SHOWCASE MONOLITH!</div>
       </div>
     </div>
   </div>
 
-  <!-- Shonen Ticker -->
+  <!-- Shonen Jump Manga Ticker -->
   <div class="manga-ticker-bar">
     <div class="ticker-content">
-      💎 <b>BREAKING GT BROADCAST:</b> "DISPLAY BLOCK: BALOK ETALASE KACA BAJA PALING MEWAH DI GROWTOPIA!" • <span class="kanji-sfx">ズドドド</span> <b>TIPS PRO:</b> SPLICING DARI DISPLAY BOX + STEEL BLOCK: PERSIAPKAN STOCK BLUEBERRY & DEATH SPIKES DARI AWAL! • <b>MARKET WATCH:</b> "RATE DISPLAY BLOCK STABIL 5-8/WL, JUAL BORONGAN LANGSUNG DIBORONG BUILDER!" • <span class="kanji-sfx">キラーン</span> <b>MASTER SPLICER SAYS:</b> "KUNCI KEBERHASILAN MASSING DISPLAY BLOCK ADA DI MANAJEMEN SEED TIER 1 DIRT & ROCK!" • <b>SAFETY BUFFER:</b> 100% AKURAT DARI ROCK DAN DIRT SAMPAI APEX DISPLAY BLOCK • <span class="kanji-sfx">バァァン</span> <b>DONASI:</b> TRAKTEER KOPI VIA SAWERIA BIAR WEB INI TETAP LIVE DAN BEBAS IKLAN MENGGANGGU! • 💎 <b>BREAKING GT BROADCAST:</b> "DISPLAY BLOCK: BALOK ETALASE KACA BAJA PALING MEWAH DI GROWTOPIA!" • <span class="kanji-sfx">ズドドド</span> <b>TIPS PRO:</b> SPLICING DARI DISPLAY BOX + STEEL BLOCK: PERSIAPKAN STOCK BLUEBERRY & DEATH SPIKES DARI AWAL! • <b>MARKET WATCH:</b> "RATE DISPLAY BLOCK STABIL 5-8/WL, JUAL BORONGAN LANGSUNG DIBORONG BUILDER!" • <span class="kanji-sfx">キラーン</span> <b>MASTER SPLICER SAYS:</b> "KUNCI KEBERHASILAN MASSING DISPLAY BLOCK ADA DI MANAJEMEN SEED TIER 1 DIRT & ROCK!" • <b>SAFETY BUFFER:</b> 100% AKURAT DARI ROCK DAN DIRT SAMPAI APEX DISPLAY BLOCK • <span class="kanji-sfx">バァァン</span> <b>DONASI:</b> TRAKTEER KOPI VIA SAWERIA BIAR WEB INI TETAP LIVE DAN BEBAS IKLAN MENGGANGGU! •
+      💎 <b>BREAKING GT BROADCAST:</b> "DISPLAY BLOCK: BALOK SHOWCASE BAJA TERMEWAH KEBANGGAAN SULTAN & BUILDER GROWTOPIA!" • <span class="kanji-sfx">ズドドド</span> <b>TIPS PRO:</b> MASSING DISPLAY BLOCK SANGAT CUAN DARI KOMBINASI DISPLAY BOX & STEEL BLOCK! • <b>MARKET WATCH:</b> "RATE DISPLAY BLOCK STABIL 5-8/WL, JUAL BORONGAN LANGSUNG DIBORONG BUILDER!" • <span class="kanji-sfx">キラーン</span> <b>MASTER SPLICER SAYS:</b> "KUNCI KEBERHASILAN MASSING DISPLAY BLOCK ADA DI SPLIT FARM WORLD BIAR INVENTORY GA KEPENUHAN!" • <b>SAFETY BUFFER:</b> 100% AKURAT BERAKAR KE DIRT, ROCK, LAVA & GRASS SAMPAI APEX DISPLAY BLOCK • <span class="kanji-sfx">バァァン</span> <b>DONASI:</b> TRAKTEER KOPI VIA SAWERIA BIAR WEB INI TETAP LIVE DAN BEBAS IKLAN MENGGANGGU! • 💎 <b>BREAKING GT BROADCAST:</b> "DISPLAY BLOCK: BALOK SHOWCASE BAJA TERMEWAH KEBANGGAAN SULTAN & BUILDER GROWTOPIA!" • <span class="kanji-sfx">ズドドド</span> <b>TIPS PRO:</b> MASSING DISPLAY BLOCK SANGAT CUAN DARI KOMBINASI DISPLAY BOX & STEEL BLOCK! • <b>MARKET WATCH:</b> "RATE DISPLAY BLOCK STABIL 5-8/WL, JUAL BORONGAN LANGSUNG DIBORONG BUILDER!" • <span class="kanji-sfx">キラーン</span> <b>MASTER SPLICER SAYS:</b> "KUNCI KEBERHASILAN MASSING DISPLAY BLOCK ADA DI SPLIT FARM WORLD BIAR INVENTORY GA KEPENUHAN!" • <b>SAFETY BUFFER:</b> 100% AKURAT BERAKAR KE DIRT, ROCK, LAVA & GRASS SAMPAI APEX DISPLAY BLOCK • <span class="kanji-sfx">バァァン</span> <b>DONASI:</b> TRAKTEER KOPI VIA SAWERIA BIAR WEB INI TETAP LIVE DAN BEBAS IKLAN MENGGANGGU! •
     </div>
   </div>
 
-  <!-- Header -->
+  <!-- Anime Comic Title Header -->
   <header id="main-header">
+    <!-- LEFT: Display Box Title Card -->
     <div class="manga-title-card">
-      <div class="title-avatar-panel">
-        <img src="icons/display_block.png" alt="Display Block">
-        <span class="speech-burst">CH. 80!</span>
+      <div class="title-avatar-panel" style="background: var(--shonen-yellow);">
+        <img src="icons/display_block.png" alt="Display Box">
+        <span class="speech-burst" style="background: #2563eb;">CH. 80!</span>
       </div>
       <div class="title-text-group">
         <h1>DISPLAY BLOCK • ANIME COMIC</h1>
         <div class="title-tags">
           <span class="comic-badge" style="background: var(--shonen-yellow); color: #000;">★ RARITY 80</span>
           <span class="comic-badge" style="background: var(--shonen-green); color: #000;">💎 STEEL SHOWCASE</span>
-          <span class="comic-badge" style="background: var(--shonen-red); color: #fff;">⚡ SPLICING TREE</span>
+          <span class="comic-badge" style="background: #2563eb; color: #fff;">⚡ SPLICING TREE</span>
         </div>
       </div>
     </div>
 
-    <!-- 3 Menus Cluster -->
+    <!-- CENTER TO RIGHT: 3-MENU CLUSTER (SEJAJAR HORIZONTAL) -->
     <div class="header-menus-cluster">
+      <!-- MENU 1: VIEW (MODE SELECTOR) -->
       <div class="comic-nav-box" id="menu-1-view">
         <span class="comic-nav-title">VIEW:</span>
         <button class="manga-chip active" id="mode-quota" onclick="setTreeMode('quota')">🌰 QUOTA</button>
@@ -1313,6 +2298,7 @@
         <button class="manga-chip" id="mode-off" onclick="setTreeMode('off')">👁️ CLEAN</button>
       </div>
 
+      <!-- MENU 2: ADAPTIVE SUB-CONTROLS -->
       <div class="comic-nav-box" id="menu-2-adaptive">
         <span class="comic-nav-title" id="calc-label">TARGET:</span>
         <input type="number" id="target-val" value="1000" min="1" max="100000" class="comic-num-input">
@@ -1324,6 +2310,7 @@
         </div>
       </div>
 
+      <!-- MENU 3: TOOLS (FORGE, BUFF SIM, BOTTLENECK, BALON KATA) -->
       <div class="comic-nav-box" id="menu-3-tools">
         <span class="comic-nav-title">TOOLS:</span>
         <button class="action-btn-mini btn-forge" onclick="openForge()" title="Fusion Forge Simulator">
@@ -1341,12 +2328,13 @@
       </div>
     </div>
 
-    <!-- Pull Tabs -->
+    <!-- Header Collapsible Pull Tab (Center) -->
     <button class="header-toggle-tab" id="btn-toggle-header" onclick="toggleHeaderCollapse(event)" title="Sembunyikan / Buka Menu Kontrol">
       <span id="header-toggle-icon">▲</span>
       <span id="header-toggle-text">SEMBUNYIKAN MENU</span>
     </button>
 
+    <!-- Saweria Pull Tab (Right - Persistent on Collapse!) -->
     <button class="saweria-tab-btn" id="btn-saweria-tab" onclick="openSaweriaModal()" title="Dukung Developer via Saweria">
       <span>☕</span>
       <span>SAWERIA</span>
@@ -1354,8 +2342,8 @@
     </button>
   </header>
 
-  <!-- Main Viewport -->
-  <main>
+  <!-- Main Tree Viewport (Manga Canvas) -->
+    <main>
     <div class="tree-viewport">
       <div class="tree-canvas-wrapper">
         <svg id="tree-wires-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: visible;"></svg>
@@ -1836,13 +2824,14 @@
         </div>
       </div>
     </div>
+    </div>
 
-    <!-- 4 Databook Info Panels -->
+    <!-- Manga Databook Analytics Grid (Pro Growtopia Masser Insights) -->
     <div class="databook-grid">
-      <div class="databook-panel" style="background: #e0f2fe;">
+      <div class="databook-panel" style="background: #fff8db;">
         <div class="panel-header-strip">
           <span id="stat-c1-title">ESTIMASI KEBUTUHAN BIBIT</span>
-          <span class="kanji-stamp">試算</span>
+          <span class="kanji-stamp">収穫高</span>
         </div>
         <h3 id="stat-chem-total">1,000 PAIRS</h3>
         <p id="stat-c1-desc">Target 1.000 Display Block butuh 1.000 Display Box + 1.000 Steel Block!</p>
@@ -1876,19 +2865,19 @@
       </div>
     </div>
 
-    <!-- Zoom Dock -->
+    <!-- Comic Zoom Dock -->
     <div class="comic-zoom-dock" id="zoom-dock">
       <button class="zoom-toggle-tab" id="zoom-drawer-btn" onclick="toggleZoomDrawer(event)" title="Sembunyikan / Buka Zoom">
         ◀
       </button>
       <button class="mini-btn" onclick="zoomTree(-0.1)" title="Zoom Out">🔍 -</button>
-      <span id="zoom-readout" class="comic-badge" style="background: var(--shonen-yellow); color: #000;">85%</span>
+      <span id="zoom-readout" class="comic-badge" style="background: var(--shonen-yellow);">85%</span>
       <button class="mini-btn" onclick="zoomTree(0.1)" title="Zoom In">🔍 +</button>
-      <button class="mini-btn" onclick="fitScreen()" style="background: var(--shonen-cyan); color: #000;">👁️ FIT KOMA</button>
+      <button class="mini-btn" onclick="fitScreen()" style="background: var(--shonen-cyan);">👁️ FIT KOMA</button>
       <button class="mini-btn" onclick="resetZoom()">⟲ 100%</button>
     </div>
 
-    <!-- Chibi Assistant -->
+    <!-- Visual Novel Chibi Dialogue Bubble -->
     <div class="manga-assistant-bubble" id="assistant-bubble" onclick="cycleAssistantQuote()" title="Klik untuk ngobrol bareng Master Splicer!">
       <button class="assistant-toggle-tab" id="assistant-drawer-btn" onclick="toggleAssistantDrawer(event)" title="Sembunyikan / Buka">
         ▶
@@ -1905,6 +2894,7 @@
       </div>
     </div>
   </main>
+
 
   <!-- ITEM DATABOOK MODAL -->
   <div class="manga-modal-overlay" id="inspect-modal" onclick="closeInspect(event)">

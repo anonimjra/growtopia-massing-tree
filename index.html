@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GROWTOPIA MASSING TREE & CALCULATOR HUB ★ ANIME COMIC EDITION</title>
+  <title>⚡ GROWTOPIA MASSING TREE UNIVERSE • ANIME COMIC PORTAL HUB ⚡</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,700;1,700&family=Mochiy+Pop+One&display=swap" rel="stylesheet">
-  
+
   <style>
     :root {
       --manga-ink: #111116;
@@ -23,327 +23,1498 @@
       --comic-shadow: 4px 4px 0 #111116;
       --comic-shadow-lg: 7px 7px 0 #111116;
       --comic-border: 3.5px solid #111116;
+      --comic-border-sm: 2px solid #111116;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      user-select: none;
     }
 
     body {
-      font-family: 'Comic Neue', cursive, sans-serif;
-      font-weight: 700;
       background-color: var(--manga-paper);
-      background-image: radial-gradient(var(--manga-halftone) 18%, transparent 19%), radial-gradient(var(--manga-halftone) 18%, transparent 19%);
-      background-size: 16px 16px;
-      background-position: 0 0, 8px 8px;
+      background-image: 
+        radial-gradient(circle, #2b2b36 1.2px, transparent 1.2px);
+      background-size: 14px 14px;
       color: var(--manga-ink);
+      font-family: 'Comic Neue', cursive, sans-serif;
       min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      overflow-x: hidden;
     }
 
-    .hero-banner {
+    /* Fullscreen Manga Speedlines Vignette */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      background: radial-gradient(circle, transparent 65%, rgba(0, 0, 0, 0.1) 100%);
+      z-index: 99;
+    }
+
+    /* 1. TOP MANGA TICKER BAR */
+    .manga-ticker-bar:hover .ticker-content {
+      animation-play-state: paused !important;
+    }
+    .manga-ticker-bar {
       background: var(--shonen-yellow);
       border-bottom: var(--comic-border);
-      box-shadow: 0 6px 0 var(--manga-ink);
-      padding: 2.5rem 1rem 2rem;
-      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 6px 0;
       position: relative;
+      z-index: 100;
+      box-shadow: 0 4px 0 #111;
     }
 
-    .hero-badge {
+    .ticker-content {
+      display: inline-block;
+      font-family: 'Bangers', cursive;
+      font-size: 17px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      animation: tickerManga 95s linear infinite;
+    }
+
+    @keyframes tickerManga {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .kanji-sfx {
+      font-family: 'Mochiy Pop One', sans-serif;
+      display: inline-block;
+      transform: rotate(-5deg);
+      background: var(--shonen-red);
+      color: #fff;
+      padding: 2px 8px;
+      border: 2px solid #000;
+      margin: 0 8px;
+      font-size: 13px;
+      box-shadow: 2px 2px 0 #000;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    /* 2. COMIC HERO COVER HEADER */
+    .hero-cover {
+      background: #ffffff;
+      border-bottom: var(--comic-border);
+      box-shadow: 0 5px 0 #000;
+      padding: 24px 20px 20px;
+      position: relative;
+      background-image: repeating-linear-gradient(45deg, #fff, #fff 12px, #fffbeb 12px, #fffbeb 24px);
+    }
+
+    .hero-meta-bar {
+      max-width: 1280px;
+      margin: 0 auto 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .comic-issue-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .comic-price-pill {
+      background: var(--shonen-yellow);
+      border: 2.5px solid #000;
+      border-radius: 6px;
+      box-shadow: 2.5px 2.5px 0 #000;
+      padding: 3px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1;
+      transform: rotate(-2deg);
+    }
+
+    .comic-price-pill .price-val {
+      font-family: 'Bangers', cursive;
+      font-size: 18px;
+      color: var(--shonen-red);
+      letter-spacing: 0.8px;
+    }
+
+    .comic-price-pill .issue-no {
+      font-family: 'Comic Neue', cursive;
+      font-size: 10px;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .comics-code-badge {
+      width: 58px;
+      height: 68px;
+      background: #ffffff;
+      border: 3px solid #000;
+      box-shadow: 3px 3px 0 #000;
+      border-radius: 4px;
+      padding: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transform: rotate(2deg);
+    }
+
+    .comics-code-badge .cc-inner {
+      width: 100%;
+      height: 100%;
+      border: 1.5px solid #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1px;
+    }
+
+    .cc-approved { font-family: 'Bangers', cursive; font-size: 7.5px; color: #000; line-height: 1; }
+    .cc-by { font-family: 'Comic Neue', cursive; font-size: 6px; font-weight: 700; }
+    .cc-title { font-family: 'Bangers', cursive; font-size: 8.5px; color: var(--shonen-red); line-height: 1; }
+    .cc-code { font-family: 'Bangers', cursive; font-size: 10.5px; color: #000; line-height: 1; letter-spacing: 1px; }
+    .cc-authority { font-family: 'Bangers', cursive; font-size: 7px; color: #000; line-height: 1; }
+
+    .hero-center-splash {
+      max-width: 1280px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-badge-ribbon {
       display: inline-block;
       background: var(--shonen-red);
       color: #fff;
-      font-family: 'Mochiy Pop One', sans-serif;
-      font-size: 0.85rem;
-      padding: 0.35rem 1rem;
-      border: var(--comic-border);
-      border-radius: 999px;
-      box-shadow: var(--comic-shadow);
-      transform: rotate(-2deg);
-      margin-bottom: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .hero-title {
       font-family: 'Bangers', cursive;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      letter-spacing: 2px;
-      line-height: 1.05;
-      color: var(--manga-ink);
-      text-shadow: 3px 3px 0 var(--shonen-orange), 6px 6px 0 #fff;
-      margin-bottom: 0.5rem;
+      font-size: 14px;
+      letter-spacing: 1px;
+      padding: 3px 14px;
+      border: 2.5px solid #000;
+      border-radius: 4px;
+      box-shadow: 2.5px 2.5px 0 #000;
+      transform: rotate(-1deg);
+      margin-bottom: 8px;
+      text-transform: uppercase;
     }
 
-    .hero-subtitle {
-      font-size: 1.15rem;
-      max-width: 650px;
-      margin: 0 auto;
-      color: #333;
+    .hero-main-title {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(34px, 6vw, 68px);
+      letter-spacing: 2px;
+      line-height: 1;
+      color: var(--manga-ink);
+      text-transform: uppercase;
+      text-shadow: 3px 3px 0 var(--shonen-yellow), 6px 6px 0 #000;
+      margin-bottom: 8px;
+    }
+
+    .hero-tagline {
+      font-family: 'Comic Neue', cursive;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #334155;
+      max-width: 800px;
+      margin: 0 auto 16px;
+      line-height: 1.4;
       background: #fff;
-      padding: 0.4rem 1.2rem;
-      border: var(--comic-border);
+      padding: 6px 16px;
+      border: 2px solid #000;
       border-radius: 8px;
-      box-shadow: var(--comic-shadow);
+      box-shadow: 2px 2px 0 #000;
       display: inline-block;
     }
 
-    .container {
-      max-width: 1200px;
-      width: 100%;
-      margin: 2.5rem auto;
-      padding: 0 1.25rem;
-      flex: 1;
+    /* Stats Quick Ticker Bar */
+    .hero-stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
     }
 
-    .grid-tools {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-    }
-
-    .tool-card {
+    .stat-pill {
       background: #fff;
+      border: 2px solid #000;
+      box-shadow: 2px 2px 0 #000;
+      padding: 4px 12px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Bangers', cursive;
+      font-size: 13.5px;
+      letter-spacing: 0.8px;
+    }
+
+    .stat-pill b {
+      color: var(--shonen-red);
+      font-size: 16px;
+    }
+
+    /* Saweria Pull Tab in Hub */
+    .saweria-hub-tab {
+      background: #ffde00;
+      color: #000;
+      border: 2.5px solid #000;
+      box-shadow: 3px 3px 0 #000;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .saweria-hub-tab:hover {
+      background: #ff5500;
+      color: #fff;
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 #000;
+    }
+
+    /* 3. CONTROLS & FILTER HUD */
+    .hub-controls-bar {
+      max-width: 1280px;
+      margin: 20px auto 0;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .search-filter-card {
+      background: #ffffff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .search-box span {
+      font-family: 'Bangers', cursive;
+      font-size: 16px;
+      color: var(--shonen-red);
+      white-space: nowrap;
+    }
+
+    .comic-search-input {
+      width: 100%;
+      border: 2px solid #000;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-family: 'Bangers', cursive;
+      font-size: 16px;
+      letter-spacing: 0.8px;
+      background: #fff9ea;
+      box-shadow: inset 1.5px 1.5px 0 rgba(0,0,0,0.1);
+      outline: none;
+      transition: all 0.15s ease;
+    }
+    .comic-search-input:focus {
+      background: #fff;
+      border-color: #000;
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    .filter-chips-cluster {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      font-family: 'Bangers', cursive;
+      font-size: 13px;
+      letter-spacing: 0.6px;
+      padding: 4px 10px;
+      border: 2px solid #000;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #000;
+      transition: all 0.1s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .filter-chip:hover {
+      background: var(--shonen-yellow);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 #000;
+    }
+    .filter-chip.active {
+      background: var(--shonen-yellow);
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #000;
+    }
+
+    /* 4. MAIN MANGA KOMA GRID (THE 9 APEX MASSING TREES) */
+    main.hub-container {
+      max-width: 1280px;
+      margin: 20px auto 40px;
+      padding: 0 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+    .koma-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 24px;
+    }
+
+    /* MANGA KOMA BOX (ITEM CARD) */
+    .manga-koma-card {
+      background: #ffffff;
       border: var(--comic-border);
       border-radius: 12px;
       box-shadow: var(--comic-shadow-lg);
-      padding: 1.75rem;
+      padding: 0;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
       position: relative;
       overflow: hidden;
+      transition: all 0.18s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      background-image: radial-gradient(#ddd 1px, transparent 1px);
+      background-size: 10px 10px;
     }
 
-    .tool-card:hover {
-      transform: translate(-3px, -3px);
-      box-shadow: 10px 10px 0 var(--manga-ink);
+    .manga-koma-card:hover {
+      transform: translate(-4px, -4px) scale(1.015);
+      box-shadow: 10px 10px 0 #000;
+      z-index: 10;
     }
 
-    .card-science { border-top: 10px solid var(--shonen-yellow); }
-    .card-block   { border-top: 10px solid var(--shonen-cyan); }
-    .card-box     { border-top: 10px solid var(--shonen-purple); }
+    /* Chapter Header Banner on Card */
+    .koma-chapter-banner {
+      padding: 6px 12px;
+      border-bottom: 2.5px solid #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Bangers', cursive;
+      font-size: 13.5px;
+      letter-spacing: 0.8px;
+      color: #fff;
+      text-shadow: 1px 1px 0 #000;
+    }
 
-    .card-header {
+    .banner-science   { background: linear-gradient(90deg, #ff5500, #ffde00); color: #000; text-shadow: none; }
+    .banner-dbox      { background: linear-gradient(90deg, #0284c7, #38bdf8); }
+    .banner-dblock    { background: linear-gradient(90deg, #0369a1, #00b4d8); }
+    .banner-shelf     { background: linear-gradient(90deg, #b45309, #f59e0b); }
+    .banner-donation  { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+    .banner-glowy     { background: linear-gradient(90deg, #059669, #10b981); }
+    .banner-cutaway   { background: linear-gradient(90deg, #b91c1c, #ef4444); }
+    .banner-rainbow   { background: linear-gradient(90deg, #ec4899, #8b5cf6, #06b6d4); }
+    .banner-bacon     { background: linear-gradient(90deg, #c2410c, #ea580c); }
+
+    .koma-status-badge {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1.5px solid #000;
+      box-shadow: 1px 1px 0 #000;
+      font-family: 'Bangers', cursive;
+      letter-spacing: 0.6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .status-live { background: #10b981; color: #fff; }
+    .status-queued { background: #fef08a; color: #000; }
+
+    /* Card Main Body */
+    .koma-card-body {
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .koma-identity-row {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.2rem;
+      gap: 14px;
     }
 
-    .card-icon-frame {
-      width: 64px;
-      height: 64px;
-      background: var(--manga-paper);
-      border: var(--comic-border);
+    .koma-sprite-frame {
+      width: 72px;
+      height: 72px;
+      background: #f8fafc;
+      border: 3px solid #000;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: var(--comic-shadow);
+      box-shadow: 3px 3px 0 #000;
       flex-shrink: 0;
+      position: relative;
+      transition: transform 0.15s ease;
+    }
+    .manga-koma-card:hover .koma-sprite-frame {
+      transform: rotate(-3deg) scale(1.05);
+      background: var(--shonen-yellow);
     }
 
-    .card-icon-frame img {
+    .koma-sprite-frame img {
       width: 48px;
       height: 48px;
-      object-fit: contain;
+      image-rendering: pixelated;
+      filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.4));
+    }
+
+    .koma-title-block h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 24px;
+      letter-spacing: 1px;
+      line-height: 1;
+      color: var(--manga-ink);
+      margin-bottom: 4px;
+    }
+
+    .koma-tags-strip {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .koma-badge {
+      font-family: 'Bangers', cursive;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      padding: 1.5px 6px;
+      border: 1.5px solid #000;
+      border-radius: 4px;
+      box-shadow: 1px 1px 0 #000;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Dialogue Speech Bubble inside card */
+    .koma-dialogue-balloon {
+      position: relative;
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 8px;
+      padding: 8px 12px;
+      box-shadow: 2px 2px 0 #000;
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 700;
+      color: #334155;
+    }
+    .koma-dialogue-balloon::after {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: 20px;
+      border-width: 0 8px 8px 8px;
+      border-style: solid;
+      border-color: transparent transparent #000 transparent;
+    }
+    .koma-dialogue-balloon::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: 21px;
+      border-width: 0 7px 7px 7px;
+      border-style: solid;
+      border-color: transparent transparent #fff transparent;
+      z-index: 1;
+    }
+
+    /* Recipe Equation Strip */
+    .koma-recipe-box {
+      background: #f8fafc;
+      border: 2px dashed #000;
+      border-radius: 8px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .recipe-parent-slot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Bangers', cursive;
+      font-size: 13px;
+      color: #0f172a;
+    }
+    .recipe-parent-slot img {
+      width: 24px;
+      height: 24px;
       image-rendering: pixelated;
     }
 
-    .card-title {
+    .recipe-plus {
       font-family: 'Bangers', cursive;
-      font-size: 1.75rem;
-      letter-spacing: 1px;
-      line-height: 1.1;
-      color: var(--manga-ink);
+      font-size: 18px;
+      color: var(--shonen-red);
     }
 
-    .card-tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      background: var(--shonen-green);
-      color: #000;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      border: 2px solid var(--manga-ink);
-      box-shadow: 2px 2px 0 var(--manga-ink);
-      margin-top: 0.25rem;
+    /* Analytics Mini Grid */
+    .koma-stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
 
-    .card-body {
-      font-size: 0.95rem;
-      line-height: 1.45;
-      color: #444;
-      margin-bottom: 1.5rem;
+    .stat-koma-cell {
+      background: #fff;
+      border: 1.5px solid #000;
+      border-radius: 6px;
+      padding: 4px 8px;
+      box-shadow: 1.5px 1.5px 0 #000;
     }
-
-    .feature-list {
-      list-style: none;
-      margin-top: 0.75rem;
-    }
-
-    .feature-list li {
-      margin-bottom: 0.35rem;
-      position: relative;
-      padding-left: 1.4rem;
-      font-size: 0.9rem;
-    }
-
-    .feature-list li::before {
-      content: "⚡";
-      position: absolute;
-      left: 0;
-      top: -1px;
-    }
-
-    .btn-launch {
+    .stat-koma-cell span {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #64748b;
       display: block;
-      width: 100%;
-      text-align: center;
-      text-decoration: none;
+      line-height: 1;
+    }
+    .stat-koma-cell b {
       font-family: 'Bangers', cursive;
-      font-size: 1.4rem;
-      letter-spacing: 1.5px;
-      padding: 0.85rem 1rem;
+      font-size: 14px;
+      color: #000;
+      letter-spacing: 0.5px;
+    }
+
+    /* Card Bottom Action Button */
+    .koma-card-footer {
+      padding: 10px 16px 14px;
+      border-top: 2px solid #000;
+      background: #f8fafc;
+    }
+
+    .btn-koma-launch {
+      width: 100%;
+      padding: 10px 14px;
       border: var(--comic-border);
       border-radius: 8px;
       box-shadow: var(--comic-shadow);
-      color: var(--manga-ink);
-      cursor: pointer;
-      transition: background 0.15s ease, transform 0.1s ease;
-    }
-
-    .btn-launch:active {
-      transform: translate(2px, 2px);
-      box-shadow: 2px 2px 0 var(--manga-ink);
-    }
-
-    .btn-science { background: var(--shonen-yellow); }
-    .btn-science:hover { background: #ffe633; }
-
-    .btn-block { background: var(--shonen-cyan); }
-    .btn-block:hover { background: #5eead4; }
-
-    .btn-box { background: #a78bfa; color: #fff; }
-    .btn-box:hover { background: #c4b5fd; color: #111; }
-
-    footer {
-      border-top: var(--comic-border);
-      background: #fff;
-      padding: 1.25rem;
-      text-align: center;
-      font-size: 0.9rem;
-      box-shadow: 0 -4px 0 rgba(0,0,0,0.05);
-    }
-
-    footer a {
-      color: var(--shonen-orange);
+      font-family: 'Bangers', cursive;
+      font-size: 17px;
+      letter-spacing: 1.2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       text-decoration: none;
-      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      text-transform: uppercase;
     }
 
-    footer a:hover {
-      text-decoration: underline;
+    .btn-koma-launch:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #000;
+    }
+    .btn-koma-launch:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 #000;
+    }
+
+    .btn-live-gold { background: var(--shonen-yellow); }
+    .btn-live-cyan { background: var(--shonen-cyan); }
+    .btn-live-blue { background: #38bdf8; color: #000; }
+    .btn-queued    { background: #ffffff; color: #334155; border-style: dashed; }
+    .btn-queued:hover { background: #fef08a; color: #000; }
+
+    /* 5. FLOATING CHIBI ASSISTANT */
+    .hub-assistant-bubble {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ffffff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow-lg);
+      border-radius: 12px;
+      padding: 12px 16px;
+      max-width: 380px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      z-index: 120;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .hub-assistant-bubble.collapsed {
+      transform: translateX(calc(100% + 32px)) !important;
+      box-shadow: none !important;
+    }
+
+    .assistant-toggle-tab {
+      position: absolute;
+      left: -38px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 52px;
+      background: var(--shonen-yellow);
+      border: var(--comic-border);
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+      box-shadow: -3.5px 3.5px 0 #111116;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Bangers', cursive;
+      font-size: 18px;
+      color: #000;
+      z-index: 125;
+    }
+
+    .assistant-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--shonen-yellow);
+      border: 2.5px solid #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 2px 2px 0 #000;
+    }
+    .assistant-avatar img {
+      width: 32px;
+      height: 32px;
+      image-rendering: pixelated;
+    }
+
+    .bubble-text h4 {
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+      letter-spacing: 0.8px;
+      color: var(--shonen-red);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .bubble-text p {
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      line-height: 1.35;
+    }
+
+    /* FOOTER */
+    footer.hub-footer {
+      border-top: var(--comic-border);
+      background: #ffffff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 -4px 0 rgba(0,0,0,0.06);
+    }
+    footer.hub-footer p {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    /* MODAL FOR QUEUED ITEMS */
+    .manga-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 19, 41, 0.7);
+      backdrop-filter: blur(3px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .manga-modal-overlay.active { display: flex; }
+
+    .modal-koma-window {
+      background: #ffffff;
+      border: 4px solid #000;
+      box-shadow: 8px 8px 0 #000;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 480px;
+      overflow: hidden;
+      animation: modalPop 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-koma-header {
+      background: var(--shonen-yellow);
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #000;
+      font-family: 'Bangers', cursive;
+      font-size: 18px;
+    }
+    .modal-koma-close {
+      background: #ef4444;
+      color: #fff;
+      border: 2px solid #000;
+      border-radius: 4px;
+      width: 28px;
+      height: 28px;
+      font-family: 'Bangers', cursive;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .modal-koma-body {
+      padding: 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      line-height: 1.45;
     }
   </style>
 </head>
 <body>
-  <header class="hero-banner">
-    <div class="hero-badge">⚡ Ultimate Growtopia Massing Suite ⚡</div>
-    <h1 class="hero-title">GROWTOPIA MASSING HUB</h1>
-    <div class="hero-subtitle">
-      Anime Comic Edition • Kalkulator Massing Tree, Farming Yields, & Recipe Simulator Lengkap!
+
+  <!-- Top Ticker Bar -->
+  <div class="manga-ticker-bar">
+    <div class="ticker-content">
+      ⚡ <b>BREAKING GT BROADCAST:</b> "OMNIBUS MASSING TREE UNIVERSE: 9 POHON SPLICING TERBESAR RESMI DIBUKA!" • <span class="kanji-sfx">ズドドド</span> <b>TIPS PRO:</b> SETIAP POHON DIBANGUN DENGAN AKAR 100% GROUNDED HINGGA PRIMORDIAL SEED! • <b>MARKET WATCH:</b> "RATE DISPLAY BLOCK 5-8/WL, DISPLAY BOX 10-15/WL, SCIENCE STATION PANEN 12 JAM!" • <span class="kanji-sfx">キラーン</span> <b>MASTER ARCHITECT SAYS:</b> "PERFEKSIONISME PIXEL-PERFECT BIKIN PROFIT MASSING LU MAKSIMAL!" • <b>SAFETY BUFFER:</b> SEMUA APPS CLIENT-SIDE, ZERO-LATENCY, DILENGKAPI SIMULATOR FORGE & BUFF DROID! • <span class="kanji-sfx">バァァン</span> <b>TRAKTEER KOPI VIA SAWERIA BIAR SERVER TETAP ON-FIRE & BEBAS IKLAN!</b> • ⚡ <b>BREAKING GT BROADCAST:</b> "OMNIBUS MASSING TREE UNIVERSE: 9 POHON SPLICING TERBESAR RESMI DIBUKA!" • <span class="kanji-sfx">ズドドド</span>
+    </div>
+  </div>
+
+  <!-- Comic Cover Hero Splash Header -->
+  <header class="hero-cover">
+    <div class="hero-meta-bar">
+      <!-- Vintage Comics Code Authority Seal -->
+      <div class="comic-issue-meta">
+        <div class="comic-price-pill">
+          <span class="price-val">15¢</span>
+          <span class="issue-no">ISSUE #01</span>
+        </div>
+        <div class="comics-code-badge">
+          <div class="cc-inner">
+            <span class="cc-approved">APPROVED</span>
+            <span class="cc-by">BY THE</span>
+            <span class="cc-title">COMICS</span>
+            <span class="cc-code">CODE</span>
+            <span class="cc-authority">AUTHORITY</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Ticker Stats -->
+      <div class="hero-stats-row">
+        <div class="stat-pill">🌳 APEX TREES: <b>9 ITEMS</b></div>
+        <div class="stat-pill">🌱 ROOT DEPTH: <b>TIER 1 PRIMORDIAL</b></div>
+        <div class="stat-pill">⚡ CLIENT-SIDE: <b>100% LOCAL-FIRST</b></div>
+      </div>
+
+      <!-- Saweria Support Tab -->
+      <a href="https://saweria.co" target="_blank" class="saweria-hub-tab" onclick="sfxSparkle()">
+        <span>☕</span>
+        <span>SAWERIA DONATE</span>
+      </a>
+    </div>
+
+    <!-- Center Splash Title -->
+    <div class="hero-center-splash">
+      <div class="hero-badge-ribbon">★ GROWTOPIA MASSING TREE UNIVERSE • MASTER OMNIBUS EDITION ★</div>
+      <h1 class="hero-main-title">GROWTOPIA MASSING HUB</h1>
+      <p class="hero-tagline">
+        Katalog komik interaktif terlengkap: Akses langsung kalkulator massing tree, visualisasi akar primordial Tier 1 (Dirt & Rock), simulator panen yield, dan forge arena!
+      </p>
+    </div>
+
+    <!-- Controls, Live Search & Category Filters -->
+    <div class="hub-controls-bar">
+      <div class="search-filter-card">
+        <div class="search-box">
+          <span>🔍 CARI ITEM:</span>
+          <input type="text" id="hub-search" class="comic-search-input" placeholder="Ketik nama item (contoh: Display Block, Shelf, Rainbow, Bacon)..." oninput="filterHubItems()">
+        </div>
+        <div class="filter-chips-cluster">
+          <button class="filter-chip active" id="f-all" onclick="setFilter('all')">🌟 SEMUA (9)</button>
+          <button class="filter-chip" id="f-live" onclick="setFilter('live')">✓ LIVE ACTIVE (3)</button>
+          <button class="filter-chip" id="f-queued" onclick="setFilter('queued')">⚡ QUEUED SPRINT (6)</button>
+          <button class="filter-chip" id="f-high" onclick="setFilter('high')">👑 RARITY 50+</button>
+        </div>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <div class="grid-tools">
+  <!-- Main Grid: 9 Master Koma Cards -->
+  <main class="hub-container">
+    <div class="koma-grid" id="koma-grid">
 
-      <!-- Tool 1: Science Station -->
-      <article class="tool-card card-science">
-        <div>
-          <div class="card-header">
-            <div class="card-icon-frame">
-              <img src="science-station-anime-comic/icons/science_station.png" alt="Science Station" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\'><text y=\'24\' font-size=\'24\'>🧪</text></svg>'">
+      <!-- ITEM 1: SCIENCE STATION -->
+      <article class="manga-koma-card" data-name="Science Station" data-status="live" data-rarity="53" data-chapter="53">
+        <div class="koma-chapter-banner banner-science">
+          <span>VOL. 53 • CHAPTER CHEMICAL LAB</span>
+          <span class="koma-status-badge status-live">✓ LIVE • READY</span>
+        </div>
+        <div class="koma-card-body">
+          <div class="koma-identity-row">
+            <div class="koma-sprite-frame">
+              <img src="icons/science_station.png" alt="Science Station">
             </div>
-            <div>
-              <h2 class="card-title">SCIENCE STATION</h2>
-              <span class="card-tag">Chronicles Edition</span>
+            <div class="koma-title-block">
+              <h3>SCIENCE STATION</h3>
+              <div class="koma-tags-strip">
+                <span class="koma-badge" style="background: var(--shonen-yellow);">⭐ RARITY 53</span>
+                <span class="koma-badge" style="background: #dcfce7; color: #166534;">⚡ 12H PROVIDER</span>
+                <span class="koma-badge" style="background: #e0f2fe; color: #0369a1;">5 TIERS</span>
+              </div>
             </div>
           </div>
-          <div class="card-body">
-            Kalkulator Massing Science Station terlengkap dengan tracking step-by-step pohon, yield panen, formula racikan Toxic Waste, Chemical & resep lengkap.
-            <ul class="feature-list">
-              <li>Full Tree Recipe Simulator</li>
-              <li>Farming Yields & Drop Rate Analytics</li>
-              <li>Shonen Anime FX & Cut-In Animations</li>
-            </ul>
+          <div class="koma-dialogue-balloon">
+            "Senpai! Panen 2.000 chemical vial tiap 12 jam, racik jadi Fuel Pack atau Mystery Pouch buat cuan harian gurih!"
+          </div>
+          <div class="koma-recipe-box">
+            <div class="recipe-parent-slot">
+              <img src="icons/toxic_waste_barrel.png" alt="Toxic Waste">
+              <span>TOXIC WASTE</span>
+            </div>
+            <span class="recipe-plus">+</span>
+            <div class="recipe-parent-slot">
+              <img src="icons/military_radio.png" alt="Military Radio">
+              <span>MILITARY RADIO</span>
+            </div>
+          </div>
+          <div class="koma-stat-row">
+            <div class="stat-koma-cell">
+              <span>ESTIMASI CUAN:</span>
+              <b style="color: #16a34a;">~15 - 20 WL/HARI</b>
+            </div>
+            <div class="stat-koma-cell">
+              <span>BOTTLENECK:</span>
+              <b style="color: #dc2626;">DEATH SPIKES (4H)</b>
+            </div>
           </div>
         </div>
-        <a href="science-station-anime-comic/" class="btn-launch btn-science">BUKA SCIENCE STATION ➔</a>
+        <div class="koma-card-footer">
+          <a href="science-station-anime-comic/" class="btn-koma-launch btn-live-gold" onclick="sfxTap()">
+            BUKA MASSING TREE ➔
+          </a>
+        </div>
       </article>
 
-      <!-- Tool 2: Display Block -->
-      <article class="tool-card card-block">
-        <div>
-          <div class="card-header">
-            <div class="card-icon-frame">
-              <img src="display-block-anime-comic/icons/display_block.png" alt="Display Block" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\'><text y=\'24\' font-size=\'24\'>📦</text></svg>'">
+      <!-- ITEM 2: DISPLAY BOX -->
+      <article class="manga-koma-card" data-name="Display Box" data-status="live" data-rarity="45" data-chapter="45">
+        <div class="koma-chapter-banner banner-dbox">
+          <span>VOL. 45 • CHAPTER LUXURY SHOWCASE</span>
+          <span class="koma-status-badge status-live">✓ LIVE • READY</span>
+        </div>
+        <div class="koma-card-body">
+          <div class="koma-identity-row">
+            <div class="koma-sprite-frame">
+              <img src="icons/display_box.png" alt="Display Box">
             </div>
-            <div>
-              <h2 class="card-title">DISPLAY BLOCK</h2>
-              <span class="card-tag">Anime Comic Edition</span>
+            <div class="koma-title-block">
+              <h3>DISPLAY BOX</h3>
+              <div class="koma-tags-strip">
+                <span class="koma-badge" style="background: #38bdf8;">★ RARITY 45</span>
+                <span class="koma-badge" style="background: #fef08a; color: #854d0e;">💎 VEND WORLD MUST</span>
+                <span class="koma-badge" style="background: #e0f2fe; color: #0369a1;">5 TIERS</span>
+              </div>
             </div>
           </div>
-          <div class="card-body">
-            Simulasi kalkulasi bibit & pohon Display Block dari sub-komponen awal hingga finish line. Auto-calc kebutuhan seed, harvest, dan splice.
-            <ul class="feature-list">
-              <li>Massing Tree Hierarchy Visualizer</li>
-              <li>Tier-by-Tier Splice Calculation</li>
-              <li>Comic Style Interactive UI</li>
-            </ul>
+          <div class="koma-dialogue-balloon">
+            "Etalase kaca wajib buat semua world shop dan museum sultan. Harga stabil 10-15/WL, jual borongan langsung ludes!"
+          </div>
+          <div class="koma-recipe-box">
+            <div class="recipe-parent-slot">
+              <img src="icons/glass_block.png" alt="Glass Block">
+              <span>GLASS BLOCK</span>
+            </div>
+            <span class="recipe-plus">+</span>
+            <div class="recipe-parent-slot">
+              <img src="icons/music_box.png" alt="Music Box">
+              <span>MUSIC BOX</span>
+            </div>
+          </div>
+          <div class="koma-stat-row">
+            <div class="stat-koma-cell">
+              <span>ESTIMASI CUAN:</span>
+              <b style="color: #16a34a;">~65 - 100 WL / 1K</b>
+            </div>
+            <div class="stat-koma-cell">
+              <span>BOTTLENECK:</span>
+              <b style="color: #dc2626;">TOILET & RADIO</b>
+            </div>
           </div>
         </div>
-        <a href="display-block-anime-comic/" class="btn-launch btn-block">BUKA DISPLAY BLOCK ➔</a>
+        <div class="koma-card-footer">
+          <a href="display-box-anime-comic/" class="btn-koma-launch btn-live-cyan" onclick="sfxTap()">
+            BUKA MASSING TREE ➔
+          </a>
+        </div>
       </article>
 
-      <!-- Tool 3: Display Box -->
-      <article class="tool-card card-box">
-        <div>
-          <div class="card-header">
-            <div class="card-icon-frame">
-              <img src="display-box-anime-comic/icons/display_box.png" alt="Display Box" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\'><text y=\'24\' font-size=\'24\'>🎁</text></svg>'">
+      <!-- ITEM 3: DISPLAY BLOCK -->
+      <article class="manga-koma-card" data-name="Display Block" data-status="live" data-rarity="80" data-chapter="80">
+        <div class="koma-chapter-banner banner-dblock">
+          <span>VOL. 80 • CHAPTER TITANIUM MONOLITH</span>
+          <span class="koma-status-badge status-live">✓ LIVE • READY</span>
+        </div>
+        <div class="koma-card-body">
+          <div class="koma-identity-row">
+            <div class="koma-sprite-frame">
+              <img src="icons/display_block.png" alt="Display Block">
             </div>
-            <div>
-              <h2 class="card-title">DISPLAY BOX</h2>
-              <span class="card-tag">Anime Comic Edition</span>
+            <div class="koma-title-block">
+              <h3>DISPLAY BLOCK</h3>
+              <div class="koma-tags-strip">
+                <span class="koma-badge" style="background: #00b4d8; color: #fff;">★ RARITY 80</span>
+                <span class="koma-badge" style="background: #e2e8f0; color: #334155;">🛡️ STEEL APEX</span>
+                <span class="koma-badge" style="background: #e0f2fe; color: #0369a1;">6 TIERS DEEP</span>
+              </div>
             </div>
           </div>
-          <div class="card-body">
-            Kalkulator khusus Display Box massing tree dengan estimasi modal block, seed yield, dan visual alur pohon yang rapi dan responsif.
-            <ul class="feature-list">
-              <li>Seed to Block Ratio Optimizer</li>
-              <li>Lengkap dengan Icon & Splicing Path</li>
-              <li>Responsive Desktop & Mobile Friendly</li>
-            </ul>
+          <div class="koma-dialogue-balloon">
+            "Puncak balok baja display terkuat hasil persilangan Display Box dan Steel Block. Rate 5-8/WL paling diburu builder top!"
+          </div>
+          <div class="koma-recipe-box">
+            <div class="recipe-parent-slot">
+              <img src="icons/display_box.png" alt="Display Box">
+              <span>DISPLAY BOX</span>
+            </div>
+            <span class="recipe-plus">+</span>
+            <div class="recipe-parent-slot">
+              <img src="icons/steel_block.png" alt="Steel Block">
+              <span>STEEL BLOCK</span>
+            </div>
+          </div>
+          <div class="koma-stat-row">
+            <div class="stat-koma-cell">
+              <span>ESTIMASI CUAN:</span>
+              <b style="color: #16a34a;">~125 - 200 WL / 1K</b>
+            </div>
+            <div class="stat-koma-cell">
+              <span>BOTTLENECK:</span>
+              <b style="color: #dc2626;">BLUEBERRY & SPIKES</b>
+            </div>
           </div>
         </div>
-        <a href="display-box-anime-comic/" class="btn-launch btn-box">BUKA DISPLAY BOX ➔</a>
+        <div class="koma-card-footer">
+          <a href="display-block-anime-comic/" class="btn-koma-launch btn-live-blue" onclick="sfxTap()">
+            BUKA MASSING TREE ➔
+          </a>
+        </div>
+      </article>
+
+      <!-- ITEM 4: DISPLAY SHELF -->
+      <article class="manga-koma-card" data-name="Display Shelf" data-status="queued" data-rarity="56" data-chapter="56">
+        <div class="koma-chapter-banner banner-shelf">
+          <span>VOL. 56 • CHAPTER VINTAGE BOOKCASE</span>
+          <span class="koma-status-badge status-queued">⚡ SPRINT READY</span>
+        </div>
+        <div class="koma-card-body">
+          <div class="koma-identity-row">
+            <div class="koma-sprite-frame">
+              <img src="icons/display_shelf.png" alt="Display Shelf">
+            </div>
+            <div class="koma-title-block">
+              <h3>DISPLAY SHELF</h3>
+              <div class="koma-tags-strip">
+                <span class="koma-badge" style="background: #f59e0b; color: #000;">★ RARITY 56</span>
+                <span class="koma-badge" style="background: #ffedd5; color: #9a3412;">📚 WOODEN DECOR</span>
+                <span class="koma-badge" style="background: #e0f2fe; color: #0369a1;">5 TIERS</span>
+              </div>
+            </div>
+          </div>
+          <div class="koma-dialogue-balloon">
+            "Rak buku estetik buat display item perpustakaan dan toko buku. Hasil fusi Bookcase dan Writing Desk!"
+          </div>
+          <div class="koma-recipe-box">
+            <div class="recipe-parent-slot">
+              <img src="icons/bookcase.png" alt="Bookcase">
+              <span>BOOKCASE</span>
+            </div>
+            <span class="recipe-plus">+</span>
+            <div class="recipe-parent-slot">
+              <img src="icons/writing_desk.png" alt="Writing Desk">
+              <span>WRITING DESK</span>
+            </div>
+          </div>
+          <div class="koma-stat-row">
+            <div class="stat-koma-cell">
+              <span>ESTIMASI CUAN:</span>
+              <b style="color: #16a34a;">~80 - 120 WL / 1K</b>
+            </div>
+            <div class="stat-koma-cell">
+              <span>BOTTLENECK:</span>
+              <b style="color: #dc2626;">WOODEN TABLE & PENCIL</b>
+            </div>
+          </div>
+        </div>
+        <div class="koma-card-footer">
+          <button class="btn-koma-launch btn-queued" onclick="previewQueuedItem('Display Shelf', 'Bookcase + Writing Desk', 56, '~80-120 WL', 'display-shelf-anime-comic')">
+            PREVIEW / EXECUTE SPRINT ➔
+          </button>
+        </div>
+      </article>
+
+      <!-- ITEM 5: DONATION BOX -->
+      <article class="manga-koma-card" data-name="Donation Box" data-status="queued" data-rarity="60" data-chapter="60">
+        <div class="koma-chapter-banner banner-donation">
+          <span>VOL. 60 • CHAPTER CHARITY VAULT</span>
+          <span class="koma-status-badge status-queued">⚡ SPRINT READY</span>
+        </div>
+        <div class="koma-card-body">
+          <div class="koma-identity-row">
+            <div class="koma-sprite-frame">
+              <img src="icons/donation_box.png" alt="Donation Box">
+            </div>
+            <div class="koma-title-block">
+              <h3>DONATION BOX</h3>
+              <div class="koma-tags-strip">
+                <span class="koma-badge" style="background: #a855f7; color: #fff;">★ RARITY 60</span>
+                <span class="koma-badge" style="background: #f3e8ff; color: #6b21a8;">💖 WORLD SOCIAL</span>
+                <span class="koma-badge" style="background: #e0f2fe; color: #0369a1;">5 TIERS</span>
+              </div>
+            </div>
+          </div>
+          <div class="koma-dialogue-balloon">
+            "Kotak donasi wajib untuk world hangout, giveaway, dan parkour. Gabungan Display Box dan Pastel Purple Block!"
+          </div>
+          <div class="koma-recipe-box">
+            <div class="recipe-parent-slot">
+              <img src="icons/display_box.png" alt="Display Box">
+              <span>DISPLAY BOX</span>
+            </div>
+            <span class="recipe-plus">+</span>
+            <div class="recipe-parent-slot">
+              <img src="icons/pastel_purple_block.png" alt="Pastel Purple">
+              <span>PASTEL PURPLE</span>
+            </div>
+          </div>
+          <div class="koma-stat-row">
+            <div class="stat-koma-cell">
+              <span>ESTIMASI CUAN:</span>
+              <b style="color: #16a34a;">~140 - 250 WL / 1K</b>
+            </div>
+            <div class="stat-koma-cell">
+              <span>BOTTLENECK:</span>
+              <b style="color: #dc2626;">PASTEL DYE & GLASS</b>
+            </div>
+          </div>
+        </div>
+        <div class="koma-card-footer">
+          <button class="btn-koma-launch btn-queued" onclick="previewQueuedItem('Donation Box', 'Display Box + Pastel Purple Block', 60, '~140-250 WL', 'donation-box-anime-comic')">
+            PREVIEW / EXECUTE SPRINT ➔
+          </button>
+        </div>
+      </article>
+
+      <!-- ITEM 6: GLOWY BLOCK -->
+      <article class="manga-koma-card" data-name="Glowy Block" data-status="queued" data-rarity="68" data-chapter="68">
+        <div class="koma-chapter-banner banner-glowy">
+          <span>VOL. 68 • CHAPTER NEON LUMINESCENCE</span>
+          <span class="koma-status-badge status-queued">⚡ SPRINT READY</span>
+        </div>
+        <div class="koma-card-body">
+          <div class="koma-identity-row">
+            <div class="koma-sprite-frame">
+              <img src="icons/glowy_block.png" alt="Glowy Block">
+            </div>
+            <div class="koma-title-block">
+              <h3>GLOWY BLOCK</h3>
+              <div class="koma-tags-strip">
+                <span class="koma-badge" style="background: #10b981; color: #fff;">★ RARITY 68</span>
+                <span class="koma-badge" style="background: #dcfce7; color: #065f46;">✨ NEON GLOW</span>
+                <span class="koma-badge" style="background: #e0f2fe; color: #0369a1;">6 TIERS</span>
+              </div>
+            </div>
+          </div>
+          <div class="koma-dialogue-balloon">
+            "Balok futuristik bersinar terang dalam gelap world night mode. Hasil persilangan Neon Lights dan Cutaway Building!"
+          </div>
+          <div class="koma-recipe-box">
+            <div class="recipe-parent-slot">
+              <img src="icons/neon_lights.png" alt="Neon Lights">
+              <span>NEON LIGHTS</span>
+            </div>
+            <span class="recipe-plus">+</span>
+            <div class="recipe-parent-slot">
+              <img src="icons/cutaway_building.png" alt="Cutaway Building">
+              <span>CUTAWAY BLDG</span>
+            </div>
+          </div>
+          <div class="koma-stat-row">
+            <div class="stat-koma-cell">
+              <span>ESTIMASI CUAN:</span>
+              <b style="color: #16a34a;">~160 - 300 WL / 1K</b>
+            </div>
+            <div class="stat-koma-cell">
+              <span>BOTTLENECK:</span>
+              <b style="color: #dc2626;">CUTAWAY COMPLEXITY</b>
+            </div>
+          </div>
+        </div>
+        <div class="koma-card-footer">
+          <button class="btn-koma-launch btn-queued" onclick="previewQueuedItem('Glowy Block', 'Neon Lights + Cutaway Building', 68, '~160-300 WL', 'glowy-block-anime-comic')">
+            PREVIEW / EXECUTE SPRINT ➔
+          </button>
+        </div>
+      </article>
+
+      <!-- ITEM 7: CUTAWAY BUILDING -->
+      <article class="manga-koma-card" data-name="Cutaway Building" data-status="queued" data-rarity="60" data-chapter="60">
+        <div class="koma-chapter-banner banner-cutaway">
+          <span>VOL. 60 • CHAPTER URBAN ARCHITECTURE</span>
+          <span class="koma-status-badge status-queued">⚡ SPRINT READY</span>
+        </div>
+        <div class="koma-card-body">
+          <div class="koma-identity-row">
+            <div class="koma-sprite-frame">
+              <img src="icons/cutaway_building.png" alt="Cutaway Building">
+            </div>
+            <div class="koma-title-block">
+              <h3>CUTAWAY BUILDING</h3>
+              <div class="koma-tags-strip">
+                <span class="koma-badge" style="background: #ef4444; color: #fff;">★ RARITY 60</span>
+                <span class="koma-badge" style="background: #fee2e2; color: #991b1b;">🏙️ URBAN SKYLINE</span>
+                <span class="koma-badge" style="background: #e0f2fe; color: #0369a1;">5 TIERS</span>
+              </div>
+            </div>
+          </div>
+          <div class="koma-dialogue-balloon">
+            "Blok gedung bertingkat klasik untuk background kota metropolitan. Hasil fusi Western Building dan Tenement Building!"
+          </div>
+          <div class="koma-recipe-box">
+            <div class="recipe-parent-slot">
+              <img src="icons/western_building.png" alt="Western Building">
+              <span>WESTERN BLDG</span>
+            </div>
+            <span class="recipe-plus">+</span>
+            <div class="recipe-parent-slot">
+              <img src="icons/tenement_building.png" alt="Tenement Building">
+              <span>TENEMENT BLDG</span>
+            </div>
+          </div>
+          <div class="koma-stat-row">
+            <div class="stat-koma-cell">
+              <span>ESTIMASI CUAN:</span>
+              <b style="color: #16a34a;">~110 - 200 WL / 1K</b>
+            </div>
+            <div class="stat-koma-cell">
+              <span>BOTTLENECK:</span>
+              <b style="color: #dc2626;">SALOON & BRICKS</b>
+            </div>
+          </div>
+        </div>
+        <div class="koma-card-footer">
+          <button class="btn-koma-launch btn-queued" onclick="previewQueuedItem('Cutaway Building', 'Western Building + Tenement Building', 60, '~110-200 WL', 'cutaway-building-anime-comic')">
+            PREVIEW / EXECUTE SPRINT ➔
+          </button>
+        </div>
+      </article>
+
+      <!-- ITEM 8: RAINBOW BLOCK -->
+      <article class="manga-koma-card" data-name="Rainbow Block" data-status="queued" data-rarity="25" data-chapter="25">
+        <div class="koma-chapter-banner banner-rainbow">
+          <span>VOL. 25 • CHAPTER PRISMATIC SPECTRUM</span>
+          <span class="koma-status-badge status-queued">⚡ SPRINT READY</span>
+        </div>
+        <div class="koma-card-body">
+          <div class="koma-identity-row">
+            <div class="koma-sprite-frame">
+              <img src="icons/rainbow_block.png" alt="Rainbow Block">
+            </div>
+            <div class="koma-title-block">
+              <h3>RAINBOW BLOCK</h3>
+              <div class="koma-tags-strip">
+                <span class="koma-badge" style="background: #ec4899; color: #fff;">★ RARITY 25</span>
+                <span class="koma-badge" style="background: #fdf2f8; color: #be185d;">🌈 COLOR SPECTRUM</span>
+                <span class="koma-badge" style="background: #e0f2fe; color: #0369a1;">4 TIERS</span>
+              </div>
+            </div>
+          </div>
+          <div class="koma-dialogue-balloon">
+            "Balok warna-warni pelangi pelopor visual spektakuler dan bahan dasar Magic Bacon Wallpaper. Fusi Purple Block + Orange Block!"
+          </div>
+          <div class="koma-recipe-box">
+            <div class="recipe-parent-slot">
+              <img src="icons/purple_block.png" alt="Purple Block">
+              <span>PURPLE BLOCK</span>
+            </div>
+            <span class="recipe-plus">+</span>
+            <div class="recipe-parent-slot">
+              <img src="icons/orange_block.png" alt="Orange Block">
+              <span>ORANGE BLOCK</span>
+            </div>
+          </div>
+          <div class="koma-stat-row">
+            <div class="stat-koma-cell">
+              <span>ESTIMASI CUAN:</span>
+              <b style="color: #16a34a;">~30 - 50 WL / 1K</b>
+            </div>
+            <div class="stat-koma-cell">
+              <span>BOTTLENECK:</span>
+              <b style="color: #dc2626;">RED & BLUE BLOCKS</b>
+            </div>
+          </div>
+        </div>
+        <div class="koma-card-footer">
+          <button class="btn-koma-launch btn-queued" onclick="previewQueuedItem('Rainbow Block', 'Purple Block + Orange Block', 25, '~30-50 WL', 'rainbow-block-anime-comic')">
+            PREVIEW / EXECUTE SPRINT ➔
+          </button>
+        </div>
+      </article>
+
+      <!-- ITEM 9: MAGIC BACON WALLPAPER -->
+      <article class="manga-koma-card" data-name="Magic Bacon Wallpaper" data-status="queued" data-rarity="38" data-chapter="38">
+        <div class="koma-chapter-banner banner-bacon">
+          <span>VOL. 38 • CHAPTER CRISPY BACON SIZZLE</span>
+          <span class="koma-status-badge status-queued">⚡ SPRINT READY</span>
+        </div>
+        <div class="koma-card-body">
+          <div class="koma-identity-row">
+            <div class="koma-sprite-frame">
+              <img src="icons/magic_bacon_wallpaper.png" alt="Magic Bacon Wallpaper">
+            </div>
+            <div class="koma-title-block">
+              <h3>MAGIC BACON WALLPAPER</h3>
+              <div class="koma-tags-strip">
+                <span class="koma-badge" style="background: #ea580c; color: #fff;">★ RARITY 38</span>
+                <span class="koma-badge" style="background: #ffedd5; color: #c2410c;">🥓 BACON CRISPY</span>
+                <span class="koma-badge" style="background: #e0f2fe; color: #0369a1;">5 TIERS</span>
+              </div>
+            </div>
+          </div>
+          <div class="koma-dialogue-balloon">
+            "Wallpaper legendaris motif daging bacon gurih berkilau! Hasil persilangan Rainbow Block dan House Entrance!"
+          </div>
+          <div class="koma-recipe-box">
+            <div class="recipe-parent-slot">
+              <img src="icons/rainbow_block.png" alt="Rainbow Block">
+              <span>RAINBOW BLOCK</span>
+            </div>
+            <span class="recipe-plus">+</span>
+            <div class="recipe-parent-slot">
+              <img src="icons/house_entrance.png" alt="House Entrance">
+              <span>HOUSE ENTRANCE</span>
+            </div>
+          </div>
+          <div class="koma-stat-row">
+            <div class="stat-koma-cell">
+              <span>ESTIMASI CUAN:</span>
+              <b style="color: #16a34a;">~100 - 160 WL / 1K</b>
+            </div>
+            <div class="stat-koma-cell">
+              <span>BOTTLENECK:</span>
+              <b style="color: #dc2626;">ENTRANCE & RAINBOW</b>
+            </div>
+          </div>
+        </div>
+        <div class="koma-card-footer">
+          <button class="btn-koma-launch btn-queued" onclick="previewQueuedItem('Magic Bacon Wallpaper', 'Rainbow Block + House Entrance', 38, '~100-160 WL', 'magic-bacon-wallpaper-anime-comic')">
+            PREVIEW / EXECUTE SPRINT ➔
+          </button>
+        </div>
       </article>
 
     </div>
   </main>
 
-  <footer>
-    <p>🔥 <strong>Growtopia Massing Tree Suite</strong> • Client-side, Local-first & Zero Latency • Built with Anime Comic Spirit 🔥</p>
+  <!-- Floating Chibi Assistant -->
+  <div class="hub-assistant-bubble" id="hub-assistant" onclick="cycleHubQuote()" title="Klik untuk ngobrol bareng Master Splicer!">
+    <button class="assistant-toggle-tab" id="assistant-drawer-btn" onclick="toggleHubAssistant(event)" title="Sembunyikan / Buka">
+      ▶
+    </button>
+    <div class="assistant-avatar">
+      <img src="icons/science_station.png" alt="Master Splicer">
+    </div>
+    <div class="bubble-text">
+      <h4>MASTER SPLICER • ハブ案内人</h4>
+      <p id="hub-quote-text">
+        "Senpai! Klik salah satu koma box di atas untuk langsung masuk ke pohon massing 100% berakar sampai Dirt & Rock!"
+      </p>
+    </div>
+  </div>
+
+  <!-- Modal Preview for Queued Sprint Items -->
+  <div class="manga-modal-overlay" id="queued-modal" onclick="closeQueuedModal(event)">
+    <div class="modal-koma-window" onclick="event.stopPropagation()">
+      <div class="modal-koma-header">
+        <span id="modal-title">⚡ SPRINT PREVIEW</span>
+        <button class="modal-koma-close" onclick="closeQueuedModal()">&times;</button>
+      </div>
+      <div class="modal-koma-body">
+        <p id="modal-body-desc" style="margin-bottom: 12px;"></p>
+        <div style="background: #fff9ea; border: 2px solid #000; border-radius: 8px; padding: 10px; margin-bottom: 12px;">
+          <p><b>Blueprint Status:</b> Pohon silsilah massing item ini sudah siap dieksekusi sampai ke benih primordial Tier 1 (Dirt, Rock, Lava, Grass).</p>
+          <p style="margin-top: 6px;"><b>Template Master:</b> Desain, tombol, zoom dock, dan kalkulator akan mengadopsi 1:1 standar Science Station & Display Box.</p>
+        </div>
+        <button class="btn-koma-launch btn-live-gold" style="width: 100%;" onclick="closeQueuedModal()">
+          SIAP DIEKSEKUSI DI SPRINT BERIKUTNYA! 🚀
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="hub-footer">
+    <p>⚡ <strong>GROWTOPIA MASSING TREE UNIVERSE</strong> • CLIENT-SIDE, LOCAL-FIRST, ZERO-LATENCY • POWERED BY ANIME COMIC SPIRIT ⚡</p>
   </footer>
+
+  <script>
+    // Web Audio API Retro SFX
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      return audioCtx;
+    }
+
+    function playBeep(freq, duration, type='sine') {
+      try {
+        const ctx = getAudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    function sfxTap() { playBeep(520, 0.06, 'triangle'); }
+    function sfxSparkle() {
+      playBeep(880, 0.08, 'sine');
+      setTimeout(() => playBeep(1320, 0.12, 'sine'), 60);
+    }
+
+    // Filter Logic
+    let currentFilter = 'all';
+
+    function setFilter(filterType) {
+      currentFilter = filterType;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      const activeBtn = document.getElementById('f-' + filterType);
+      if (activeBtn) activeBtn.classList.add('active');
+      filterHubItems();
+      sfxTap();
+    }
+
+    function filterHubItems() {
+      const query = document.getElementById('hub-search').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.manga-koma-card');
+
+      cards.forEach(card => {
+        const name = (card.getAttribute('data-name') || '').toLowerCase();
+        const status = card.getAttribute('data-status') || '';
+        const rarity = parseInt(card.getAttribute('data-rarity') || '0', 10);
+
+        let matchesFilter = true;
+        if (currentFilter === 'live') matchesFilter = (status === 'live');
+        else if (currentFilter === 'queued') matchesFilter = (status === 'queued');
+        else if (currentFilter === 'high') matchesFilter = (rarity >= 50);
+
+        const matchesQuery = !query || name.includes(query);
+
+        if (matchesFilter && matchesQuery) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Chibi Assistant Quotes
+    const HUB_QUOTES = [
+      "Senpai! Semua pohon di sini dibangun dengan rumus akurat sampai primordial seed Dirt & Rock!",
+      "Display Block rate-nya 5-8/WL loh, cuan per 1.000 bibit bisa tembus 200 World Lock!",
+      "Science Station wajib dipanen per 12 jam on-time biar chemical vial lu gak terbuang sia-sia!",
+      "Punya world khusus penyimpanan seed bikin proses splicing lu 10x lebih cepat tanpa encok!",
+      "Display Box itu komoditas paling likuid di Growtopia, builder world shop selalu borong ratusan!",
+      "Jangan lupa trakteer kopi via Saweria kalau kalkulator ini bantu lu panen Diamond Lock!"
+    ];
+    let quoteIdx = 0;
+
+    function cycleHubQuote() {
+      quoteIdx = (quoteIdx + 1) % HUB_QUOTES.length;
+      document.getElementById('hub-quote-text').textContent = `"${HUB_QUOTES[quoteIdx]}"`;
+      sfxSparkle();
+    }
+
+    let assistantDrawerOpen = true;
+    function toggleHubAssistant(e) {
+      if (e) e.stopPropagation();
+      assistantDrawerOpen = !assistantDrawerOpen;
+      const bubble = document.getElementById('hub-assistant');
+      const btn = document.getElementById('assistant-drawer-btn');
+      if (bubble && btn) {
+        bubble.classList.toggle('collapsed', !assistantDrawerOpen);
+        btn.innerHTML = assistantDrawerOpen ? '▶' : '💬';
+      }
+      sfxTap();
+    }
+
+    // Modal Preview for Queued Items
+    function previewQueuedItem(name, recipe, rarity, profit, folder) {
+      sfxSparkle();
+      const modal = document.getElementById('queued-modal');
+      const title = document.getElementById('modal-title');
+      const desc = document.getElementById('modal-body-desc');
+      
+      title.textContent = `★ ${name.toUpperCase()} (RARITY ${rarity}) ★`;
+      desc.innerHTML = `Item <b>${name}</b> adalah target massing berikutnya dengan resep <b>${recipe}</b>.<br><br>Estimasi profit pasar: <b style="color:#16a34a;">${profit} per 1.000 bibit</b>.<br>Path target: <code>${folder}/</code>.`;
+      
+      modal.classList.add('active');
+    }
+
+    function closeQueuedModal(e) {
+      if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-koma-close')) return;
+      document.getElementById('queued-modal').classList.remove('active');
+      sfxTap();
+    }
+  </script>
 </body>
 </html>
