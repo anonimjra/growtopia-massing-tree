@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GROWTOPIA MASSING TREE & CALCULATOR HUB ★ ANIME COMIC EDITION</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,700;1,700&family=Mochiy+Pop+One&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --manga-ink: #111116;
+      --manga-paper: #fffcf0;
+      --manga-halftone: #e8e2cd;
+      --shonen-yellow: #ffde00;
+      --shonen-orange: #ff5500;
+      --shonen-red: #ff1f4b;
+      --shonen-blue: #00b4d8;
+      --shonen-cyan: #00f0ff;
+      --shonen-purple: #7209b7;
+      --shonen-green: #06d6a0;
+      --comic-shadow: 4px 4px 0 #111116;
+      --comic-shadow-lg: 7px 7px 0 #111116;
+      --comic-border: 3.5px solid #111116;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Comic Neue', cursive, sans-serif;
+      font-weight: 700;
+      background-color: var(--manga-paper);
+      background-image: radial-gradient(var(--manga-halftone) 18%, transparent 19%), radial-gradient(var(--manga-halftone) 18%, transparent 19%);
+      background-size: 16px 16px;
+      background-position: 0 0, 8px 8px;
+      color: var(--manga-ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+    }
+
+    .hero-banner {
+      background: var(--shonen-yellow);
+      border-bottom: var(--comic-border);
+      box-shadow: 0 6px 0 var(--manga-ink);
+      padding: 2.5rem 1rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--shonen-red);
+      color: #fff;
+      font-family: 'Mochiy Pop One', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.35rem 1rem;
+      border: var(--comic-border);
+      border-radius: 999px;
+      box-shadow: var(--comic-shadow);
+      transform: rotate(-2deg);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero-title {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: 2px;
+      line-height: 1.05;
+      color: var(--manga-ink);
+      text-shadow: 3px 3px 0 var(--shonen-orange), 6px 6px 0 #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      max-width: 650px;
+      margin: 0 auto;
+      color: #333;
+      background: #fff;
+      padding: 0.4rem 1.2rem;
+      border: var(--comic-border);
+      border-radius: 8px;
+      box-shadow: var(--comic-shadow);
+      display: inline-block;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem;
+      flex: 1;
+    }
+
+    .grid-tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .tool-card {
+      background: #fff;
+      border: var(--comic-border);
+      border-radius: 12px;
+      box-shadow: var(--comic-shadow-lg);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 10px 10px 0 var(--manga-ink);
+    }
+
+    .card-science { border-top: 10px solid var(--shonen-yellow); }
+    .card-block   { border-top: 10px solid var(--shonen-cyan); }
+    .card-box     { border-top: 10px solid var(--shonen-purple); }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-icon-frame {
+      width: 64px;
+      height: 64px;
+      background: var(--manga-paper);
+      border: var(--comic-border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--comic-shadow);
+      flex-shrink: 0;
+    }
+
+    .card-icon-frame img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      image-rendering: pixelated;
+    }
+
+    .card-title {
+      font-family: 'Bangers', cursive;
+      font-size: 1.75rem;
+      letter-spacing: 1px;
+      line-height: 1.1;
+      color: var(--manga-ink);
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      background: var(--shonen-green);
+      color: #000;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      border: 2px solid var(--manga-ink);
+      box-shadow: 2px 2px 0 var(--manga-ink);
+      margin-top: 0.25rem;
+    }
+
+    .card-body {
+      font-size: 0.95rem;
+      line-height: 1.45;
+      color: #444;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-top: 0.75rem;
+    }
+
+    .feature-list li {
+      margin-bottom: 0.35rem;
+      position: relative;
+      padding-left: 1.4rem;
+      font-size: 0.9rem;
+    }
+
+    .feature-list li::before {
+      content: "⚡";
+      position: absolute;
+      left: 0;
+      top: -1px;
+    }
+
+    .btn-launch {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      font-family: 'Bangers', cursive;
+      font-size: 1.4rem;
+      letter-spacing: 1.5px;
+      padding: 0.85rem 1rem;
+      border: var(--comic-border);
+      border-radius: 8px;
+      box-shadow: var(--comic-shadow);
+      color: var(--manga-ink);
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-launch:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--manga-ink);
+    }
+
+    .btn-science { background: var(--shonen-yellow); }
+    .btn-science:hover { background: #ffe633; }
+
+    .btn-block { background: var(--shonen-cyan); }
+    .btn-block:hover { background: #5eead4; }
+
+    .btn-box { background: #a78bfa; color: #fff; }
+    .btn-box:hover { background: #c4b5fd; color: #111; }
+
+    footer {
+      border-top: var(--comic-border);
+      background: #fff;
+      padding: 1.25rem;
+      text-align: center;
+      font-size: 0.9rem;
+      box-shadow: 0 -4px 0 rgba(0,0,0,0.05);
+    }
+
+    footer a {
+      color: var(--shonen-orange);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero-banner">
+    <div class="hero-badge">⚡ Ultimate Growtopia Massing Suite ⚡</div>
+    <h1 class="hero-title">GROWTOPIA MASSING HUB</h1>
+    <div class="hero-subtitle">
+      Anime Comic Edition • Kalkulator Massing Tree, Farming Yields, & Recipe Simulator Lengkap!
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid-tools">
+
+      <!-- Tool 1: Science Station -->
+      <article class="tool-card card-science">
+        <div>
+          <div class="card-header">
+            <div class="card-icon-frame">
+              <img src="science-station-anime-comic/icons/science_station.png" alt="Science Station" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\'><text y=\'24\' font-size=\'24\'>🧪</text></svg>'">
+            </div>
+            <div>
+              <h2 class="card-title">SCIENCE STATION</h2>
+              <span class="card-tag">Chronicles Edition</span>
+            </div>
+          </div>
+          <div class="card-body">
+            Kalkulator Massing Science Station terlengkap dengan tracking step-by-step pohon, yield panen, formula racikan Toxic Waste, Chemical & resep lengkap.
+            <ul class="feature-list">
+              <li>Full Tree Recipe Simulator</li>
+              <li>Farming Yields & Drop Rate Analytics</li>
+              <li>Shonen Anime FX & Cut-In Animations</li>
+            </ul>
+          </div>
+        </div>
+        <a href="science-station-anime-comic/" class="btn-launch btn-science">BUKA SCIENCE STATION ➔</a>
+      </article>
+
+      <!-- Tool 2: Display Block -->
+      <article class="tool-card card-block">
+        <div>
+          <div class="card-header">
+            <div class="card-icon-frame">
+              <img src="display-block-anime-comic/icons/display_block.png" alt="Display Block" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\'><text y=\'24\' font-size=\'24\'>📦</text></svg>'">
+            </div>
+            <div>
+              <h2 class="card-title">DISPLAY BLOCK</h2>
+              <span class="card-tag">Anime Comic Edition</span>
+            </div>
+          </div>
+          <div class="card-body">
+            Simulasi kalkulasi bibit & pohon Display Block dari sub-komponen awal hingga finish line. Auto-calc kebutuhan seed, harvest, dan splice.
+            <ul class="feature-list">
+              <li>Massing Tree Hierarchy Visualizer</li>
+              <li>Tier-by-Tier Splice Calculation</li>
+              <li>Comic Style Interactive UI</li>
+            </ul>
+          </div>
+        </div>
+        <a href="display-block-anime-comic/" class="btn-launch btn-block">BUKA DISPLAY BLOCK ➔</a>
+      </article>
+
+      <!-- Tool 3: Display Box -->
+      <article class="tool-card card-box">
+        <div>
+          <div class="card-header">
+            <div class="card-icon-frame">
+              <img src="display-box-anime-comic/icons/display_box.png" alt="Display Box" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'32\' height=\'32\'><text y=\'24\' font-size=\'24\'>🎁</text></svg>'">
+            </div>
+            <div>
+              <h2 class="card-title">DISPLAY BOX</h2>
+              <span class="card-tag">Anime Comic Edition</span>
+            </div>
+          </div>
+          <div class="card-body">
+            Kalkulator khusus Display Box massing tree dengan estimasi modal block, seed yield, dan visual alur pohon yang rapi dan responsif.
+            <ul class="feature-list">
+              <li>Seed to Block Ratio Optimizer</li>
+              <li>Lengkap dengan Icon & Splicing Path</li>
+              <li>Responsive Desktop & Mobile Friendly</li>
+            </ul>
+          </div>
+        </div>
+        <a href="display-box-anime-comic/" class="btn-launch btn-box">BUKA DISPLAY BOX ➔</a>
+      </article>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>🔥 <strong>Growtopia Massing Tree Suite</strong> • Client-side, Local-first & Zero Latency • Built with Anime Comic Spirit 🔥</p>
+  </footer>
+</body>
+</html>

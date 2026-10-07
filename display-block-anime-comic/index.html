@@ -1,0 +1,3452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💎 GROWTOPIA: DISPLAY BLOCK CHRONICLES • ANIME COMIC EDITION 💎</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,700;1,700&family=Mochiy+Pop+One&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --manga-ink: #111116;
+      --manga-paper: #fffcf0;
+      --manga-halftone: #e8e2cd;
+      --shonen-yellow: #ffde00;
+      --shonen-orange: #ff5500;
+      --shonen-red: #ff1f4b;
+      --shonen-blue: #00b4d8;
+      --shonen-cyan: #00f0ff;
+      --shonen-purple: #7209b7;
+      --shonen-green: #06d6a0;
+      --comic-shadow: 4px 4px 0 #111116;
+      --comic-shadow-lg: 7px 7px 0 #111116;
+      --comic-border: 3.5px solid #111116;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--manga-paper);
+      background-image: 
+        radial-gradient(circle, #2b3b4f 1.2px, transparent 1.2px);
+      background-size: 14px 14px;
+      color: var(--manga-ink);
+      font-family: 'Comic Neue', cursive, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      background: radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.08) 100%);
+      z-index: 99;
+    }
+
+    /* 1. MANGA TOP BANNER & TICKER */
+    .manga-ticker-bar:hover .ticker-content {
+      animation-play-state: paused !important;
+    }
+    .manga-ticker-bar {
+      background: var(--shonen-yellow);
+      border-bottom: var(--comic-border);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 6px 0;
+      position: relative;
+      z-index: 100;
+      box-shadow: 0 4px 0 #111;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      font-family: 'Bangers', cursive;
+      font-size: 17px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      animation: tickerManga 85s linear infinite; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+
+    @keyframes tickerManga {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .kanji-sfx {
+      font-family: 'Mochiy Pop One', sans-serif;
+      display: inline-block;
+      transform: rotate(-5deg);
+      background: var(--shonen-red);
+      color: #fff;
+      padding: 2px 8px;
+      border: 2px solid #000;
+      margin: 0 8px;
+      font-size: 13px;
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    /* 2. COMIC BOOK HEADER */
+    header {
+      background: #ffffff;
+      border-bottom: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      padding: 6px 16px !important;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 12px !important;
+      flex-wrap: nowrap !important;
+      height: 58px !important;
+      min-height: 58px !important;
+      max-height: 58px !important;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), margin-bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    header.header-collapsed {
+      transform: translateY(-100%);
+    }
+
+    .header-toggle-tab {
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--shonen-yellow);
+      color: #000;
+      border: 2.5px solid #000;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 4px 0 #000;
+      padding: 3px 16px;
+      font-family: 'Bangers', cursive;
+      font-size: 13px;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 95;
+      transition: transform 0.15s, background-color 0.15s;
+    }
+
+    .header-toggle-tab:hover {
+      background: var(--shonen-orange);
+      transform: translateX(-50%) translateY(2px);
+    }
+
+    .saweria-tab-btn {
+      position: absolute;
+      bottom: -28px;
+      right: 24px;
+      background: #facc15;
+      color: #000;
+      border: 2.5px solid #000;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 4px 0 #000;
+      padding: 3px 14px;
+      font-family: 'Bangers', cursive;
+      font-size: 13px;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 95;
+      transition: transform 0.15s, background-color 0.15s, color 0.15s;
+    }
+
+    .saweria-tab-btn:hover {
+      background: #f97316;
+      color: #fff;
+      transform: translateY(2px);
+    }
+
+    .saweria-tab-btn .saweria-tab-badge {
+      font-size: 10px;
+      background: #000;
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .manga-title-card {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      flex-shrink: 0 !important;
+    }
+
+    .title-avatar-panel {
+      position: relative;
+      width: 40px !important;
+      height: 40px !important;
+      background: var(--shonen-yellow);
+      border: 2px solid #000 !important;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 0 #000;
+      flex-shrink: 0;
+    }
+
+    .title-avatar-panel img {
+      width: 32px !important;
+      height: 32px !important;
+      image-rendering: pixelated;
+    }
+
+    .title-avatar-panel .speech-burst {
+      position: absolute;
+      top: -8px !important;
+      right: -8px !important;
+      background: #ef4444;
+      color: #fff;
+      font-family: 'Bangers', cursive;
+      font-size: 9.5px !important;
+      padding: 1px 4px !important;
+      border: 1.5px solid #000 !important;
+      border-radius: 4px;
+      transform: rotate(8deg);
+      box-shadow: 1px 1px 0 #000;
+      white-space: nowrap;
+    }
+
+    .title-text-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .title-text-group h1 {
+      font-family: 'Bangers', cursive;
+      font-size: 18px !important;
+      letter-spacing: 0.8px !important;
+      color: var(--manga-ink);
+      line-height: 1 !important;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 0 var(--shonen-yellow), 2px 2px 0 #000;
+      margin: 0;
+    }
+
+    .title-tags {
+      display: flex;
+      gap: 4px !important;
+      margin-top: 2px !important;
+      align-items: center;
+    }
+
+    .title-tags .comic-badge {
+      font-family: 'Bangers', cursive;
+      font-size: 10px !important;
+      letter-spacing: 0.5px !important;
+      padding: 1px 5px !important;
+      border: 1.5px solid #000 !important;
+      border-radius: 4px;
+      box-shadow: 1px 1px 0 #000;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      height: 16px;
+    }
+
+    .header-menus-cluster {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      flex-wrap: nowrap !important;
+      flex-shrink: 0 !important;
+    }
+
+    .comic-nav-box {
+      display: flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+      background: #fff;
+      border: 2px solid #000 !important;
+      box-shadow: 2px 2px 0 #000 !important;
+      padding: 2px 6px !important;
+      border-radius: 6px !important;
+      white-space: nowrap !important;
+      height: 34px !important;
+      box-sizing: border-box !important;
+      flex-shrink: 0 !important;
+    }
+
+    
+    .comic-nav-title {
+      font-family: 'Bangers', cursive;
+      font-size: 12.5px !important;
+      letter-spacing: 0.8px;
+      padding: 0 2px !important;
+      color: var(--shonen-red);
+      text-shadow: 1px 1px 0 #000;
+      line-height: 1;
+      margin-right: 2px;
+    }
+
+    .manga-chip {
+      font-family: 'Bangers', cursive;
+      font-size: 12px !important;
+      letter-spacing: 0.6px;
+      padding: 2px 7px !important;
+      border: 1.5px solid #000 !important;
+      background: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 1.5px 1.5px 0 #000 !important;
+      transition: all 0.1s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      height: 25px;
+      box-sizing: border-box;
+    }
+
+    .manga-chip:hover {
+      background: var(--shonen-yellow);
+      color: #000;
+      transform: translate(-1px, -1px);
+      box-shadow: 2px 2px 0 #000 !important;
+    }
+
+    .manga-chip.active {
+      background: var(--shonen-yellow) !important;
+      color: #000 !important;
+      box-shadow: inset 1.5px 1.5px 0 #000 !important;
+      transform: translate(1px, 1px);
+    }
+
+    .comic-num-input {
+      width: 60px !important;
+      height: 24px !important;
+      border: 1.5px solid #000 !important;
+      padding: 1px 4px !important;
+      font-family: 'Bangers', cursive;
+      font-size: 14px !important;
+      text-align: center;
+      background: var(--shonen-yellow);
+      box-shadow: 1.5px 1.5px 0 #000 !important;
+      border-radius: 4px;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .comic-num-input:focus {
+      background: #fff;
+    }
+
+    .mini-btn {
+      padding: 1px 5px !important;
+      font-family: 'Bangers', cursive;
+      font-size: 11px !important;
+      height: 24px !important;
+      border: 1.5px solid #000 !important;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 1.5px 1.5px 0 #000 !important;
+      cursor: pointer;
+      box-sizing: border-box;
+      transition: all 0.1s;
+    }
+    .mini-btn:hover {
+      background: var(--shonen-yellow);
+      color: #000;
+    }
+
+    .action-btn-mini {
+      font-family: 'Bangers', cursive;
+      font-size: 12px !important;
+      letter-spacing: 0.6px;
+      padding: 2px 7px !important;
+      border: 1.5px solid #000 !important;
+      border-radius: 4px !important;
+      box-shadow: 1.5px 1.5px 0 #000 !important;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.1s ease;
+      text-transform: uppercase;
+      background: #fff;
+      color: #000;
+      height: 25px;
+      box-sizing: border-box;
+      white-space: nowrap;
+    }
+    .action-btn-mini:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 2.5px 2.5px 0 #000;
+    }
+    .action-btn-mini:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #000;
+    }
+    .action-btn-mini.btn-forge { background: var(--shonen-orange); color: #fff; }
+    .action-btn-mini.btn-buff-sim { background: var(--shonen-purple); color: #fff; }
+    .action-btn-mini.btn-bottleneck { background: var(--shonen-cyan); color: #000; }
+    .action-btn-mini.btn-comic-speech { background: #f1f5f9; color: #000; }
+    .action-btn-mini.btn-comic-speech.active { background: var(--shonen-yellow); color: #000; }
+
+
+    /* VIEWPORT & TREE */
+    main {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      padding: 4px 16px 40px !important;
+      width: 100% !important;
+    }
+
+    .tree-viewport {
+      width: 100% !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      padding: 6px 30px 40px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      cursor: grab !important;
+      position: relative !important;
+    }
+
+    .tree-canvas-wrapper {
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      transform-origin: top center !important;
+      transition: transform 0.15s ease !important;
+      min-width: max-content !important;
+      margin: 0 auto !important;
+      padding: 4px 30px !important;
+    }
+
+    .tree-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+      position: relative;
+      margin-top: 24px;
+    }
+
+    .tree-branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .wire-gap {
+      height: 24px;
+      width: 100%;
+    }
+
+    /* MANGA CARD */
+    .manga-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #ffffff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      border-radius: 8px;
+      padding: 6px 6px 7px;
+      cursor: pointer;
+      transition: all 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      z-index: 5;
+      background-image: radial-gradient(#ddd 1px, transparent 1px);
+      background-size: 8px 8px;
+      min-width: 90px;
+      box-sizing: border-box;
+    }
+
+    .manga-card:hover {
+      transform: translate(-3px, -4px) rotate(-1.5deg) scale(1.04);
+      box-shadow: 7px 7px 0 #000;
+      z-index: 25;
+      background-color: #f0fdfa;
+    }
+
+    .manga-card:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    /* Tier Styles */
+    .tier-0 .manga-card, #card-display_block {
+      min-width: 146px;
+      background: #e0f2fe;
+      border-width: 4px;
+      box-shadow: var(--comic-shadow-lg);
+      padding: 10px 8px;
+    }
+    .tier-0 .manga-sprite-box { width: 68px; height: 68px; background: #fff; }
+    .tier-0 .manga-sprite-box img { width: 52px; height: 52px; }
+    .tier-0 .manga-card-label { font-size: 16px; color: var(--shonen-red); text-shadow: 1px 1px 0 #fff; }
+    .tier-0 .comic-badge-tag, #card-display_block .comic-badge-tag {
+      font-size: 13px;
+      padding: 3px 6px;
+      margin-top: 4px;
+    }
+
+    .tier-1-left .manga-card { background: #fef9c3; } /* Display Box branch */
+    .tier-1-right .manga-card { background: #e2e8f0; } /* Steel Block branch */
+    .tier-2-acid .manga-card { background: #dcfce7; }
+    .tier-2-barrel .manga-card { background: #ffedd5; }
+    .tier-2-bio .manga-card { background: #fef9c3; }
+    .tier-2-piano .manga-card { background: #f3e8ff; }
+    .tier-3 .manga-card { background: #ffffff; }
+
+    .tier-4 .manga-card, .tier-5 .manga-card {
+      padding: 5px 4px 6px;
+      min-width: 74px;
+    }
+    .tier-4 .manga-sprite-box, .tier-5 .manga-sprite-box {
+      width: 38px;
+      height: 38px;
+    }
+    .tier-4 .manga-sprite-box img, .tier-5 .manga-sprite-box img {
+      width: 30px;
+      height: 30px;
+    }
+    .tier-4 .manga-card-label, .tier-5 .manga-card-label {
+      font-size: 11px;
+      max-width: 76px;
+    }
+    .tier-4 .comic-badge-tag, .tier-5 .comic-badge-tag {
+      font-size: 9.5px;
+      padding: 1.5px 2px;
+      margin-top: 2px;
+      border-width: 1.5px;
+    }
+
+    .tier-6 .manga-card {
+      padding: 4px 3px 5px;
+      min-width: 66px;
+    }
+    .tier-6 .manga-sprite-box {
+      width: 30px;
+      height: 30px;
+    }
+    .tier-6 .manga-sprite-box img {
+      width: 22px;
+      height: 22px;
+    }
+    .tier-6 .manga-card-label {
+      font-size: 9.5px;
+      max-width: 66px;
+    }
+    .tier-6 .comic-badge-tag {
+      font-size: 8.5px;
+      padding: 1px 2px;
+      margin-top: 1.5px;
+      border-width: 1px;
+    }
+
+    .manga-sprite-box {
+      order: 1;
+      width: 44px;
+      height: 44px;
+      background: #f8fafc;
+      border: 2px solid #000;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 1.5px 1.5px 0 #000;
+    }
+
+    .manga-sprite-box img {
+      width: 34px;
+      height: 34px;
+      image-rendering: pixelated;
+    }
+
+    .manga-card-label {
+      order: 2;
+      margin-top: 3px;
+      margin-bottom: 2px;
+      font-family: 'Bangers', cursive;
+      font-size: 12.5px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    .comic-badge-tag {
+      order: 3;
+      display: inline-block;
+      font-family: 'Bangers', cursive;
+      font-size: 10.5px;
+      letter-spacing: 0.5px;
+      padding: 2px 4px;
+      border: 2px solid #000;
+      border-radius: 4px;
+      box-shadow: 1px 1px 0 #000;
+      margin-top: 2px;
+      line-height: 1;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .badge-quota { background: #fef08a; color: #854d0e; }
+    .badge-rarity { background: #bae6fd; color: #0369a1; }
+    .badge-decay { background: #fbcfe8; color: #9d174d; }
+    .badge-hidden { display: none !important; }
+
+    
+    /* Manga Shonen Tier Rank Ribbons & Narrative Panels (Hidden to match Science Station) */
+    .manga-tier-ribbon {
+      display: none !important;
+    }
+    .comic-narrative-panel {
+      display: none !important;
+    }
+    .comic-action-burst {
+      display: none !important;
+    }
+    .manga-sfx-sticker {
+      display: none !important;
+    }
+
+    .tree-viewport.grabbing {
+      cursor: grabbing !important;
+    }
+
+    /* SPEECH BALLOONS */
+    .comic-speech-balloon {
+      position: absolute;
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-family: 'Comic Neue', cursive;
+      font-size: 10px;
+      font-weight: 700;
+      color: #000;
+      box-shadow: 2px 2px 0 #000;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 30;
+      animation: floatBalloon 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatBalloon {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-4px); }
+    }
+
+    .balloon-tail-down {
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .balloon-tail-left {
+      left: calc(100% + 10px);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    body.speech-bubbles-hidden .comic-speech-balloon {
+      display: none !important;
+    }
+
+    /* SFX STICKERS */
+    .manga-sfx-sticker {
+      display: none !important;
+    }
+
+    .shuchusen-burst-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 290px;
+      height: 290px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shuchusen-burst {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      animation: rotateBurst 24s linear infinite;
+      mask-image: radial-gradient(circle, black 32%, transparent 70%);
+      -webkit-mask-image: radial-gradient(circle, black 32%, transparent 70%);
+    }
+
+    @keyframes rotateBurst {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* 4 DATABOOK PANELS */
+    .databook-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 36px;
+      z-index: 10;
+    }
+
+    .databook-panel {
+      background: #ffffff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow);
+      border-radius: 10px;
+      padding: 14px;
+      position: relative;
+    }
+
+    .panel-header-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Bangers', cursive;
+      font-size: 14px;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      border-bottom: 2px dashed #000;
+      padding-bottom: 4px;
+    }
+
+    .kanji-stamp {
+      font-family: 'Mochiy Pop One', sans-serif;
+      font-size: 10px;
+      background: #000;
+      color: #fff;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    .databook-panel h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 22px;
+      letter-spacing: 1px;
+      line-height: 1;
+      color: #000;
+      margin-bottom: 6px;
+    }
+
+    .databook-panel p {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #475569;
+      line-height: 1.4;
+    }
+
+    /* ZOOM DOCK */
+    .comic-zoom-dock {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: #ffffff;
+      border: 3px solid #000 !important;
+      box-shadow: 4px 4px 0 #000 !important;
+      padding: 3px 8px !important;
+      border-radius: 10px 0 0 10px !important;
+      border-right: none !important;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 80;
+      height: 42px !important;
+      box-sizing: border-box;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    }
+
+    .comic-zoom-dock.collapsed {
+      transform: translateX(calc(-100% - 24px));
+      box-shadow: none;
+    }
+
+    .zoom-toggle-tab {
+      position: absolute;
+      right: -34px;
+      top: -3px;
+      height: 42px !important;
+      width: 34px;
+      background: var(--shonen-yellow);
+      border: 3px solid #000 !important;
+      border-left: 2px solid #000 !important;
+      border-radius: 0 10px 10px 0 !important;
+      box-shadow: 4px 4px 0 #000 !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+      color: #000;
+      user-select: none;
+      transition: background 0.15s;
+      z-index: 82;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .zoom-toggle-tab:hover {
+      background: var(--shonen-orange);
+    }
+
+    /* CHIBI ASSISTANT */
+    .manga-assistant-bubble {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #ffffff;
+      border: var(--comic-border);
+      box-shadow: var(--comic-shadow-lg);
+      border-radius: 12px;
+      padding: 12px 16px;
+      max-width: 380px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      z-index: 85;
+      animation: bubblePop 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    }
+
+    .manga-assistant-bubble.collapsed {
+      transform: translateX(calc(100% + 14px));
+      box-shadow: none;
+    }
+
+    .assistant-toggle-tab {
+      position: absolute;
+      left: -38px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 52px;
+      background: var(--shonen-yellow);
+      border: var(--comic-border);
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+      box-shadow: -3.5px 3.5px 0 #111116;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Bangers', cursive;
+      font-size: 18px;
+      color: #000;
+      user-select: none;
+      transition: background 0.15s;
+      z-index: 90;
+    }
+
+    .assistant-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--shonen-yellow);
+      border: 2.5px solid #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    .assistant-avatar img {
+      width: 32px;
+      height: 32px;
+      image-rendering: pixelated;
+    }
+
+    .bubble-text h4 {
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+      letter-spacing: 0.8px;
+      color: var(--shonen-red);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .bubble-text p {
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      line-height: 1.4;
+    }
+
+    .assistant-hint-badge {
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      background: #000;
+      color: #fff;
+      font-family: 'Bangers', cursive;
+      font-size: 9.5px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* MODALS */
+    .manga-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 19, 41, 0.7);
+      backdrop-filter: blur(3px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .manga-modal-overlay.active {
+      display: flex;
+    }
+
+    .databook-window {
+      background: #ffffff;
+      border: 4px solid #000;
+      box-shadow: 8px 8px 0 #000;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      overflow: hidden;
+      animation: modalPop 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    @keyframes modalPop {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .databook-header {
+      background: var(--shonen-yellow);
+      color: #fff;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #000;
+    }
+
+    .databook-header h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+
+    .databook-close {
+      background: #ef4444;
+      color: #fff;
+      border: 2px solid #000;
+      border-radius: 4px;
+      width: 28px;
+      height: 28px;
+      font-family: 'Bangers', cursive;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 1.5px 1.5px 0 #000;
+    }
+
+    .databook-body {
+      padding: 16px;
+      background-image: radial-gradient(#ddd 1px, transparent 1px);
+      background-size: 10px 10px;
+    }
+
+    .hero-stat-koma {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      background: #fff;
+      border: 2.5px solid #000;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 3px 3px 0 #000;
+      margin-bottom: 12px;
+    }
+
+    .hero-photo {
+      width: 72px;
+      height: 72px;
+      background: #e0f2fe;
+      border: 2px solid #000;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 0 #000;
+      flex-shrink: 0;
+    }
+
+    .hero-photo img {
+      width: 52px;
+      height: 52px;
+      image-rendering: pixelated;
+    }
+
+    .databook-stat-line {
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 2px;
+    }
+
+    .koma-equation-box {
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 6px;
+      padding: 8px 12px;
+      box-shadow: 2px 2px 0 #000;
+      margin-bottom: 10px;
+    }
+
+    .koma-equation-box h4 {
+      font-family: 'Bangers', cursive;
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .koma-equation-flex {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .recipe-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      background: #f8fafc;
+      border: 1.5px solid #000;
+      border-radius: 4px;
+      padding: 4px 6px;
+    }
+
+    .recipe-cell img {
+      width: 28px;
+      height: 28px;
+      image-rendering: pixelated;
+    }
+
+    .recipe-cell span {
+      font-family: 'Bangers', cursive;
+      font-size: 11px;
+    }
+
+    /* FUSION FORGE ARENA */
+    .fusion-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px;
+      background: #f8fafc;
+      border: 2px solid #000;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .fusion-slot {
+      width: 70px;
+      height: 70px;
+      background: #fff;
+      border: 2px dashed #000;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'Bangers', cursive;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .fusion-slot.loaded {
+      border: 2px solid #000;
+      color: #000;
+    }
+
+    .fusion-slot img {
+      width: 36px;
+      height: 36px;
+      image-rendering: pixelated;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--shonen-yellow);
+      color: #fff;
+      border: 2px solid #000;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-family: 'Bangers', cursive;
+      font-size: 14px;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #000;
+      transition: all 0.1s;
+    }
+
+    .action-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 #000;
+    }
+
+    .action-btn.btn-harvest {
+      background: #10b981;
+    }
+
+    /* CUT-IN OVERLAY */
+    .anime-cutin-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 150;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .anime-cutin-overlay.active {
+      display: flex;
+    }
+
+    .cutin-stripe-bar {
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(90deg, #0369a1, #06b6d4, #22d3ee);
+      border-top: 4px solid #000;
+      border-bottom: 4px solid #000;
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      animation: cutinSlide 0.45s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    @keyframes cutinSlide {
+      0% { transform: scaleY(0); }
+      100% { transform: scaleY(1); }
+    }
+
+    .cutin-avatar {
+      width: 80px;
+      height: 80px;
+      background: #fff;
+      border: 3px solid #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 3px 3px 0 #000;
+    }
+
+    .cutin-avatar img {
+      width: 56px;
+      height: 56px;
+      image-rendering: pixelated;
+    }
+
+    .cutin-text {
+      color: #fff;
+      text-shadow: 2px 2px 0 #000;
+    }
+
+    .cutin-kanji {
+      font-family: 'Mochiy Pop One', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+    }
+
+    .cutin-sub {
+      font-family: 'Bangers', cursive;
+      font-size: 16px;
+      letter-spacing: 1px;
+      color: #fef08a;
+    }
+  </style>
+</head>
+<body class="speech-bubbles-hidden">
+
+  <!-- Speedlines -->
+  <div class="limit-break-speedlines"></div>
+
+  <!-- Action Cut-In -->
+  <div class="anime-cutin-overlay" id="anime-cutin">
+    <div class="cutin-stripe-bar">
+      <div class="cutin-avatar">
+        <img id="cutin-img" src="icons/display_block.png" alt="Cut-In Avatar">
+      </div>
+      <div class="cutin-text">
+        <div class="cutin-kanji" id="cutin-kanji">極意・剛鋼陳列!!</div>
+        <div class="cutin-sub" id="cutin-sub">SECRET TECHNIQUE: MONOLITHIC STEEL SHOWCASE!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shonen Ticker -->
+  <div class="manga-ticker-bar">
+    <div class="ticker-content">
+      💎 <b>BREAKING GT BROADCAST:</b> "DISPLAY BLOCK: BALOK ETALASE KACA BAJA PALING MEWAH DI GROWTOPIA!" • <span class="kanji-sfx">ズドドド</span> <b>TIPS PRO:</b> SPLICING DARI DISPLAY BOX + STEEL BLOCK: PERSIAPKAN STOCK BLUEBERRY & DEATH SPIKES DARI AWAL! • <b>MARKET WATCH:</b> "RATE DISPLAY BLOCK STABIL 5-8/WL, JUAL BORONGAN LANGSUNG DIBORONG BUILDER!" • <span class="kanji-sfx">キラーン</span> <b>MASTER SPLICER SAYS:</b> "KUNCI KEBERHASILAN MASSING DISPLAY BLOCK ADA DI MANAJEMEN SEED TIER 1 DIRT & ROCK!" • <b>SAFETY BUFFER:</b> 100% AKURAT DARI ROCK DAN DIRT SAMPAI APEX DISPLAY BLOCK • <span class="kanji-sfx">バァァン</span> <b>DONASI:</b> TRAKTEER KOPI VIA SAWERIA BIAR WEB INI TETAP LIVE DAN BEBAS IKLAN MENGGANGGU! • 💎 <b>BREAKING GT BROADCAST:</b> "DISPLAY BLOCK: BALOK ETALASE KACA BAJA PALING MEWAH DI GROWTOPIA!" • <span class="kanji-sfx">ズドドド</span> <b>TIPS PRO:</b> SPLICING DARI DISPLAY BOX + STEEL BLOCK: PERSIAPKAN STOCK BLUEBERRY & DEATH SPIKES DARI AWAL! • <b>MARKET WATCH:</b> "RATE DISPLAY BLOCK STABIL 5-8/WL, JUAL BORONGAN LANGSUNG DIBORONG BUILDER!" • <span class="kanji-sfx">キラーン</span> <b>MASTER SPLICER SAYS:</b> "KUNCI KEBERHASILAN MASSING DISPLAY BLOCK ADA DI MANAJEMEN SEED TIER 1 DIRT & ROCK!" • <b>SAFETY BUFFER:</b> 100% AKURAT DARI ROCK DAN DIRT SAMPAI APEX DISPLAY BLOCK • <span class="kanji-sfx">バァァン</span> <b>DONASI:</b> TRAKTEER KOPI VIA SAWERIA BIAR WEB INI TETAP LIVE DAN BEBAS IKLAN MENGGANGGU! •
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header id="main-header">
+    <div class="manga-title-card">
+      <div class="title-avatar-panel">
+        <img src="icons/display_block.png" alt="Display Block">
+        <span class="speech-burst">CH. 80!</span>
+      </div>
+      <div class="title-text-group">
+        <h1>DISPLAY BLOCK • ANIME COMIC</h1>
+        <div class="title-tags">
+          <span class="comic-badge" style="background: var(--shonen-yellow); color: #000;">★ RARITY 80</span>
+          <span class="comic-badge" style="background: var(--shonen-green); color: #000;">💎 STEEL SHOWCASE</span>
+          <span class="comic-badge" style="background: var(--shonen-red); color: #fff;">⚡ SPLICING TREE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Menus Cluster -->
+    <div class="header-menus-cluster">
+      <div class="comic-nav-box" id="menu-1-view">
+        <span class="comic-nav-title">VIEW:</span>
+        <button class="manga-chip active" id="mode-quota" onclick="setTreeMode('quota')">🌰 QUOTA</button>
+        <button class="manga-chip" id="mode-rarity" onclick="setTreeMode('rarity')">🌟 RARITY</button>
+        <button class="manga-chip" id="mode-decay" onclick="setTreeMode('decay')">📉 5K DECAY</button>
+        <button class="manga-chip" id="mode-off" onclick="setTreeMode('off')">👁️ CLEAN</button>
+      </div>
+
+      <div class="comic-nav-box" id="menu-2-adaptive">
+        <span class="comic-nav-title" id="calc-label">TARGET:</span>
+        <input type="number" id="target-val" value="1000" min="1" max="100000" class="comic-num-input">
+        <div id="preset-container" style="display: flex; gap: 4px;">
+          <button class="mini-btn" onclick="setPreset(200)">200</button>
+          <button class="mini-btn" onclick="setPreset(500)">500</button>
+          <button class="mini-btn" onclick="setPreset(1000)">1K</button>
+          <button class="mini-btn" onclick="setPreset(2600)">2.6K</button>
+        </div>
+      </div>
+
+      <div class="comic-nav-box" id="menu-3-tools">
+        <span class="comic-nav-title">TOOLS:</span>
+        <button class="action-btn-mini btn-forge" onclick="openForge()" title="Fusion Forge Simulator">
+          <span>⚡</span> FORGE
+        </button>
+        <button class="action-btn-mini btn-buff-sim" onclick="openBuffSim()" title="Buff & Yield Simulator">
+          <span>📊</span> BUFF SIM
+        </button>
+        <button class="action-btn-mini btn-bottleneck" id="btn-bottleneck" onclick="toggleBottleneckHighlight()" title="Sorot Komponen Bottleneck">
+          <span>⭐</span> BOTTLENECK
+        </button>
+        <button class="action-btn-mini btn-comic-speech" id="btn-speech-toggle" onclick="toggleSpeechBubbles()" title="Toggle Balon Kata">
+          <span>💬</span> BALON (OFF)
+        </button>
+      </div>
+    </div>
+
+    <!-- Pull Tabs -->
+    <button class="header-toggle-tab" id="btn-toggle-header" onclick="toggleHeaderCollapse(event)" title="Sembunyikan / Buka Menu Kontrol">
+      <span id="header-toggle-icon">▲</span>
+      <span id="header-toggle-text">SEMBUNYIKAN MENU</span>
+    </button>
+
+    <button class="saweria-tab-btn" id="btn-saweria-tab" onclick="openSaweriaModal()" title="Dukung Developer via Saweria">
+      <span>☕</span>
+      <span>SAWERIA</span>
+      <span class="saweria-tab-badge">DONATE</span>
+    </button>
+  </header>
+
+  <!-- Main Viewport -->
+  <main>
+    <div class="tree-viewport">
+      <div class="tree-canvas-wrapper">
+        <svg id="tree-wires-svg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; overflow: visible;"></svg>
+
+        <!-- LEVEL 0: APEX ROOT (Display Block) -->
+        <div class="comic-narrative-panel">
+          <div class="comic-koma-stamp">KOMA 01 • CLIMAX</div>
+          <p class="comic-narrative-text"><b>PUNCAK MONOLIT ETALASE:</b> Balok pameran baja kaca termewah hasil persilangan <i>Display Box</i> dan <i>Steel Block</i>!</p>
+        </div>
+
+        <div class="tree-branch tier-0">
+          <div class="manga-tier-ribbon rank-ss">👑 EX-RANK • DIVINE APEX (極意鋼陳列)</div>
+          <div class="shuchusen-burst-container">
+            <div class="shuchusen-burst" style="background: repeating-conic-gradient(from 0deg, rgba(6, 182, 212, 0.45) 0deg 8deg, transparent 8deg 16deg);"></div>
+          </div>
+          <div class="manga-card" id="card-display_block" onclick="inspectItem('display_block')">
+            <div class="comic-speech-balloon balloon-tail-down">"DISPLAY BLOCK! MONOLIT ETALASE TERKUAT!"</div>
+            <span class="comic-badge-tag badge-quota" id="b-display_block">1,000 🌰</span>
+            <div class="manga-sprite-box">
+              <img src="icons/display_block.png" alt="Display Block">
+            </div>
+            <span class="manga-card-label">Display Block</span>
+          </div>
+          <div class="wire-gap"></div>
+        </div>
+
+        <!-- LEVEL 1: Branch Alpha (Display Box) & Branch Beta (Steel Block) -->
+        <div class="tree-row">
+
+          <!-- WING ALPHA: DISPLAY BOX -->
+          <div class="tree-branch tier-1-left">
+            <div class="comic-narrative-panel" style="max-width: 580px;">
+              <div class="comic-koma-stamp">SAYAP ALPHA • ETALASE KACA</div>
+              <p class="comic-narrative-text"><b>CABANG DISPLAY BOX:</b> Wadah kaca etalase berkilau dari Glass Block + Music Box!</p>
+            </div>
+            <div class="manga-tier-ribbon rank-s">💎 S-RANK • BRANCH ALPHA (DISPLAY BOX)</div>
+            <div class="manga-card" id="card-display_box" onclick="inspectItem('display_box')">
+              <div class="comic-speech-balloon balloon-tail-left">"ETALASE KACA SHOWCASE!"</div>
+              <span class="comic-badge-tag badge-quota" id="b-display_box">1,000 🌰</span>
+              <div class="manga-sprite-box">
+                <img src="icons/display_box.png" alt="Display Box">
+              </div>
+              <span class="manga-card-label">Display Box</span>
+            </div>
+            <div class="wire-gap"></div>
+
+            <!-- LEVEL 2 ALPHA: Glass Block + Music Box -->
+            <div class="tree-row">
+              <!-- A1: Glass Block -->
+              <div class="tree-branch tier-2-acid">
+                <div class="manga-tier-ribbon rank-a">🔍 A-RANK • GLASS BLOCK</div>
+                <div class="manga-card" id="card-glass_block" onclick="inspectItem('glass_block')">
+                  <span class="comic-badge-tag badge-quota" id="b-glass_block">1,000 🌰</span>
+                  <div class="manga-sprite-box"><img src="icons/glass_block.png" alt="Glass Block"></div>
+                  <span class="manga-card-label">Glass Block</span>
+                </div>
+                <div class="wire-gap"></div>
+
+                <!-- LEVEL 3: Aqua Block + Glass Pane -->
+                <div class="tree-row">
+                  <div class="tree-branch tier-3">
+                    <div class="manga-card" id="card-aqua_block" onclick="inspectItem('aqua_block')">
+                      <span class="comic-badge-tag badge-quota" id="b-aqua_block">1,000 🌰</span>
+                      <div class="manga-sprite-box"><img src="icons/aqua_block.png" alt="Aqua Block"></div>
+                      <span class="manga-card-label">Aqua Block</span>
+                    </div>
+                    <div class="wire-gap"></div>
+
+                    <!-- LEVEL 4: Bricks + Glass Pane -->
+                    <div class="tree-row">
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-bricks_aqua" onclick="inspectItem('bricks')">
+                          <span class="comic-badge-tag badge-quota" id="b-bricks_aqua">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/bricks.png" alt="Bricks"></div>
+                          <span class="manga-card-label">Bricks</span>
+                        </div>
+                      </div>
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-glass_pane_aqua" onclick="inspectItem('glass_pane')">
+                          <span class="comic-badge-tag badge-quota" id="b-glass_pane_aqua">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/glass_pane.png" alt="Glass Pane"></div>
+                          <span class="manga-card-label">Glass Pane</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tree-branch tier-3">
+                    <div class="manga-card" id="card-glass_pane_alpha" onclick="inspectItem('glass_pane')">
+                      <span class="comic-badge-tag badge-quota" id="b-glass_pane_alpha">1,000 🌰</span>
+                      <div class="manga-sprite-box"><img src="icons/glass_pane.png" alt="Glass Pane"></div>
+                      <span class="manga-card-label">Glass Pane</span>
+                    </div>
+                    <div class="wire-gap"></div>
+
+                    <!-- LEVEL 4: Rock + Lava -->
+                    <div class="tree-row">
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-rock_alpha" onclick="inspectItem('rock')">
+                          <span class="comic-badge-tag badge-quota" id="b-rock_alpha">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/rock.png" alt="Rock"></div>
+                          <span class="manga-card-label">Rock</span>
+                        </div>
+                      </div>
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-lava_alpha" onclick="inspectItem('lava')">
+                          <span class="comic-badge-tag badge-quota" id="b-lava_alpha">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/lava.png" alt="Lava"></div>
+                          <span class="manga-card-label">Lava</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- A2: Music Box -->
+              <div class="tree-branch tier-2-piano">
+                <div class="manga-tier-ribbon rank-a">🎵 A-RANK • MUSIC BOX</div>
+                <div class="manga-card" id="card-music_box" onclick="inspectItem('music_box')">
+                  <span class="comic-badge-tag badge-quota" id="b-music_box">1,000 🌰</span>
+                  <div class="manga-sprite-box"><img src="icons/music_box.png" alt="Music Box"></div>
+                  <span class="manga-card-label">Music Box</span>
+                </div>
+                <div class="wire-gap"></div>
+
+                <!-- LEVEL 3: Rubber Ducky + Olde Timey Radio -->
+                <div class="tree-row">
+                  <!-- Rubber Ducky -->
+                  <div class="tree-branch tier-3">
+                    <div class="manga-card" id="card-rubber_ducky" onclick="inspectItem('rubber_ducky')">
+                      <span class="comic-badge-tag badge-quota" id="b-rubber_ducky">1,000 🌰</span>
+                      <div class="manga-sprite-box"><img src="icons/rubber_ducky.png" alt="Rubber Ducky"></div>
+                      <span class="manga-card-label">Rubber Ducky</span>
+                    </div>
+                    <div class="wire-gap"></div>
+
+                    <!-- LEVEL 4: Bathtub + Dink Duck -->
+                    <div class="tree-row">
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-bathtub" onclick="inspectItem('bathtub')">
+                          <span class="comic-badge-tag badge-quota" id="b-bathtub">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/bathtub.png" alt="Bathtub"></div>
+                          <span class="manga-card-label">Bathtub</span>
+                        </div>
+                        <div class="wire-gap"></div>
+                        <!-- LEVEL 5: Toilet + White Block -->
+                        <div class="tree-row">
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-toilet_bath" onclick="inspectItem('toilet')">
+                              <span class="comic-badge-tag badge-quota" id="b-toilet_bath">1,250 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/toilet.png" alt="Toilet"></div>
+                              <span class="manga-card-label">Toilet</span>
+                            </div>
+                          </div>
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-white_block" onclick="inspectItem('white_block')">
+                              <span class="comic-badge-tag badge-quota" id="b-white_block">1,000 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/white_block.png" alt="White Block"></div>
+                              <span class="manga-card-label">White Block</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-painting_dink_duck" onclick="inspectItem('painting_dink_duck')">
+                          <span class="comic-badge-tag badge-quota" id="b-painting_dink_duck">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/painting_dink_duck.png" alt="Dink Duck"></div>
+                          <span class="manga-card-label">Dink Duck</span>
+                        </div>
+                        <div class="wire-gap"></div>
+                        <!-- LEVEL 5: Yellow Block + Wooden BG -->
+                        <div class="tree-row">
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-yellow_block" onclick="inspectItem('yellow_block')">
+                              <span class="comic-badge-tag badge-quota" id="b-yellow_block">1,000 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/yellow_block.png" alt="Yellow Block"></div>
+                              <span class="manga-card-label">Yellow Block</span>
+                            </div>
+                          </div>
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-wooden_bg" onclick="inspectItem('wooden_bg')">
+                              <span class="comic-badge-tag badge-quota" id="b-wooden_bg">1,000 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/wooden_bg.png" alt="Wooden BG"></div>
+                              <span class="manga-card-label">Wooden BG</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Olde Timey Radio -->
+                  <div class="tree-branch tier-3">
+                    <div class="manga-card" id="card-olde_timey_radio" onclick="inspectItem('olde_timey_radio')">
+                      <span class="comic-badge-tag badge-quota" id="b-olde_timey_radio">1,000 🌰</span>
+                      <div class="manga-sprite-box"><img src="icons/olde_timey_radio.png" alt="Olde Radio"></div>
+                      <span class="manga-card-label">Olde Radio</span>
+                    </div>
+                    <div class="wire-gap"></div>
+
+                    <!-- LEVEL 4: Portcullis + Toilet -->
+                    <div class="tree-row">
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-portcullis" onclick="inspectItem('portcullis')">
+                          <span class="comic-badge-tag badge-quota" id="b-portcullis">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/portcullis.png" alt="Portcullis"></div>
+                          <span class="manga-card-label">Portcullis</span>
+                        </div>
+                        <div class="wire-gap"></div>
+                        <!-- LEVEL 5: Dungeon Door + Death Spikes -->
+                        <div class="tree-row">
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-dungeon_door" onclick="inspectItem('dungeon_door')">
+                              <span class="comic-badge-tag badge-quota" id="b-dungeon_door">1,000 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/dungeon_door.png" alt="Dungeon Door"></div>
+                              <span class="manga-card-label">Dungeon Door</span>
+                            </div>
+                          </div>
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-death_spikes" onclick="inspectItem('death_spikes')">
+                              <span class="comic-badge-tag badge-quota" id="b-death_spikes">1,250 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/death_spikes.png" alt="Death Spikes"></div>
+                              <span class="manga-card-label">Death Spikes</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-toilet_radio" onclick="inspectItem('toilet')">
+                          <span class="comic-badge-tag badge-quota" id="b-toilet_radio">1,250 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/toilet.png" alt="Toilet"></div>
+                          <span class="manga-card-label">Toilet</span>
+                        </div>
+                        <div class="wire-gap"></div>
+                        <!-- LEVEL 5: Crappy Sign + Brown Block -->
+                        <div class="tree-row">
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-crappy_sign" onclick="inspectItem('crappy_sign')">
+                              <span class="comic-badge-tag badge-quota" id="b-crappy_sign">1,000 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/crappy_sign.png" alt="Crappy Sign"></div>
+                              <span class="manga-card-label">Crappy Sign</span>
+                            </div>
+                          </div>
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-brown_block" onclick="inspectItem('brown_block')">
+                              <span class="comic-badge-tag badge-quota" id="b-brown_block">1,000 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/brown_block.png" alt="Brown Block"></div>
+                              <span class="manga-card-label">Brown Block</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- WING BETA: STEEL BLOCK -->
+          <div class="tree-branch tier-1-right">
+            <div class="comic-narrative-panel" style="max-width: 580px;">
+              <div class="comic-koma-stamp">SAYAP BETA • BAJA TEMPA</div>
+              <p class="comic-narrative-text"><b>CABANG STEEL BLOCK:</b> Zirah baja solid pertahanan dari Portcullis + Purple Block!</p>
+            </div>
+            <div class="manga-tier-ribbon rank-s">🛡️ S-RANK • BRANCH BETA (STEEL BLOCK)</div>
+            <div class="manga-card" id="card-steel_block" onclick="inspectItem('steel_block')">
+              <div class="comic-speech-balloon balloon-tail-left">"BAJA TEMPA KOKOH!"</div>
+              <span class="comic-badge-tag badge-quota" id="b-steel_block">1,000 🌰</span>
+              <div class="manga-sprite-box">
+                <img src="icons/steel_block.png" alt="Steel Block">
+              </div>
+              <span class="manga-card-label">Steel Block</span>
+            </div>
+            <div class="wire-gap"></div>
+
+            <!-- LEVEL 2 BETA: Portcullis (Steel) + Purple Block -->
+            <div class="tree-row">
+              <!-- B1: Portcullis (Steel Branch) -->
+              <div class="tree-branch tier-2-barrel">
+                <div class="manga-tier-ribbon rank-a">🏰 A-RANK • PORTCULLIS</div>
+                <div class="manga-card" id="card-sb_portcullis" onclick="inspectItem('portcullis')">
+                  <span class="comic-badge-tag badge-quota" id="b-sb_portcullis">1,000 🌰</span>
+                  <div class="manga-sprite-box"><img src="icons/portcullis.png" alt="Portcullis"></div>
+                  <span class="manga-card-label">Portcullis</span>
+                </div>
+                <div class="wire-gap"></div>
+
+                <!-- LEVEL 3: Dungeon Door + Death Spikes -->
+                <div class="tree-row">
+                  <!-- Dungeon Door -->
+                  <div class="tree-branch tier-3">
+                    <div class="manga-card" id="card-sb_dungeon_door" onclick="inspectItem('dungeon_door')">
+                      <span class="comic-badge-tag badge-quota" id="b-sb_dungeon_door">1,000 🌰</span>
+                      <div class="manga-sprite-box"><img src="icons/dungeon_door.png" alt="Dungeon Door"></div>
+                      <span class="manga-card-label">Dungeon Door</span>
+                    </div>
+                    <div class="wire-gap"></div>
+
+                    <!-- LEVEL 4: Door + Window -->
+                    <div class="tree-row">
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-sb_dd_door" onclick="inspectItem('door')">
+                          <span class="comic-badge-tag badge-quota" id="b-sb_dd_door">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/door.png" alt="Door"></div>
+                          <span class="manga-card-label">Door</span>
+                        </div>
+                      </div>
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-sb_dd_window" onclick="inspectItem('window')">
+                          <span class="comic-badge-tag badge-quota" id="b-sb_dd_window">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/window.png" alt="Window"></div>
+                          <span class="manga-card-label">Window</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Death Spikes -->
+                  <div class="tree-branch tier-3">
+                    <div class="manga-card" id="card-sb_death_spikes" onclick="inspectItem('death_spikes')">
+                      <span class="comic-badge-tag badge-quota" id="b-sb_death_spikes">1,250 🌰</span>
+                      <div class="manga-sprite-box"><img src="icons/death_spikes.png" alt="Death Spikes"></div>
+                      <span class="manga-card-label">Death Spikes</span>
+                    </div>
+                    <div class="wire-gap"></div>
+
+                    <!-- LEVEL 4: Danger Sign + Rock BG -->
+                    <div class="tree-row">
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-sb_danger_sign" onclick="inspectItem('danger_sign')">
+                          <span class="comic-badge-tag badge-quota" id="b-sb_danger_sign">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/danger_sign.png" alt="Danger Sign"></div>
+                          <span class="manga-card-label">Danger Sign</span>
+                        </div>
+                      </div>
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-sb_rock_bg" onclick="inspectItem('rock_bg')">
+                          <span class="comic-badge-tag badge-quota" id="b-sb_rock_bg">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/rock_bg.png" alt="Rock BG"></div>
+                          <span class="manga-card-label">Rock BG</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- B2: Purple Block -->
+              <div class="tree-branch tier-2-bio">
+                <div class="manga-tier-ribbon rank-a">🔮 A-RANK • PURPLE BLOCK</div>
+                <div class="manga-card" id="card-purple_block" onclick="inspectItem('purple_block')">
+                  <span class="comic-badge-tag badge-quota" id="b-purple_block">1,000 🌰</span>
+                  <div class="manga-sprite-box"><img src="icons/purple_block.png" alt="Purple Block"></div>
+                  <span class="manga-card-label">Purple Block</span>
+                </div>
+                <div class="wire-gap"></div>
+
+                <!-- LEVEL 3: Red Block + Blue Block -->
+                <div class="tree-row">
+                  <!-- Red Block -->
+                  <div class="tree-branch tier-3">
+                    <div class="manga-card" id="card-red_block" onclick="inspectItem('red_block')">
+                      <span class="comic-badge-tag badge-quota" id="b-red_block">1,000 🌰</span>
+                      <div class="manga-sprite-box"><img src="icons/red_block.png" alt="Red Block"></div>
+                      <span class="manga-card-label">Red Block</span>
+                    </div>
+                    <div class="wire-gap"></div>
+
+                    <!-- LEVEL 4: Bricks + Lava -->
+                    <div class="tree-row">
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-sb_red_bricks" onclick="inspectItem('bricks')">
+                          <span class="comic-badge-tag badge-quota" id="b-sb_red_bricks">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/bricks.png" alt="Bricks"></div>
+                          <span class="manga-card-label">Bricks</span>
+                        </div>
+                      </div>
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-sb_red_lava" onclick="inspectItem('lava')">
+                          <span class="comic-badge-tag badge-quota" id="b-sb_red_lava">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/lava.png" alt="Lava"></div>
+                          <span class="manga-card-label">Lava</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Blue Block -->
+                  <div class="tree-branch tier-3">
+                    <div class="manga-card" id="card-blue_block" onclick="inspectItem('blue_block')">
+                      <span class="comic-badge-tag badge-quota" id="b-blue_block">1,000 🌰</span>
+                      <div class="manga-sprite-box"><img src="icons/blue_block.png" alt="Blue Block"></div>
+                      <span class="manga-card-label">Blue Block</span>
+                    </div>
+                    <div class="wire-gap"></div>
+
+                    <!-- LEVEL 4: Bricks + Blueberry -->
+                    <div class="tree-row">
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-sb_blue_bricks" onclick="inspectItem('bricks')">
+                          <span class="comic-badge-tag badge-quota" id="b-sb_blue_bricks">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/bricks.png" alt="Bricks"></div>
+                          <span class="manga-card-label">Bricks</span>
+                        </div>
+                      </div>
+                      <div class="tree-branch tier-4">
+                        <div class="manga-card" id="card-blueberry" onclick="inspectItem('blueberry')">
+                          <span class="comic-badge-tag badge-quota" id="b-blueberry">1,000 🌰</span>
+                          <div class="manga-sprite-box"><img src="icons/blueberry.png" alt="Blueberry"></div>
+                          <span class="manga-card-label">Blueberry</span>
+                        </div>
+                        <div class="wire-gap"></div>
+
+                        <!-- LEVEL 5: Bush + Mushroom -->
+                        <div class="tree-row">
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-bush" onclick="inspectItem('bush')">
+                              <span class="comic-badge-tag badge-quota" id="b-bush">1,000 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/bush.png" alt="Bush"></div>
+                              <span class="manga-card-label">Bush</span>
+                            </div>
+                            <div class="wire-gap"></div>
+                            <!-- LEVEL 6: Poppy + Rose -->
+                            <div class="tree-row">
+                              <div class="tree-branch tier-6">
+                                <div class="manga-card" id="card-poppy" onclick="inspectItem('poppy')">
+                                  <span class="comic-badge-tag badge-quota" id="b-poppy">1,000 🌰</span>
+                                  <div class="manga-sprite-box"><img src="icons/poppy.png" alt="Poppy"></div>
+                                  <span class="manga-card-label">Poppy</span>
+                                </div>
+                                <div class="wire-gap"></div>
+                                <!-- LEVEL 7: Rose + Daisy -->
+                                <div class="tree-row">
+                                  <div class="tree-branch tier-6">
+                                    <div class="manga-card" id="card-sb_pop_rose" onclick="inspectItem('rose')">
+                                      <span class="comic-badge-tag badge-quota" id="b-sb_pop_rose">1,000 🌰</span>
+                                      <div class="manga-sprite-box"><img src="icons/rose.png" alt="Rose"></div>
+                                      <span class="manga-card-label">Rose</span>
+                                    </div>
+                                  </div>
+                                  <div class="tree-branch tier-6">
+                                    <div class="manga-card" id="card-sb_pop_daisy" onclick="inspectItem('daisy')">
+                                      <span class="comic-badge-tag badge-quota" id="b-sb_pop_daisy">1,000 🌰</span>
+                                      <div class="manga-sprite-box"><img src="icons/daisy.png" alt="Daisy"></div>
+                                      <span class="manga-card-label">Daisy</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="tree-branch tier-6">
+                                <div class="manga-card" id="card-sb_bush_rose" onclick="inspectItem('rose')">
+                                  <span class="comic-badge-tag badge-quota" id="b-sb_bush_rose">1,000 🌰</span>
+                                  <div class="manga-sprite-box"><img src="icons/rose.png" alt="Rose"></div>
+                                  <span class="manga-card-label">Rose</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="tree-branch tier-5">
+                            <div class="manga-card" id="card-sb_mushroom" onclick="inspectItem('mushroom')">
+                              <span class="comic-badge-tag badge-quota" id="b-sb_mushroom">1,000 🌰</span>
+                              <div class="manga-sprite-box"><img src="icons/mushroom.png" alt="Mushroom"></div>
+                              <span class="manga-card-label">Mushroom</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Databook Info Panels -->
+    <div class="databook-grid">
+      <div class="databook-panel" style="background: #e0f2fe;">
+        <div class="panel-header-strip">
+          <span id="stat-c1-title">ESTIMASI KEBUTUHAN BIBIT</span>
+          <span class="kanji-stamp">試算</span>
+        </div>
+        <h3 id="stat-chem-total">1,000 PAIRS</h3>
+        <p id="stat-c1-desc">Target 1.000 Display Block butuh 1.000 Display Box + 1.000 Steel Block!</p>
+      </div>
+
+      <div class="databook-panel" style="background: #dcfce7;">
+        <div class="panel-header-strip">
+          <span id="stat-c2-title">ESTIMASI CUAN MASSING</span>
+          <span class="kanji-stamp">利益</span>
+        </div>
+        <h3 id="stat-wl-total">~125 - 200 WL</h3>
+        <p id="stat-c2-desc">Rate Display Block stabil 5-8/WL di kalangan builder world shop & museum!</p>
+      </div>
+
+      <div class="databook-panel" style="background: #ffedd5;">
+        <div class="panel-header-strip">
+          <span id="stat-c3-title">BIANG KEROK BOTTLENECK</span>
+          <span class="kanji-stamp">要注意</span>
+        </div>
+        <h3 id="stat-c3-val">DEATH SPIKES & BLUEBERRY</h3>
+        <p id="stat-c3-desc">Death Spikes (4h 10m) & Blueberry (multi-tier bush-mushroom) makan waktu paling lama. Wajib dicicil dari awal!</p>
+      </div>
+
+      <div class="databook-panel" style="background: #fce7f3;">
+        <div class="panel-header-strip">
+          <span id="stat-c4-title">PRO MASSING ADVICE</span>
+          <span class="kanji-stamp">極意</span>
+        </div>
+        <h3 id="stat-c4-val">SPLIT FARM WORLD</h3>
+        <p id="stat-c4-desc">Pisahkan world pembibitan Display Box dan Steel Block biar inventory lu gak kepenuhan benih!</p>
+      </div>
+    </div>
+
+    <!-- Zoom Dock -->
+    <div class="comic-zoom-dock" id="zoom-dock">
+      <button class="zoom-toggle-tab" id="zoom-drawer-btn" onclick="toggleZoomDrawer(event)" title="Sembunyikan / Buka Zoom">
+        ◀
+      </button>
+      <button class="mini-btn" onclick="zoomTree(-0.1)" title="Zoom Out">🔍 -</button>
+      <span id="zoom-readout" class="comic-badge" style="background: var(--shonen-yellow); color: #000;">85%</span>
+      <button class="mini-btn" onclick="zoomTree(0.1)" title="Zoom In">🔍 +</button>
+      <button class="mini-btn" onclick="fitScreen()" style="background: var(--shonen-cyan); color: #000;">👁️ FIT KOMA</button>
+      <button class="mini-btn" onclick="resetZoom()">⟲ 100%</button>
+    </div>
+
+    <!-- Chibi Assistant -->
+    <div class="manga-assistant-bubble" id="assistant-bubble" onclick="cycleAssistantQuote()" title="Klik untuk ngobrol bareng Master Splicer!">
+      <button class="assistant-toggle-tab" id="assistant-drawer-btn" onclick="toggleAssistantDrawer(event)" title="Sembunyikan / Buka">
+        ▶
+      </button>
+      <span class="assistant-hint-badge">CLICK TO CHAT! 💬</span>
+      <div class="assistant-avatar">
+        <img src="icons/display_block.png" alt="Assistant">
+      </div>
+      <div class="bubble-text">
+        <h4>MASTER SPLICER • アシスタント</h4>
+        <p id="bubble-commentary">
+          "Senpai! Di mode Quota, lu bisa lihat kalkulasi presisi dari primordial seed Dirt & Rock sampai jadi Display Block!"
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ITEM DATABOOK MODAL -->
+  <div class="manga-modal-overlay" id="inspect-modal" onclick="closeInspect(event)">
+    <div class="databook-window">
+      <div class="databook-header">
+        <h3 id="m-name">★ ITEM DATABOOK ARCHIVE ★</h3>
+        <button class="databook-close" onclick="forceCloseInspect()">&times;</button>
+      </div>
+      <div class="databook-body">
+        <div class="hero-stat-koma">
+          <div class="hero-photo">
+            <img id="m-sprite" src="icons/display_block.png" alt="Sprite">
+          </div>
+          <div>
+            <div class="databook-stat-line"><span>OFFICIAL RARITY:</span> <b id="m-rarity" style="color:var(--shonen-red);">80</b></div>
+            <div class="databook-stat-line"><span>GROW TIME:</span> <b id="m-grow">22H 30M</b></div>
+            <div class="databook-stat-line"><span>FARM CATEGORY:</span> <b id="m-farmable">NON-FARMABLE</b></div>
+            <div class="databook-stat-line"><span>SHONEN RANK:</span> <b id="m-rank" style="color:var(--shonen-red);">EX-RANK</b></div>
+            <div class="databook-stat-line"><span>POWER RATING:</span> <b id="m-stars" style="color:#eab308; text-shadow: 1px 1px 0 #000;">★★★★★</b></div>
+            <div class="databook-stat-line"><span>TOP-DOWN QUOTA:</span> <b id="m-quota" style="color: #d97706;">1,000 SEEDS</b></div>
+            <div class="databook-stat-line"><span>5K DECAY YIELD:</span> <b id="m-decay" style="color: var(--shonen-red);">1,850 YIELD</b></div>
+          </div>
+        </div>
+
+        <div class="koma-equation-box" style="margin-bottom: 10px;">
+          <h4>SPECIAL PASSIVE TRAIT (特殊能力)</h4>
+          <div id="m-trait" style="font-family: 'Bangers', cursive; font-size: 15px; color: var(--shonen-purple); letter-spacing: 0.6px; background: #fff; padding: 6px 10px; border: 2px solid #000; border-radius: 6px; box-shadow: 2px 2px 0 #000;">
+            MONOLITH SHOWCASE VAULT
+          </div>
+        </div>
+
+        <div class="koma-equation-box" id="m-recipe-box">
+          <h4>SPLICING FUSION RECIPE (融合式)</h4>
+          <div class="koma-equation-flex" id="m-equation"></div>
+        </div>
+
+        <p id="m-desc" style="font-size: 13px; font-weight: 700; line-height: 1.5; color: #334155; background: #fff; padding: 10px; border: 2px solid #000; border-radius: 6px; box-shadow: 2px 2px 0 #000;">
+          Description...
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPLICING FORGE MODAL -->
+  <div class="manga-modal-overlay" id="forge-modal" onclick="closeForge(event)">
+    <div class="databook-window" style="max-width: 540px;">
+      <div class="databook-header" style="background: var(--shonen-orange); color: #fff;">
+        <h3 style="color:#fff;">⚡ FUSION FORGE ARENA (種子融合の儀)</h3>
+        <button class="databook-close" onclick="forceCloseForge()">&times;</button>
+      </div>
+      <div class="databook-body">
+        <p style="font-size: 12px; font-weight: 700; text-align: center; color: #475569; margin-bottom: 8px;">
+          Pilih 2 bibit di bawah ini untuk menguji fusi splicing Display Block!
+        </p>
+
+        <div class="fusion-circle">
+          <div class="fusion-slot" id="f-slot-1" onclick="clearForgeSlot(1)">
+            <span>SEED 1</span>
+          </div>
+          <div style="font-family: 'Bangers', cursive; font-size: 26px; text-align: center;">+</div>
+          <div class="fusion-slot" id="f-slot-2" onclick="clearForgeSlot(2)">
+            <span>SEED 2</span>
+          </div>
+          <div style="font-family: 'Bangers', cursive; font-size: 26px; text-align: center;">=</div>
+          <div class="fusion-slot" id="f-slot-res">
+            <span>RESULT</span>
+          </div>
+        </div>
+
+        <button class="action-btn btn-harvest" style="width: 100%; justify-content: center; padding: 12px; font-size: 18px;" onclick="executeSplice()">
+          ⚡ FUSE SEEDS NOW (融合発動!) ⚡
+        </button>
+
+        <div style="margin-top: 14px;">
+          <h5 style="font-family: 'Bangers', cursive; font-size: 14px; letter-spacing: 0.5px; margin-bottom: 6px;">SELECT FROM SEED POOL:</h5>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px; max-height: 140px; overflow-y: auto; padding: 4px; border: 2px solid #000; background: #fff; border-radius: 6px;" id="forge-palette"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUFF MATRIX SIMULATOR MODAL -->
+  <div class="manga-modal-overlay" id="buff-sim-modal" onclick="closeBuffSim(event)">
+    <div class="databook-window" style="max-width: 800px; width: 95%;">
+      <div class="databook-header" style="background: var(--shonen-purple); color: #fff;">
+        <h3 style="color:#fff;">📊 HARVEST & BREAK BUFF MATRIX (収穫・破壊シミュレーター)</h3>
+        <button class="databook-close" onclick="forceCloseBuffSim()">&times;</button>
+      </div>
+      <div class="databook-body" style="max-height: 80vh; overflow-y: auto;">
+        
+        <div style="background: #fff; border: 2.5px solid #000; border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: 3px 3px 0 #000;">
+          <h4 style="font-family: 'Bangers', cursive; font-size: 16px; margin-bottom: 8px; color: var(--shonen-red);">
+            🔥 ACTIVE BUFF CONFIGURATION (CENTANG / HAPUS BUFF BEBAS)
+          </h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+            <div style="border: 2px dashed #166534; padding: 10px; border-radius: 6px; background: #f0fff4;">
+              <div style="font-weight: bold; font-size: 13px; margin-bottom: 6px; color: #166534;">🌾 HARVEST BUFFS</div>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; margin-bottom: 6px;">
+                <input type="checkbox" id="buff-harvester" checked onchange="recalculateBuffSim()">
+                <span><b>Harvester of Sorrows</b> (+15% Block)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" id="buff-dcs" checked onchange="recalculateBuffSim()">
+                <span><b>Dreamcatcher Staff (DCS)</b> (+Gems & Drop)</span>
+              </label>
+            </div>
+            <div style="border: 2px dashed #92400e; padding: 10px; border-radius: 6px; background: #fffbeb;">
+              <div style="font-weight: bold; font-size: 13px; margin-bottom: 6px; color: #92400e;">🔨 BREAK BUFFS</div>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; margin-bottom: 4px;">
+                <input type="checkbox" id="buff-ances" checked onchange="recalculateBuffSim()">
+                <span><b>Ancestral Level 5</b> (+10% Seed)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; margin-bottom: 4px;">
+                <input type="checkbox" id="buff-arroz" checked onchange="recalculateBuffSim()">
+                <span><b>Arroz Con Pollo</b> (+10% Seed)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; margin-bottom: 4px;">
+                <input type="checkbox" id="buff-luck" checked onchange="recalculateBuffSim()">
+                <span><b>Lucky! Mod (Clover)</b> (+10% Luck)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" id="buff-buddy" checked onchange="recalculateBuffSim()">
+                <span><b>Buddy's Block Head</b> (+Extra Blocks)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; background: #f8fafc; border: 2.5px solid #000; border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: 2px 2px 0 #000;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label style="font-family: 'Bangers', cursive; font-size: 16px;">TARGET ITEM:</label>
+            <select id="sim-item-select" onchange="recalculateBuffSim()" style="padding: 6px 12px; border: 2px solid #000; border-radius: 6px; font-weight: bold; font-family: inherit;">
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label style="font-family: 'Bangers', cursive; font-size: 16px;">TREES TO HARVEST:</label>
+            <input type="number" id="sim-tree-count" value="2700" min="1" step="100" oninput="recalculateBuffSim()" style="width: 110px; padding: 6px 10px; border: 2px solid #000; border-radius: 6px; font-weight: bold;">
+          </div>
+        </div>
+
+        <div id="sim-result-container" style="background: #09090b; color: #fff; padding: 14px; border-radius: 8px; border: 2.5px solid #000; box-shadow: 3px 3px 0 #000; font-family: monospace; font-size: 13px; margin-bottom: 14px;">
+        </div>
+
+        <div style="overflow-x: auto; background: #fff; border: 2.5px solid #000; border-radius: 8px; box-shadow: 2px 2px 0 #000;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+            <thead style="background: #f1f5f9; border-bottom: 2px solid #000; font-family: 'Bangers', cursive; font-size: 13px;">
+              <tr>
+                <th style="padding: 8px;">ITEM NAME</th>
+                <th style="padding: 8px;">RARITY</th>
+                <th style="padding: 8px;">INPUT TREES</th>
+                <th style="padding: 8px;">TOTAL BLOCKS</th>
+                <th style="padding: 8px;">HT SEEDS</th>
+                <th style="padding: 8px;">BREAK SEEDS</th>
+                <th style="padding: 8px;">NET RETURN</th>
+              </tr>
+            </thead>
+            <tbody id="sim-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAWERIA MODAL -->
+  <div class="manga-modal-overlay" id="saweria-modal" onclick="closeSaweriaModal(event)">
+    <div class="databook-window" style="max-width: 460px; text-align: center; border-radius: 16px;">
+      <div class="databook-header" style="justify-content: center; position: relative;">
+        <h3>☕ DUKUNG DEVELOPER • SAWERIA ★</h3>
+        <button class="databook-close" onclick="closeSaweriaModal(null)">&times;</button>
+      </div>
+      <div style="padding: 22px 18px;">
+        <div style="width: 76px; height: 76px; margin: 0 auto 14px; background: var(--shonen-yellow); border: 3px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0 #000;">
+          <img src="icons/display_block.png" style="width: 50px; height: 50px; image-rendering: pixelated;" alt="Dev Support">
+        </div>
+        <h4 style="font-family: 'Bangers', cursive; font-size: 24px; letter-spacing: 1px; margin-bottom: 6px;">GROWTOPIA TOOLS ARCHIVE</h4>
+        <p style="font-size: 13.5px; font-weight: 700; color: #334155; line-height: 1.5; margin-bottom: 20px;">
+          Dukungan Saweria dari lu ngebantu operasional domain, update formula massing baru, dan ngejaga web ini tetap <b>100% GRATIS & BERSIH TANPA IKLAN MENGGANGGU</b>!
+        </p>
+        <a href="https://saweria.co" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #facc15; color: #000; border: 3px solid #000; border-radius: 12px; padding: 12px 24px; font-family: 'Bangers', cursive; font-size: 18px; letter-spacing: 1px; text-decoration: none; box-shadow: 4px 4px 0 #000; transition: transform 0.15s;">
+          <span>☕</span> DUKUNG VIA SAWERIA.CO ➔
+        </a>
+        <p style="font-size: 11px; font-weight: 800; color: #64748b; margin-top: 12px;">Bisa via QRIS, GoPay, OVO, DANA, ShopeePay & LinkAja</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================
+    // DATABASE ITEMS (COMPLETE ZERO PLACEHOLDER)
+    // =========================================================
+    const DB = {
+      "display_block": {
+        "name": "Display Block",
+        "rarity": 80,
+        "grow": "22h 30m",
+        "farmable": "Non-Farmable",
+        "rank": "EX-RANK [DIVINE APEX]",
+        "stars": "★★★★★",
+        "trait": "💎 SHOWCASE MONOLITH: Balok etalase kaca baja mewah untuk memajang harta sultan!",
+        "desc": "Balok etalase kokoh dan elegan hasil splice Display Box + Steel Block. Simbol kemewahan tingkat tinggi para juragan Growtopia.",
+        "parents": ["display_box", "steel_block"]
+      },
+      "display_box": {
+        "name": "Display Box",
+        "rarity": 45,
+        "grow": "1d 7h 55m",
+        "farmable": "Non-Solid Trophy Container",
+        "rank": "SS-RANK [CLIMAX]",
+        "stars": "★★★★★",
+        "trait": "Wadah kaca etalase mewah untuk memamerkan item termahal lu.",
+        "desc": "Wadah etalase pameran dari Glass Block + Music Box.",
+        "parents": ["glass_block", "music_box"]
+      },
+      "steel_block": {
+        "name": "Steel Block",
+        "rarity": 35,
+        "grow": "11h 20m",
+        "farmable": "Non-Farmable",
+        "rank": "S-RANK [STEEL ALLOY]",
+        "stars": "★★★★☆",
+        "trait": "🛡️ METALLIC ALLOY: Baja padat pelindung dari Portcullis + Purple Block.",
+        "desc": "Balok baja solid berkilau metalik hasil splice Portcullis + Purple Block. Sangat kuat dan kokoh.",
+        "parents": ["portcullis", "purple_block"]
+      },
+      "glass_block": {
+        "name": "Glass Block",
+        "rarity": 13,
+        "grow": "2h 49m",
+        "farmable": "Farmable",
+        "rank": "A-RANK [CATALYST]",
+        "stars": "★★★☆☆",
+        "trait": "Balok transparan sebening kristal dari Aqua Block + Glass Pane.",
+        "desc": "Balok kaca bening transparan dari Aqua Block + Glass Pane.",
+        "parents": ["aqua_block", "glass_pane"]
+      },
+      "music_box": {
+        "name": "Music Box",
+        "rarity": 23,
+        "grow": "15h 33m",
+        "farmable": "Farmable",
+        "rank": "S-RANK [TRANSCENDENT]",
+        "stars": "★★★★☆",
+        "trait": "Kotak musik antik melantunkan melodi dari Rubber Ducky + Olde Timey Radio.",
+        "desc": "Kotak musik mekanik dari Rubber Ducky + Olde Timey Radio.",
+        "parents": ["rubber_ducky", "olde_timey_radio"]
+      },
+      "purple_block": {
+        "name": "Purple Block",
+        "rarity": 19,
+        "grow": "5h 12m",
+        "farmable": "Farmable",
+        "rank": "A-RANK [CATALYST]",
+        "stars": "★★★☆☆",
+        "trait": "🔮 VIOLET PIGMENT: Balok ungu misterius dari Blue Block + Red Block.",
+        "desc": "Balok ungu cerah hasil fusi Blue Block + Red Block. Komponen warna sekunder esensial.",
+        "parents": ["blue_block", "red_block"]
+      },
+      "red_block": {
+        "name": "Red Block",
+        "rarity": 4,
+        "grow": "4m 16s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "🔴 CRIMSON CUBE: Balok merah membara dari Bricks + Lava.",
+        "desc": "Balok merah bata hangat dari Bricks + Lava.",
+        "parents": ["bricks", "lava"]
+      },
+      "blue_block": {
+        "name": "Blue Block",
+        "rarity": 15,
+        "grow": "3h 45m",
+        "farmable": "Farmable",
+        "rank": "A-RANK [CATALYST]",
+        "stars": "★★★☆☆",
+        "trait": "🔵 AZURE CUBE: Balok biru laut dari Bricks + Blueberry.",
+        "desc": "Balok biru segar hasil splice Bricks + Blueberry.",
+        "parents": ["bricks", "blueberry"]
+      },
+      "blueberry": {
+        "name": "Blueberry",
+        "rarity": 12,
+        "grow": "2h 30m",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "🫐 BERRY HARVEST: Buah beri manis dari Bush + Mushroom.",
+        "desc": "Tanaman semak beri biru dari Bush + Mushroom.",
+        "parents": ["bush", "mushroom"]
+      },
+      "bush": {
+        "name": "Bush",
+        "rarity": 8,
+        "grow": "42m 40s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Tanaman semak hijau dari Poppy + Rose.",
+        "desc": "Semak dedaunan lebat dari Poppy + Rose.",
+        "parents": ["poppy", "rose"]
+      },
+      "poppy": {
+        "name": "Poppy",
+        "rarity": 4,
+        "grow": "4m 16s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Bunga poppy merah dari Rose + Daisy.",
+        "desc": "Bunga poppy merah cerah dari Rose + Daisy.",
+        "parents": ["rose", "daisy"]
+      },
+      "rose": {
+        "name": "Rose",
+        "rarity": 3,
+        "grow": "2m 8s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Bunga mawar merah dari Grass + Lava.",
+        "desc": "Bunga mawar berduri merah dari Grass + Lava.",
+        "parents": ["grass", "lava"]
+      },
+      "daisy": {
+        "name": "Daisy",
+        "rarity": 2,
+        "grow": "1m 4s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Bunga daisy putih dari Dirt + Rock.",
+        "desc": "Bunga liar putih kecil dari Dirt + Rock.",
+        "parents": ["dirt", "rock"]
+      },
+      "mushroom": {
+        "name": "Mushroom",
+        "rarity": 3,
+        "grow": "2m 8s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Jamur hutan dari Dirt + Rock.",
+        "desc": "Jamur payung dari persilangan Dirt + Rock.",
+        "parents": ["dirt", "rock"]
+      },
+      "aqua_block": {
+        "name": "Aqua Block",
+        "rarity": 9,
+        "grow": "48m 16s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Balok warna cyan air dari Bricks + Glass Pane.",
+        "desc": "Balok warna cyan air dari Bricks + Glass Pane.",
+        "parents": ["bricks", "glass_pane"]
+      },
+      "glass_pane": {
+        "name": "Glass Pane",
+        "rarity": 2,
+        "grow": "31s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Kaca tipis dari Rock + Lava.",
+        "desc": "Kaca tipis bening dari Rock + Lava.",
+        "parents": ["rock", "lava"]
+      },
+      "rubber_ducky": {
+        "name": "Rubber Ducky",
+        "rarity": 17,
+        "grow": "3h 34m",
+        "farmable": "Farmable",
+        "rank": "A-RANK [CATALYST]",
+        "stars": "★★★☆☆",
+        "trait": "Bebek karet kuning dari Bathtub + Painting: Dink Duck.",
+        "desc": "Bebek karet kuning mandi dari Bathtub + Painting: Dink Duck.",
+        "parents": ["bathtub", "painting_dink_duck"]
+      },
+      "olde_timey_radio": {
+        "name": "Olde Timey Radio",
+        "rarity": 14,
+        "grow": "1h 3m",
+        "farmable": "Farmable",
+        "rank": "A-RANK [CATALYST]",
+        "stars": "★★★☆☆",
+        "trait": "Radio kayu antik dari Portcullis + Toilet.",
+        "desc": "Radio tabung kayu kuno dari Portcullis + Toilet.",
+        "parents": ["portcullis", "toilet"]
+      },
+      "bathtub": {
+        "name": "Bathtub",
+        "rarity": 11,
+        "grow": "2h 50m",
+        "farmable": "Farmable",
+        "rank": "A-RANK [CATALYST]",
+        "stars": "★★★☆☆",
+        "trait": "Bak mandi porselen dari Toilet + White Block.",
+        "desc": "Bak mandi porselen putih dari Toilet + White Block.",
+        "parents": ["toilet", "white_block"]
+      },
+      "painting_dink_duck": {
+        "name": "Painting: Dink Duck",
+        "rarity": 9,
+        "grow": "21m 40s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Lukisan bebek legendaris dari Yellow Block + Wooden Background.",
+        "desc": "Lukisan potret bebek Dink Duck dari Yellow Block + Wooden BG.",
+        "parents": ["yellow_block", "wooden_bg"]
+      },
+      "portcullis": {
+        "name": "Portcullis",
+        "rarity": 8,
+        "grow": "1h 16m",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Pintu gerbang jeruji besi kastil dari Dungeon Door + Death Spikes.",
+        "desc": "Pintu gerbang jeruji besi dari Dungeon Door + Death Spikes.",
+        "parents": ["dungeon_door", "death_spikes"]
+      },
+      "toilet": {
+        "name": "Toilet",
+        "rarity": 6,
+        "grow": "19m 12s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Toilet porselen dari Crappy Sign + Brown Block.",
+        "desc": "Kloset porselen putih dari Crappy Sign + Brown Block.",
+        "parents": ["crappy_sign", "brown_block"]
+      },
+      "white_block": {
+        "name": "White Block",
+        "rarity": 5,
+        "grow": "8m 32s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Balok putih bersih dari Bricks + Mushroom.",
+        "desc": "Balok warna putih solid dari Bricks + Mushroom.",
+        "parents": ["bricks", "mushroom"]
+      },
+      "yellow_block": {
+        "name": "Yellow Block",
+        "rarity": 7,
+        "grow": "11m 44s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Balok kuning cerah dari Bricks + Daisy.",
+        "desc": "Balok kuning cerah dari Bricks + Daisy.",
+        "parents": ["bricks", "daisy"]
+      },
+      "wooden_bg": {
+        "name": "Wooden Background",
+        "rarity": 2,
+        "grow": "1m 36s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Dinding kayu dari Door + Dirt.",
+        "desc": "Latar belakang dinding papan kayu dari Door + Dirt.",
+        "parents": ["door", "dirt"]
+      },
+      "dungeon_door": {
+        "name": "Dungeon Door",
+        "rarity": 6,
+        "grow": "12m 48s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Pintu penjara berterali dari Door + Window.",
+        "desc": "Pintu sel bawah tanah dari Door + Window.",
+        "parents": ["door", "window"]
+      },
+      "death_spikes": {
+        "name": "Death Spikes",
+        "rarity": 16,
+        "grow": "4h 10m",
+        "farmable": "Farmable",
+        "rank": "A-RANK [CATALYST]",
+        "stars": "★★★☆☆",
+        "trait": "Duri perangkap maut dari Danger Sign + Rock BG.",
+        "desc": "Perangkap duri besi tajam dari Danger Sign + Rock Background.",
+        "parents": ["danger_sign", "rock_bg"]
+      },
+      "crappy_sign": {
+        "name": "Crappy Sign",
+        "rarity": 2,
+        "grow": "1m 36s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Papan penunjuk reyot dari Door + Sign.",
+        "desc": "Papan nama kayu reyot dari Door + Sign.",
+        "parents": ["door", "sign"]
+      },
+      "brown_block": {
+        "name": "Brown Block",
+        "rarity": 4,
+        "grow": "4m 16s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Balok cokelat tanah dari Dirt + Bricks.",
+        "desc": "Balok warna cokelat pekat dari Dirt + Bricks.",
+        "parents": ["dirt", "bricks"]
+      },
+      "bricks": {
+        "name": "Bricks",
+        "rarity": 4,
+        "grow": "4m 16s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Bata merah kokoh dari Rock + Grass.",
+        "desc": "Bata merah konstruksi dasar dari Rock + Grass.",
+        "parents": ["rock", "grass"]
+      },
+      "danger_sign": {
+        "name": "Danger Sign",
+        "rarity": 4,
+        "grow": "4m 16s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Papan tanda bahaya dari Pointy Sign + Lava.",
+        "desc": "Papan peringatan bertengkorak dari Pointy Sign + Lava.",
+        "parents": ["pointy_sign", "lava"]
+      },
+      "rock_bg": {
+        "name": "Rock Background",
+        "rarity": 2,
+        "grow": "1m 36s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Dinding bebatuan gua dari Rock + Lava.",
+        "desc": "Latar belakang dinding batu keras dari Rock + Lava.",
+        "parents": ["rock", "lava"]
+      },
+      "window": {
+        "name": "Window",
+        "rarity": 3,
+        "grow": "2m 8s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Jendela berbingkai dari Door + Lava.",
+        "desc": "Jendela kaca kayu berbingkai dari Door + Lava.",
+        "parents": ["door", "lava"]
+      },
+      "door": {
+        "name": "Door",
+        "rarity": 2,
+        "grow": "1m 4s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Pintu kayu standar dari Dirt + Cave BG.",
+        "desc": "Pintu kayu rumah dari Dirt + Cave Background.",
+        "parents": ["dirt", "cave_bg"]
+      },
+      "sign": {
+        "name": "Sign",
+        "rarity": 2,
+        "grow": "1m 4s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Papan tanda kayu dari Dirt + Rock.",
+        "desc": "Papan penunjuk kayu polos dari Dirt + Rock.",
+        "parents": ["dirt", "rock"]
+      },
+      "pointy_sign": {
+        "name": "Pointy Sign",
+        "rarity": 3,
+        "grow": "2m 8s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Papan tanda panah dari Door + Sign.",
+        "desc": "Papan penunjuk arah meruncing dari Door + Sign.",
+        "parents": ["door", "sign"]
+      },
+      "cave_bg": {
+        "name": "Cave Background",
+        "rarity": 2,
+        "grow": "1m 36s",
+        "farmable": "Farmable",
+        "rank": "B-RANK [BASE]",
+        "stars": "★★☆☆☆",
+        "trait": "Latar gua gelap dari Dirt + Rock.",
+        "desc": "Dinding gua berbatu dari Dirt + Rock.",
+        "parents": ["dirt", "rock"]
+      },
+      "dirt": {
+        "name": "Dirt",
+        "rarity": 1,
+        "grow": "31s",
+        "farmable": "Primordial Seed",
+        "rank": "TIER-1 BASE",
+        "stars": "★☆☆☆☆",
+        "trait": "Benih tanah primordial Growtopia.",
+        "desc": "Blok tanah alami paling mendasar.",
+        "parents": []
+      },
+      "rock": {
+        "name": "Rock",
+        "rarity": 1,
+        "grow": "31s",
+        "farmable": "Primordial Seed",
+        "rank": "TIER-1 BASE",
+        "stars": "★☆☆☆☆",
+        "trait": "Benih bebatuan primordial Growtopia.",
+        "desc": "Blok batu abu-abu alami paling mendasar.",
+        "parents": []
+      },
+      "lava": {
+        "name": "Lava",
+        "rarity": 1,
+        "grow": "31s",
+        "farmable": "Primordial Seed",
+        "rank": "TIER-1 BASE",
+        "stars": "★☆☆☆☆",
+        "trait": "Benih lahar panas primordial Growtopia.",
+        "desc": "Blok lahar cair menyala alami paling mendasar.",
+        "parents": []
+      },
+      "grass": {
+        "name": "Grass",
+        "rarity": 1,
+        "grow": "31s",
+        "farmable": "Primordial Seed",
+        "rank": "TIER-1 BASE",
+        "stars": "★☆☆☆☆",
+        "trait": "Benih rumput hijau primordial Growtopia.",
+        "desc": "Blok rumput hijau alami paling mendasar.",
+        "parents": []
+      }
+    };
+
+    // =========================================================
+    // SVG TREE CONNECTIONS MAP
+    // =========================================================
+    const TREE_CONNECTIONS = [
+      { parent: "card-display_block", children: ["card-display_box", "card-steel_block"] },
+      
+      // Alpha Wing (Display Box)
+      { parent: "card-display_box", children: ["card-glass_block", "card-music_box"] },
+      { parent: "card-glass_block", children: ["card-aqua_block", "card-glass_pane_alpha"] },
+      { parent: "card-aqua_block", children: ["card-bricks_aqua", "card-glass_pane_aqua"] },
+      { parent: "card-glass_pane_alpha", children: ["card-rock_alpha", "card-lava_alpha"] },
+      { parent: "card-music_box", children: ["card-rubber_ducky", "card-olde_timey_radio"] },
+      { parent: "card-rubber_ducky", children: ["card-bathtub", "card-painting_dink_duck"] },
+      { parent: "card-bathtub", children: ["card-toilet_bath", "card-white_block"] },
+      { parent: "card-painting_dink_duck", children: ["card-yellow_block", "card-wooden_bg"] },
+      { parent: "card-olde_timey_radio", children: ["card-portcullis", "card-toilet_radio"] },
+      { parent: "card-portcullis", children: ["card-dungeon_door", "card-death_spikes"] },
+      { parent: "card-toilet_radio", children: ["card-crappy_sign", "card-brown_block"] },
+
+      // Beta Wing (Steel Block)
+      { parent: "card-steel_block", children: ["card-sb_portcullis", "card-purple_block"] },
+      { parent: "card-sb_portcullis", children: ["card-sb_dungeon_door", "card-sb_death_spikes"] },
+      { parent: "card-sb_dungeon_door", children: ["card-sb_dd_door", "card-sb_dd_window"] },
+      { parent: "card-sb_death_spikes", children: ["card-sb_danger_sign", "card-sb_rock_bg"] },
+      { parent: "card-purple_block", children: ["card-red_block", "card-blue_block"] },
+      { parent: "card-red_block", children: ["card-sb_red_bricks", "card-sb_red_lava"] },
+      { parent: "card-blue_block", children: ["card-sb_blue_bricks", "card-blueberry"] },
+      { parent: "card-blueberry", children: ["card-bush", "card-sb_mushroom"] },
+      { parent: "card-bush", children: ["card-poppy", "card-sb_bush_rose"] },
+      { parent: "card-poppy", children: ["card-sb_pop_rose", "card-sb_pop_daisy"] }
+    ];
+
+    const RARITY_MAP = {
+      'b-display_block': 'R-80',
+      'b-display_box': 'R-45',
+      'b-steel_block': 'R-35',
+      'b-glass_block': 'R-13',
+      'b-music_box': 'R-23',
+      'b-aqua_block': 'R-9',
+      'b-glass_pane_alpha': 'R-2',
+      'b-glass_pane_aqua': 'R-2',
+      'b-bricks_aqua': 'R-4',
+      'b-rock_alpha': 'R-1',
+      'b-lava_alpha': 'R-1',
+      'b-rubber_ducky': 'R-17',
+      'b-olde_timey_radio': 'R-14',
+      'b-bathtub': 'R-11',
+      'b-painting_dink_duck': 'R-9',
+      'b-toilet_bath': 'R-6',
+      'b-white_block': 'R-5',
+      'b-yellow_block': 'R-7',
+      'b-wooden_bg': 'R-2',
+      'b-portcullis': 'R-8',
+      'b-toilet_radio': 'R-6',
+      'b-dungeon_door': 'R-6',
+      'b-death_spikes': 'R-16',
+      'b-crappy_sign': 'R-2',
+      'b-brown_block': 'R-4',
+      'b-sb_portcullis': 'R-8',
+      'b-purple_block': 'R-19',
+      'b-sb_dungeon_door': 'R-6',
+      'b-sb_death_spikes': 'R-16',
+      'b-sb_dd_door': 'R-2',
+      'b-sb_dd_window': 'R-3',
+      'b-sb_danger_sign': 'R-4',
+      'b-sb_rock_bg': 'R-2',
+      'b-red_block': 'R-4',
+      'b-blue_block': 'R-15',
+      'b-sb_red_bricks': 'R-4',
+      'b-sb_red_lava': 'R-1',
+      'b-sb_blue_bricks': 'R-4',
+      'b-blueberry': 'R-12',
+      'b-bush': 'R-8',
+      'b-sb_mushroom': 'R-3',
+      'b-poppy': 'R-4',
+      'b-sb_bush_rose': 'R-3',
+      'b-sb_pop_rose': 'R-3',
+      'b-sb_pop_daisy': 'R-2'
+    };
+
+    // =========================================================
+    // SFX AUDIO SYNTHESIZER
+    // =========================================================
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      return audioCtx;
+    }
+
+    function playBeep(freq, type, duration, gainLevel = 0.1) {
+      try {
+        const ctx = getAudioCtx();
+        if (ctx.state === 'suspended') ctx.resume();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(gainLevel, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (err) {}
+    }
+
+    function sfxTap() { playBeep(520, 'sine', 0.08, 0.12); }
+    function sfxSparkle() {
+      playBeep(650, 'triangle', 0.1, 0.1);
+      setTimeout(() => playBeep(880, 'sine', 0.15, 0.12), 60);
+      setTimeout(() => playBeep(1174, 'sine', 0.2, 0.15), 120);
+    }
+
+    // =========================================================
+    // MULTI-MODE ENGINE: QUOTA & DECAY
+    // =========================================================
+    let currentMode = 'quota';
+    let quotaTarget = 1000;
+    let decayBase = 5000;
+
+    function calculateQuotaTree(target) {
+      const q = Math.max(1, target || 1000);
+      const buf = 1.25;
+      return {
+        'b-display_block': q,
+        'b-display_box': q,
+        'b-steel_block': q,
+        'b-glass_block': q,
+        'b-music_box': q,
+        'b-aqua_block': q,
+        'b-glass_pane_aqua': q,
+        'b-glass_pane_alpha': q,
+        'b-rock_alpha': q,
+        'b-lava_alpha': q,
+        'b-rubber_ducky': q,
+        'b-olde_timey_radio': q,
+        'b-bathtub': q,
+        'b-painting_dink_duck': q,
+        'b-toilet_bath': Math.round(q * buf),
+        'b-white_block': q,
+        'b-yellow_block': q,
+        'b-wooden_bg': q,
+        'b-portcullis': q,
+        'b-dungeon_door': q,
+        'b-death_spikes': Math.round(q * buf),
+        'b-toilet_radio': Math.round(q * buf),
+        'b-crappy_sign': q,
+        'b-brown_block': q,
+        'b-bricks_aqua': q,
+        // Steel Wing
+        'b-sb_portcullis': q,
+        'b-purple_block': q,
+        'b-sb_dungeon_door': q,
+        'b-sb_death_spikes': Math.round(q * buf),
+        'b-sb_dd_door': q,
+        'b-sb_dd_window': q,
+        'b-sb_danger_sign': q,
+        'b-sb_rock_bg': q,
+        'b-red_block': q,
+        'b-blue_block': q,
+        'b-sb_red_bricks': q,
+        'b-sb_red_lava': q,
+        'b-sb_blue_bricks': q,
+        'b-blueberry': q,
+        'b-bush': q,
+        'b-sb_mushroom': q,
+        'b-poppy': q,
+        'b-sb_bush_rose': q,
+        'b-sb_pop_rose': q,
+        'b-sb_pop_daisy': q
+      };
+    }
+
+    function calculateDecayTree(base) {
+      const b = Math.max(1, base || 5000);
+      return {
+        'b-display_block': Math.round(b * 0.37),
+        'b-display_box': Math.round(b * 0.45),
+        'b-steel_block': Math.round(b * 0.45),
+        'b-glass_block': Math.round(b * 0.50),
+        'b-music_box': Math.round(b * 0.48),
+        'b-aqua_block': Math.round(b * 0.55),
+        'b-glass_pane_aqua': Math.round(b * 0.60),
+        'b-glass_pane_alpha': Math.round(b * 0.60),
+        'b-rock_alpha': b,
+        'b-lava_alpha': b,
+        'b-rubber_ducky': Math.round(b * 0.52),
+        'b-olde_timey_radio': Math.round(b * 0.50),
+        'b-bathtub': Math.round(b * 0.55),
+        'b-painting_dink_duck': Math.round(b * 0.55),
+        'b-toilet_bath': Math.round(b * 0.60),
+        'b-white_block': Math.round(b * 0.65),
+        'b-yellow_block': Math.round(b * 0.65),
+        'b-wooden_bg': Math.round(b * 0.70),
+        'b-portcullis': Math.round(b * 0.55),
+        'b-dungeon_door': Math.round(b * 0.65),
+        'b-death_spikes': Math.round(b * 0.58),
+        'b-toilet_radio': Math.round(b * 0.60),
+        'b-crappy_sign': Math.round(b * 0.70),
+        'b-brown_block': Math.round(b * 0.70),
+        'b-bricks_aqua': Math.round(b * 0.75),
+        'b-sb_portcullis': Math.round(b * 0.55),
+        'b-purple_block': Math.round(b * 0.52),
+        'b-sb_dungeon_door': Math.round(b * 0.65),
+        'b-sb_death_spikes': Math.round(b * 0.58),
+        'b-sb_dd_door': Math.round(b * 0.75),
+        'b-sb_dd_window': Math.round(b * 0.70),
+        'b-sb_danger_sign': Math.round(b * 0.75),
+        'b-sb_rock_bg': Math.round(b * 0.80),
+        'b-red_block': Math.round(b * 0.65),
+        'b-blue_block': Math.round(b * 0.60),
+        'b-sb_red_bricks': Math.round(b * 0.80),
+        'b-sb_red_lava': b,
+        'b-sb_blue_bricks': Math.round(b * 0.80),
+        'b-blueberry': Math.round(b * 0.65),
+        'b-bush': Math.round(b * 0.70),
+        'b-sb_mushroom': Math.round(b * 0.85),
+        'b-poppy': Math.round(b * 0.75),
+        'b-sb_bush_rose': Math.round(b * 0.85),
+        'b-sb_pop_rose': Math.round(b * 0.85),
+        'b-sb_pop_daisy': Math.round(b * 0.90)
+      };
+    }
+
+    function setTreeMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('#menu-1-view .manga-chip').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('mode-' + mode);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const calcLabel = document.getElementById('calc-label');
+      const targetInput = document.getElementById('target-val');
+      const presetContainer = document.getElementById('preset-container');
+      const bubble = document.getElementById('bubble-commentary');
+
+      if (mode === 'quota') {
+        calcLabel.textContent = 'TARGET:';
+        targetInput.style.display = 'inline-block';
+        targetInput.value = quotaTarget;
+        targetInput.disabled = false;
+        presetContainer.style.display = 'flex';
+        if (bubble) bubble.textContent = '"Senpai! Di mode Quota, lu bisa lihat berapa benih primordial yang kudu disiapin buat 1.000 Display Block!"';
+      } else if (mode === 'rarity') {
+        calcLabel.textContent = 'RARITY:';
+        targetInput.style.display = 'none';
+        presetContainer.style.display = 'none';
+        if (bubble) bubble.textContent = '"Mode Rarity aktif! Display Block adalah R-80 dengan dua pilar R-45 dan R-35!"';
+      } else if (mode === 'decay') {
+        calcLabel.textContent = 'BASE:';
+        targetInput.style.display = 'inline-block';
+        targetInput.value = decayBase;
+        targetInput.disabled = false;
+        presetContainer.style.display = 'flex';
+        if (bubble) bubble.textContent = '"Mode Decay 5K! Menguji ketahanan fusi benih non-farmable dan yield panen riil!"';
+      } else if (mode === 'off') {
+        calcLabel.textContent = 'CLEAN:';
+        targetInput.style.display = 'none';
+        presetContainer.style.display = 'none';
+        if (bubble) bubble.textContent = '"Tampilan bersih tanpa badge aktif! Cocok buat screenshot poster silsilah!"';
+      }
+
+      updateTreeDisplay();
+      sfxTap();
+    }
+
+    function setPreset(n) {
+      if (currentMode === 'decay') {
+        decayBase = n;
+      } else {
+        quotaTarget = n;
+      }
+      document.getElementById('target-val').value = n;
+      updateTreeDisplay();
+      sfxTap();
+    }
+
+    document.getElementById('target-val').addEventListener('input', function() {
+      const val = parseInt(this.value) || 1;
+      if (currentMode === 'decay') {
+        decayBase = val;
+      } else {
+        quotaTarget = val;
+      }
+      updateTreeDisplay();
+    });
+
+    function updateTreeDisplay() {
+      const allBadges = document.querySelectorAll('.comic-badge-tag');
+
+      if (currentMode === 'off') {
+        allBadges.forEach(el => el.className = 'comic-badge-tag badge-hidden');
+        updateAnalyticsCards();
+        return;
+      }
+
+      if (currentMode === 'rarity') {
+        for (const [id, label] of Object.entries(RARITY_MAP)) {
+          const el = document.getElementById(id);
+          if (el) {
+            el.className = 'comic-badge-tag badge-rarity';
+            el.textContent = label;
+          }
+        }
+        updateAnalyticsCards();
+        return;
+      }
+
+      if (currentMode === 'quota') {
+        const data = calculateQuotaTree(quotaTarget);
+        for (const [id, count] of Object.entries(data)) {
+          const el = document.getElementById(id);
+          if (el) {
+            el.className = 'comic-badge-tag badge-quota';
+            el.textContent = count.toLocaleString() + ' 🌰';
+          }
+        }
+        updateAnalyticsCards();
+        return;
+      }
+
+      if (currentMode === 'decay') {
+        const data = calculateDecayTree(decayBase);
+        for (const [id, count] of Object.entries(data)) {
+          const el = document.getElementById(id);
+          if (el) {
+            el.className = 'comic-badge-tag badge-decay';
+            el.textContent = count.toLocaleString() + ' 📉';
+          }
+        }
+        updateAnalyticsCards();
+        return;
+      }
+    }
+
+    function updateAnalyticsCards() {
+      const c1Val = document.getElementById('stat-chem-total');
+      const c2Val = document.getElementById('stat-wl-total');
+      if (!c1Val) return;
+
+      if (currentMode === 'quota') {
+        c1Val.textContent = quotaTarget.toLocaleString() + ' PAIRS';
+        const minW = Math.round(quotaTarget / 8);
+        const maxW = Math.round(quotaTarget / 5);
+        c2Val.textContent = '~' + minW + ' - ' + maxW + ' WL';
+      } else if (currentMode === 'decay') {
+        c1Val.textContent = Math.round(decayBase * 0.37).toLocaleString() + ' YIELD';
+        c2Val.textContent = 'DECAY RATE ~63%';
+      }
+    }
+
+    // =========================================================
+    // SVG WIRE DRAWING (CONNECTIONS)
+    // =========================================================
+    function getNodePos(el, wrapper) {
+      let x = 0;
+      let y = 0;
+      let curr = el;
+      while (curr && curr !== wrapper && curr !== document.body) {
+        x += curr.offsetLeft;
+        y += curr.offsetTop;
+        curr = curr.offsetParent;
+      }
+      return {
+        centerX: x + el.offsetWidth / 2,
+        top: y,
+        bottom: y + el.offsetHeight
+      };
+    }
+
+    function drawTreeLines() {
+      const svg = document.getElementById('tree-wires-svg');
+      const wrapper = document.querySelector('.tree-canvas-wrapper');
+      if (!svg || !wrapper) return;
+
+      const w = wrapper.offsetWidth || 1800;
+      const h = wrapper.offsetHeight || 1200;
+      svg.setAttribute('width', w);
+      svg.setAttribute('height', h);
+
+      let svgHTML = `
+        <defs>
+          <filter id="manga-wire-shadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="3" dy="3" stdDeviation="0" flood-color="#09131f" flood-opacity="1"/>
+          </filter>
+        </defs>
+      `;
+
+      TREE_CONNECTIONS.forEach((conn) => {
+        const pEl = document.getElementById(conn.parent);
+        const c1El = document.getElementById(conn.children[0]);
+        const c2El = document.getElementById(conn.children[1]);
+
+        if (!pEl || !c1El || !c2El) return;
+        if (pEl.offsetParent === null || c1El.offsetParent === null || c2El.offsetParent === null) return;
+
+        const pPos = getNodePos(pEl, wrapper);
+        const c1Pos = getNodePos(c1El, wrapper);
+        const c2Pos = getNodePos(c2El, wrapper);
+
+        const pX = pPos.centerX;
+        const pY = pPos.bottom;
+        const c1X = c1Pos.centerX;
+        const c1Y = c1Pos.top;
+        const c2X = c2Pos.centerX;
+        const c2Y = c2Pos.top;
+
+        const minY = Math.min(c1Y, c2Y);
+        const midY = pY + (minY - pY) * 0.52;
+
+        const pathData = `
+          M ${pX} ${pY}
+          L ${pX} ${midY}
+          M ${c1X} ${midY}
+          L ${c2X} ${midY}
+          M ${c1X} ${midY}
+          L ${c1X} ${c1Y}
+          M ${c2X} ${midY}
+          L ${c2X} ${c2Y}
+        `;
+
+        svgHTML += `
+          <path d="${pathData}" 
+                fill="none" 
+                stroke="#09131f" 
+                stroke-width="4.5" 
+                stroke-linecap="square" 
+                stroke-linejoin="miter" 
+                filter="url(#manga-wire-shadow)"/>
+        `;
+      });
+
+      svg.innerHTML = svgHTML;
+    }
+
+    // =========================================================
+    // ZOOM & NAVIGATION
+    // =========================================================
+    let currentZoom = 0.85;
+    let userManuallyZoomed = false;
+    let zoomDrawerOpen = true;
+
+    function applyZoom() {
+      const wrapper = document.querySelector('.tree-canvas-wrapper');
+      const readout = document.getElementById('zoom-readout');
+      if (wrapper) wrapper.style.transform = `scale(${currentZoom})`;
+      if (readout) readout.textContent = Math.round(currentZoom * 100) + '%';
+      setTimeout(drawTreeLines, 50);
+    }
+
+    function zoomTree(delta) {
+      userManuallyZoomed = true;
+      currentZoom = Math.min(1.5, Math.max(0.3, currentZoom + delta));
+      applyZoom();
+      sfxTap();
+    }
+
+    function resetZoom() {
+      userManuallyZoomed = true;
+      currentZoom = 1.0;
+      applyZoom();
+      sfxTap();
+    }
+
+    function fitScreen(showToast = true) {
+      const vp = document.querySelector('.tree-viewport');
+      const wrap = document.querySelector('.tree-canvas-wrapper');
+      if (vp && wrap) {
+        // Temporarily reset scale to measure true unscaled natural width
+        const prevTransform = wrap.style.transform;
+        wrap.style.transform = 'scale(1)';
+        const neededWidth = wrap.scrollWidth || 1600;
+        const availableWidth = Math.max(320, vp.clientWidth - 48);
+        wrap.style.transform = prevTransform;
+
+        // Auto-scale so all cards fit comfortably on user screen without overflow
+        const scale = Math.min(1.0, availableWidth / neededWidth);
+        currentZoom = Math.max(0.35, Number(scale.toFixed(2)));
+        applyZoom();
+        centerViewport();
+
+        if (showToast) {
+          sfxTap();
+        }
+      }
+    }
+
+    function centerViewport() {
+      const vp = document.querySelector('.tree-viewport');
+      if (vp) {
+        if (vp.scrollWidth > vp.clientWidth) {
+          vp.scrollLeft = Math.round((vp.scrollWidth - vp.clientWidth) / 2);
+        } else {
+          vp.scrollLeft = 0;
+        }
+      }
+    }
+
+    // Drag to Pan
+    const vpElement = document.querySelector('.tree-viewport');
+    let isPanning = false;
+    let startMouseX = 0;
+    let startScrollLeft = 0;
+
+    if (vpElement) {
+      vpElement.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.manga-card') || e.target.closest('button') || e.target.closest('input')) return;
+        isPanning = true;
+        vpElement.classList.add('grabbing');
+        startMouseX = e.pageX - vpElement.offsetLeft;
+        startScrollLeft = vpElement.scrollLeft;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isPanning) return;
+        isPanning = false;
+        vpElement.classList.remove('grabbing');
+      });
+
+      vpElement.addEventListener('mousemove', (e) => {
+        if (!isPanning) return;
+        e.preventDefault();
+        const x = e.pageX - vpElement.offsetLeft;
+        const walk = (x - startMouseX) * 1.5;
+        vpElement.scrollLeft = startScrollLeft - walk;
+      });
+    }
+
+    function toggleZoomDrawer(e) {
+      if (e) e.stopPropagation();
+      zoomDrawerOpen = !zoomDrawerOpen;
+      const dock = document.getElementById('zoom-dock');
+      const btn = document.getElementById('zoom-drawer-btn');
+      if (dock && btn) {
+        dock.classList.toggle('collapsed', !zoomDrawerOpen);
+        btn.innerHTML = zoomDrawerOpen ? '◀' : '🔍';
+      }
+      sfxTap();
+    }
+
+    // =========================================================
+    // CHIBI ASSISTANT & MODALS
+    // =========================================================
+    let assistantDrawerOpen = true;
+    const assistantQuotes = [
+      "Di mode Quota, semua benih dari Tier 1 Dirt & Rock dihitung pas tanpa ada branch gantung!",
+      "Steel Block butuh Portcullis + Purple Block. Siapkan stock Blueberry dari awal!",
+      "Display Box butuh Glass Block + Music Box. Hati-hati di Death Spikes yang butuh 4 jam panen!",
+      "Jangan campur tempat splice Steel Block sama Display Box biar world gak berantakan!",
+      "Klik kartu mana pun di pohon buat buka Item Databook Archive lengkap!"
+    ];
+    let quoteIndex = 0;
+
+    function cycleAssistantQuote() {
+      quoteIndex = (quoteIndex + 1) % assistantQuotes.length;
+      document.getElementById('bubble-commentary').textContent = `"${assistantQuotes[quoteIndex]}"`;
+      triggerCutin("極意・鋼陳列!!", "SECRET TECHNIQUE: MONOLITHIC STEEL SHOWCASE!", "icons/display_block.png");
+      sfxSparkle();
+    }
+
+    function toggleAssistantDrawer(e) {
+      if (e) e.stopPropagation();
+      assistantDrawerOpen = !assistantDrawerOpen;
+      const bubble = document.getElementById('assistant-bubble');
+      const btn = document.getElementById('assistant-drawer-btn');
+      if (bubble && btn) {
+        bubble.classList.toggle('collapsed', !assistantDrawerOpen);
+        btn.innerHTML = assistantDrawerOpen ? '▶' : '💬';
+      }
+      sfxTap();
+    }
+
+    function toggleSpeechBubbles() {
+      const body = document.body;
+      const btn = document.getElementById('btn-speech-toggle');
+      body.classList.toggle('speech-bubbles-hidden');
+      const isHidden = body.classList.contains('speech-bubbles-hidden');
+      btn.innerHTML = isHidden ? '<span>💬</span> BALON (OFF)' : '<span>💬</span> BALON (ON)';
+      btn.classList.toggle('active', !isHidden);
+      sfxTap();
+    }
+
+    function toggleBottleneckHighlight() {
+      const targets = ['card-death_spikes', 'card-sb_death_spikes', 'card-blueberry', 'card-toilet_bath', 'card-toilet_radio'];
+      targets.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('bottleneck-highlight');
+      });
+      const btn = document.getElementById('btn-bottleneck');
+      btn.classList.toggle('active');
+      sfxTap();
+    }
+
+    function triggerCutin(kanji, sub, icon) {
+      const overlay = document.getElementById('anime-cutin');
+      document.getElementById('cutin-kanji').textContent = kanji;
+      document.getElementById('cutin-sub').textContent = sub;
+      document.getElementById('cutin-img').src = icon;
+      overlay.classList.add('active');
+      setTimeout(() => overlay.classList.remove('active'), 1200);
+    }
+
+    // =========================================================
+    // INSPECT ITEM (DATABOOK)
+    // =========================================================
+    function inspectItem(key) {
+      const item = DB[key];
+      if (!item) return;
+
+      document.getElementById('m-name').textContent = `★ ${item.name.toUpperCase()} DATABOOK ★`;
+      document.getElementById('m-sprite').src = `icons/${key}.png`;
+      document.getElementById('m-rarity').textContent = item.rarity;
+      document.getElementById('m-grow').textContent = item.grow.toUpperCase();
+      document.getElementById('m-farmable').textContent = item.farmable.toUpperCase();
+      document.getElementById('m-rank').textContent = item.rank;
+      document.getElementById('m-stars').textContent = item.stars;
+      document.getElementById('m-trait').textContent = item.trait;
+      document.getElementById('m-desc').textContent = item.desc;
+
+      const quotaData = calculateQuotaTree(quotaTarget);
+      const quotaVal = quotaData[`b-${key}`] || quotaData[`b-${key}_aqua`] || quotaData[`b-sb_${key}`] || '-';
+      document.getElementById('m-quota').textContent = typeof quotaVal === 'number' ? quotaVal.toLocaleString() + ' SEEDS' : quotaVal;
+
+      const decayData = calculateDecayTree(decayBase);
+      const decayVal = decayData[`b-${key}`] || decayData[`b-${key}_aqua`] || decayData[`b-sb_${key}`] || '-';
+      document.getElementById('m-decay').textContent = typeof decayVal === 'number' ? decayVal.toLocaleString() + ' YIELD' : decayVal;
+
+      const eq = document.getElementById('m-equation');
+      eq.innerHTML = '';
+
+      if (item.parents && item.parents.length === 2) {
+        const p1 = DB[item.parents[0]] || { name: item.parents[0] };
+        const p2 = DB[item.parents[1]] || { name: item.parents[1] };
+
+        eq.innerHTML = `
+          <div class="recipe-cell">
+            <img src="icons/${item.parents[0]}.png" alt="${p1.name}">
+            <span>${p1.name}</span>
+          </div>
+          <span style="font-family:'Bangers'; font-size: 22px;">+</span>
+          <div class="recipe-cell">
+            <img src="icons/${item.parents[1]}.png" alt="${p2.name}">
+            <span>${p2.name}</span>
+          </div>
+          <span style="font-family:'Bangers'; font-size: 22px;">=</span>
+          <div class="recipe-cell" style="background:var(--shonen-cyan);">
+            <img src="icons/${key}.png" alt="${item.name}">
+            <span>${item.name}</span>
+          </div>
+        `;
+        document.getElementById('m-recipe-box').style.display = 'block';
+      } else {
+        document.getElementById('m-recipe-box').style.display = 'none';
+      }
+
+      document.getElementById('inspect-modal').classList.add('active');
+      sfxTap();
+    }
+
+    function closeInspect(e) {
+      if (e.target.id === 'inspect-modal') forceCloseInspect();
+    }
+    function forceCloseInspect() {
+      document.getElementById('inspect-modal').classList.remove('active');
+    }
+
+    // =========================================================
+    // FORGE ARENA
+    // =========================================================
+    let slotA = null;
+    let slotB = null;
+
+    function openForge() {
+      document.getElementById('forge-modal').classList.add('active');
+      buildPalette();
+      sfxTap();
+    }
+    function closeForge(e) {
+      if (e.target.id === 'forge-modal') forceCloseForge();
+    }
+    function forceCloseForge() {
+      document.getElementById('forge-modal').classList.remove('active');
+    }
+
+    function buildPalette() {
+      const palette = document.getElementById('forge-palette');
+      palette.innerHTML = '';
+      Object.keys(DB).forEach(key => {
+        const item = DB[key];
+        const chip = document.createElement('div');
+        chip.style.cssText = `display:inline-flex;align-items:center;gap:4px;padding:3px 6px;background:#f8fafc;border:2px solid #000;border-radius:4px;cursor:pointer;font-family:'Bangers';font-size:11px;`;
+        chip.innerHTML = `<img src="icons/${key}.png" style="width:20px;height:20px;image-rendering:pixelated;"> <span>${item.name}</span>`;
+        chip.onclick = () => selectForForge(key);
+        palette.appendChild(chip);
+      });
+    }
+
+    function selectForForge(key) {
+      sfxTap();
+      if (!slotA) {
+        slotA = key;
+        renderForgeSlot(1, key);
+      } else {
+        slotB = key;
+        renderForgeSlot(2, key);
+      }
+    }
+
+    function renderForgeSlot(n, key) {
+      const el = document.getElementById('f-slot-' + n);
+      const item = DB[key];
+      el.className = 'fusion-slot loaded';
+      el.innerHTML = `<img src="icons/${key}.png" alt="${item.name}"><span>${item.name}</span>`;
+    }
+
+    function clearForgeSlot(n) {
+      if (n === 1) slotA = null;
+      if (n === 2) slotB = null;
+      const el = document.getElementById('f-slot-' + n);
+      el.className = 'fusion-slot';
+      el.innerHTML = `<span>SEED ${n}</span>`;
+      document.getElementById('f-slot-res').className = 'fusion-slot';
+      document.getElementById('f-slot-res').innerHTML = '<span>RESULT</span>';
+    }
+
+    function executeSplice() {
+      if (!slotA || !slotB) {
+        alert('PILIH 2 SEED TERLEBIH DAHULU!');
+        return;
+      }
+      let matched = null;
+      for (const [resKey, data] of Object.entries(DB)) {
+        if (data.parents && data.parents.length === 2) {
+          const [p1, p2] = data.parents;
+          if ((p1 === slotA && p2 === slotB) || (p1 === slotB && p2 === slotA)) {
+            matched = resKey;
+            break;
+          }
+        }
+      }
+      const resBox = document.getElementById('f-slot-res');
+      if (matched) {
+        const item = DB[matched];
+        resBox.className = 'fusion-slot loaded';
+        resBox.innerHTML = `<img src="icons/${matched}.png"><span>${item.name}</span>`;
+        triggerCutin("融合成功!!", "SPLICING COMPLETE: " + item.name.toUpperCase(), "icons/" + matched + ".png");
+        sfxSparkle();
+      } else {
+        resBox.className = 'fusion-slot';
+        resBox.innerHTML = '<span style="color:#ef4444;">GAGAL!</span>';
+        playBeep(220, 'sawtooth', 0.2, 0.2);
+      }
+    }
+
+    // =========================================================
+    // BUFF MATRIX SIMULATOR
+    // =========================================================
+    function openBuffSim() {
+      const modal = document.getElementById('buff-sim-modal');
+      modal.classList.add('active');
+      modal.style.display = 'flex';
+      populateSimItems();
+      recalculateBuffSim();
+      sfxTap();
+    }
+
+    function closeBuffSim(e) {
+      if (e.target.id === 'buff-sim-modal') forceCloseBuffSim();
+    }
+    function forceCloseBuffSim() {
+      const modal = document.getElementById('buff-sim-modal');
+      modal.classList.remove('active');
+      modal.style.display = 'none';
+      sfxTap();
+    }
+
+    function populateSimItems() {
+      const select = document.getElementById('sim-item-select');
+      if (select && select.children.length === 0) {
+        Object.keys(DB).forEach(key => {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = `${DB[key].name} (Rarity ${DB[key].rarity})`;
+          select.appendChild(opt);
+        });
+        select.value = 'display_block';
+      }
+    }
+
+    function recalculateBuffSim() {
+      const select = document.getElementById('sim-item-select');
+      const treeInput = document.getElementById('sim-tree-count');
+      if (!select || !treeInput) return;
+
+      const currentKey = select.value || 'display_block';
+      const treeCount = parseInt(treeInput.value) || 2700;
+
+      const buffs = {
+        harvester: document.getElementById('buff-harvester')?.checked || false,
+        dcs: document.getElementById('buff-dcs')?.checked || false,
+        ances: document.getElementById('buff-ances')?.checked || false,
+        arroz: document.getElementById('buff-arroz')?.checked || false,
+        luck: document.getElementById('buff-luck')?.checked || false,
+        buddy: document.getElementById('buff-buddy')?.checked || false
+      };
+
+      const item = DB[currentKey] || { name: currentKey, rarity: 80, farmable: "Non-Farmable" };
+      const isFarmable = item.farmable.toLowerCase().includes("farmable") && !item.farmable.toLowerCase().includes("non");
+      
+      let blockPerTree = isFarmable ? 3.0 : 2.65;
+      if (buffs.harvester) blockPerTree *= 1.15;
+      if (buffs.dcs) blockPerTree *= 1.05;
+      const totalBlocks = Math.round(treeCount * blockPerTree);
+      const htSeedDrops = Math.round(treeCount * 0.14);
+      const gemMultiplier = buffs.dcs ? 1.25 : 1.0;
+      const htGems = Math.round(treeCount * (0.8 + (item.rarity * 0.05)) * gemMultiplier);
+
+      const extraBlockRate = buffs.buddy ? 0.12 : 0.0833;
+      const extraBlocksBroken = Math.round(totalBlocks * extraBlockRate);
+      let baseSeedChance = isFarmable ? 0.25 : Math.max(0.04, 0.25 - (item.rarity * 0.0022));
+      if (buffs.ances) baseSeedChance *= 1.10;
+      if (buffs.arroz) baseSeedChance *= 1.10;
+      if (buffs.luck) baseSeedChance *= 1.05;
+
+      const totalBreakSeeds = Math.round((totalBlocks + extraBlocksBroken) * baseSeedChance);
+      const totalNetSeeds = htSeedDrops + totalBreakSeeds;
+      const seedSurplus = totalNetSeeds - treeCount;
+      const netRatioPercent = Math.round((totalNetSeeds / treeCount) * 100);
+
+      const container = document.getElementById('sim-result-container');
+      const surplusClass = seedSurplus >= 0 ? 'color: #4ade80;' : 'color: #f87171;';
+      const surplusSign = seedSurplus >= 0 ? '+' : '';
+
+      container.innerHTML = `
+        <div style="border-bottom: 1px dashed #555; padding-bottom: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+          <div>
+            <span style="color: #fde047; font-weight: bold; font-size: 15px;">DROID-PET EMULATOR: ${item.name.toUpperCase()}</span>
+            <span style="color: #94a3b8; font-size: 11px;">(${item.farmable}, Rarity ${item.rarity})</span>
+          </div>
+          <span style="background: #222; border: 1px solid #444; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; ${surplusClass}">
+            NET SEED RETURN: ${netRatioPercent}% (${surplusSign}${seedSurplus.toLocaleString()} Seeds)
+          </span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+          <div style="background: #18181b; padding: 10px; border-radius: 6px; border: 1px solid #333;">
+            <div style="color: #86efac; font-weight: bold; margin-bottom: 6px;">🌾 DROPS FROM HARVESTING ${treeCount.toLocaleString()} TREES:</div>
+            <div>• Gem drops: <span style="color: #cbd5e1;">${htGems.toLocaleString()}</span></div>
+            <div>• Block drops: <span style="color: #facc15; font-weight: bold;">${totalBlocks.toLocaleString()}</span></div>
+            <div>• Seed drops: <span style="color: #60a5fa; font-weight: bold;">${htSeedDrops.toLocaleString()}</span> (14% tree drop)</div>
+          </div>
+          <div style="background: #18181b; padding: 10px; border-radius: 6px; border: 1px solid #333;">
+            <div style="color: #fdba74; font-weight: bold; margin-bottom: 6px;">🔨 BREAKING ${totalBlocks.toLocaleString()} BLOCKS:</div>
+            <div>• Extra Blocks (Buddy): <span style="color: #cbd5e1;">+${extraBlocksBroken.toLocaleString()}</span></div>
+            <div>• Total Break Seeds: <span style="color: #60a5fa; font-weight: bold;">${totalBreakSeeds.toLocaleString()}</span></div>
+          </div>
+        </div>
+      `;
+
+      const tbody = document.getElementById('sim-table-body');
+      if (tbody) {
+        tbody.innerHTML = '';
+        Object.keys(DB).forEach(key => {
+          const it = DB[key];
+          const isF = it.farmable.toLowerCase().includes("farmable") && !it.farmable.toLowerCase().includes("non");
+          const bTotal = Math.round(treeCount * (isF ? 3.0 : 2.65));
+          const hSeeds = Math.round(treeCount * 0.14);
+          const bSeeds = Math.round(bTotal * (isF ? 0.25 : Math.max(0.04, 0.25 - (it.rarity * 0.0022))));
+          const nSeeds = hSeeds + bSeeds;
+          const retPct = Math.round((nSeeds / treeCount) * 100);
+          const surplus = nSeeds - treeCount;
+          const sColor = surplus >= 0 ? '#166534' : '#dc2626';
+
+          const tr = document.createElement('tr');
+          tr.style.borderBottom = '1px solid #e2e8f0';
+          tr.innerHTML = `
+            <td style="padding: 6px 8px; font-weight: bold; cursor: pointer; color: #0284c7;" onclick="document.getElementById('sim-item-select').value='${key}'; recalculateBuffSim();">${it.name}</td>
+            <td style="padding: 6px 8px;">${it.rarity}</td>
+            <td style="padding: 6px 8px;">${treeCount.toLocaleString()}</td>
+            <td style="padding: 6px 8px; font-weight: bold; color: #b45309;">${bTotal.toLocaleString()}</td>
+            <td style="padding: 6px 8px;">${hSeeds.toLocaleString()}</td>
+            <td style="padding: 6px 8px;">${bSeeds.toLocaleString()}</td>
+            <td style="padding: 6px 8px; font-weight: bold; color: ${sColor};">${retPct}% (${surplus >= 0 ? '+' : ''}${surplus.toLocaleString()})</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    }
+
+    // =========================================================
+    // HEADER COLLAPSE & SAWERIA
+    // =========================================================
+    function toggleHeaderCollapse(e) {
+      if (e) e.stopPropagation();
+      const header = document.getElementById('main-header');
+      const icon = document.getElementById('header-toggle-icon');
+      const txt = document.getElementById('header-toggle-text');
+      if (!header) return;
+
+      const isCollapsing = !header.classList.contains('header-collapsed');
+      if (isCollapsing) {
+        header.classList.add('header-collapsed');
+        header.style.marginBottom = `-${header.offsetHeight}px`;
+        if (icon) icon.textContent = '▼';
+        if (txt) txt.textContent = 'BUKA KONTROL';
+      } else {
+        header.classList.remove('header-collapsed');
+        header.style.marginBottom = '0px';
+        if (icon) icon.textContent = '▲';
+        if (txt) txt.textContent = 'SEMBUNYIKAN MENU';
+      }
+      sfxTap();
+      setTimeout(() => {
+        fitScreen(false);
+        drawTreeLines();
+      }, 380);
+    }
+
+    function openSaweriaModal() {
+      document.getElementById('saweria-modal').classList.add('active');
+      sfxTap();
+    }
+    function closeSaweriaModal(e) {
+      if (!e || e.target.id === 'saweria-modal') {
+        document.getElementById('saweria-modal').classList.remove('active');
+        sfxTap();
+      }
+    }
+
+    // Window events
+    window.addEventListener('resize', () => {
+      if (!userManuallyZoomed) {
+        fitScreen(false);
+      } else {
+        drawTreeLines();
+      }
+    });
+
+    window.addEventListener('load', () => {
+      updateTreeDisplay();
+      fitScreen(false);
+      setTimeout(() => {
+        fitScreen(false);
+        drawTreeLines();
+        centerViewport();
+      }, 150);
+    });
+
+    updateTreeDisplay();
+    setTimeout(() => {
+      fitScreen(false);
+      drawTreeLines();
+      centerViewport();
+    }, 100);
+  </script>
+</body>
+</html>
