@@ -1,50 +1,76 @@
-# 🧪 MASTER PROMPT: SCIENCE STATION & CHEMICAL VIAL MARKET ORACLE
+# 🧪 MASTER PROMPT: SCIENCE STATION MASSING INGREDIENTS & COST ORACLE
 
-Gunakan prompt di bawah ini untuk AI apa saja (ChatGPT, Claude, Gemini, DeepSeek, dll) setiap kali kamu mau memperbarui dan menganalisis harga pasar Science Station, Chemical Vials, dan Fuel Pack di Growtopia.
+Gunakan prompt ini untuk AI apa saja (ChatGPT, Claude, Gemini, DeepSeek) untuk memperbarui harga **BAHAN-BAHAN pembentuk Science Station** (bukan hasil panen chemical vial, tapi murni modal bahan bibit splicingnya).
 
 ---
 
 ### 📋 COPY PROMPT INI:
 
 ```markdown
-Kamu adalah Growtopia Science Station Economy & Yield Specialist.
+Kamu adalah Growtopia Splicing Economics Specialist.
 
 Tugas:
-Analisis catatan harga pasar terkini untuk Science Station dan Chemical Products, lalu keluarkan hasil dalam template JSON berikut.
-Pengguna cukup mengubah atau memberikan angka "rate_per_wl" (berapa biji item per 1 WL).
+Sesuaikan angka harga pasar terbaru (rate_per_wl) untuk BAHAN-BAHAN MASSING SCIENCE STATION ke dalam template JSON di bawah.
+Bahan-bahan ini adalah bibit atau balok yang dibutuhkan untuk melakukan splicing Science Station.
+CUKUP PERBARUI / GANTI ANGKA "rate_per_wl" (berapa biji item per 1 WL) berdasarkan data harga yang aku berikan.
 
-Rumus Perhitungan Cuan Otomatis:
-1. 1.000 Science Station menghasilkan rata-rata 2.000 Chemical Vials per 12 jam (4.000 vials/hari jika panen 2x sehari on-time).
-2. Estimasi WL harian dari jual vial mentah = round((4000 / raw_vials_rate_per_wl)).
-3. Nilai aset massing jika 1.000 station dijual borongan = round(1000 / science_station_rate_per_wl).
-4. Estimasi bulanan (DL) = round((daily_vials_cuan_wl * 30) / 100).
+Resep Pohon Massing Science Station:
+- Science Station (Output) = Toxic Waste Barrel + Military Radio
+- Bahan Kunci: Death Spikes (dibutuhkan 2x di cabang kiri & kanan), Cactus, Acid, Barrel, Plumbing, Biohazard Sign, Sheet Music Sharp Piano, Danger Sign.
 
-[DATA HARGA PASAR DARI USER / DISCORD / GAME]:
-<PASTE CATATAN HARGA KAMU DI SINI, CONTOH:
+[DATA HARGA BAHAN DARI USER / DISCORD / GAME]:
+<PASTE CHAT / HARGA PASAR BAHAN DI SINI, CONTOH:
 - science station 3/wl atau 3.5/wl
-- chem vial 20/wl atau 22/wl
-- fuel pack 19/wl>
+- toxic waste 6/wl atau 7/wl
+- military radio 6/wl
+- death spikes 50/wl atau 60/wl
+- cactus 25/wl
+- acid 14/wl
+- barrel 30/wl
+- plumbing 18/wl
+- biohazard sign 18/wl
+- sheet music sharp piano 12/wl>
 
-[OUTPUT WAJIB JSON MURNI TANPA PENJELASAN TEKS]:
+[OUTPUT WAJIB JSON MURNI TANPA PENJELASAN LAIN]:
 {
-  "version": "1.0",
+  "version": "2.0",
   "item_target": "Science Station",
-  "last_updated": "YYYY-MM-DD",
-  "rates": {
-    "science_station_rate_per_wl": 3.0,
-    "raw_vials_rate_per_wl": 20.0,
-    "fuel_pack_rate_per_wl": 20.0,
-    "mystery_pouch_rate_per_wl": 15.0
+  "type": "Massing Ingredients & Recipe Cost Oracle",
+  "target_batch": 1000,
+  "selling_price": {
+    "science_station_rate_per_wl": 3.0
   },
-  "harvest_stats": {
-    "vials_per_harvest_1k": 2000,
-    "daily_harvests": 2
-  },
-  "estimated_earnings": {
-    "daily_vials_cuan_wl": 200,
-    "weekly_vials_cuan_wl": 1400,
-    "monthly_vials_cuan_dl": 60,
-    "massing_sale_value_wl": 333
+  "materials": {
+    "toxic_waste_barrel": {
+      "rate_per_wl": 6.5
+    },
+    "military_radio": {
+      "rate_per_wl": 6.5
+    },
+    "death_spikes": {
+      "rate_per_wl": 50.0
+    },
+    "cactus": {
+      "rate_per_wl": 25.0
+    },
+    "acid": {
+      "rate_per_wl": 14.0
+    },
+    "barrel": {
+      "rate_per_wl": 30.0
+    },
+    "plumbing": {
+      "rate_per_wl": 18.0
+    },
+    "biohazard_sign": {
+      "rate_per_wl": 18.0
+    },
+    "sheet_music_sharp_piano": {
+      "rate_per_wl": 12.0
+    },
+    "danger_sign": {
+      "rate_per_wl": 70.0
+    }
   }
 }
 ```
@@ -52,8 +78,8 @@ Rumus Perhitungan Cuan Otomatis:
 ---
 
 ### 🚀 CARA PAKAI DI WEBSITE:
-1. Copy output JSON dari AI di atas.
+1. Copas output JSON dari AI di atas.
 2. Buka web: **https://growtopia-massing-tree.vercel.app/science-station-anime-comic/**
-3. Klik tombol **`📈 HARGA PASAR (ORACLE)`** di menu atas.
-4. Paste JSON di tab **"📥 UPLOAD / PASTE JSON"** atau langsung ubah angkanya di tab **"✏️ TINGGAL GANTI ANGKA"**.
-5. Klik **"TERAPKAN HARGA ⚡"** -> Semua estimasi cuan harian, mingguan, dan bulanan langsung terhitung otomatis!
+3. Klik tombol **`📈 HARGA BAHAN (AI)`** di menu atas.
+4. Buka tab **"📥 UPLOAD / PASTE JSON"** -> paste JSON -> Klik **"TERAPKAN DATA JSON ⚡"**.
+5. Sistem langsung menghitung modal beli bahan vs harga jual Science Station, dan memperlihatkan **PROFIT BERSIH CUAN MASSING** lu!

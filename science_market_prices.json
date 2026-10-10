@@ -1,25 +1,63 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "item_target": "Science Station",
-  "rarity": 53,
-  "provider_cycle_hours": 12,
-  "currency": "WL",
-  "default_station_count": 1000,
-  "description": "Template harga pasar khusus Science Station & Chemical Vials. Tinggal ganti angka rate_per_wl!",
-  "rates": {
+  "type": "Massing Ingredients & Recipe Cost Oracle",
+  "target_batch": 1000,
+  "description": "Template harga pasar bahan-bahan massing Science Station. Cukup ganti angka rate_per_wl untuk setiap bahan!",
+  "selling_price": {
     "science_station_rate_per_wl": 3.0,
-    "raw_vials_rate_per_wl": 20.0,
-    "fuel_pack_rate_per_wl": 20.0,
-    "mystery_pouch_rate_per_wl": 15.0
+    "revenue_1k_wl": 333
   },
-  "harvest_stats": {
-    "vials_per_harvest_1k": 2000,
-    "daily_harvests": 2
-  },
-  "estimated_earnings": {
-    "daily_vials_cuan_wl": 200,
-    "weekly_vials_cuan_wl": 1400,
-    "monthly_vials_cuan_dl": 60,
-    "massing_sale_value_wl": 333
+  "materials": {
+    "toxic_waste_barrel": {
+      "name": "Toxic Waste Barrel (Bahan Utama Kiri)",
+      "needed_per_1k": 1000,
+      "rate_per_wl": 6.5
+    },
+    "military_radio": {
+      "name": "Military Radio (Bahan Utama Kanan)",
+      "needed_per_1k": 1000,
+      "rate_per_wl": 6.5
+    },
+    "death_spikes": {
+      "name": "Death Spikes (Core Bottleneck di 2 Cabang)",
+      "needed_per_1k": 2500,
+      "rate_per_wl": 50.0
+    },
+    "cactus": {
+      "name": "Cactus (Non-Farmable Decay)",
+      "needed_per_1k": 1250,
+      "rate_per_wl": 25.0
+    },
+    "acid": {
+      "name": "Acid",
+      "needed_per_1k": 1250,
+      "rate_per_wl": 14.0
+    },
+    "barrel": {
+      "name": "Barrel",
+      "needed_per_1k": 1250,
+      "rate_per_wl": 30.0
+    },
+    "plumbing": {
+      "name": "Plumbing",
+      "needed_per_1k": 1250,
+      "rate_per_wl": 18.0
+    },
+    "biohazard_sign": {
+      "name": "Biohazard Sign",
+      "needed_per_1k": 1250,
+      "rate_per_wl": 18.0
+    },
+    "sheet_music_sharp_piano": {
+      "name": "Sheet Music: Sharp Piano",
+      "needed_per_1k": 1250,
+      "rate_per_wl": 12.0
+    },
+    "danger_sign": {
+      "name": "Danger Sign",
+      "needed_per_1k": 2500,
+      "rate_per_wl": 70.0
+    }
   }
 }
