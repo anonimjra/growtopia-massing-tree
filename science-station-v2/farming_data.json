@@ -1,0 +1,237 @@
+{
+  "harvest": {
+    "science_station": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "toxic_waste_barrel": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "military_radio": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "acid": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "barrel": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "biohazard_sign": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "sheet_music_sharp_piano": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "cactus": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "plumbing": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "super_crate_box": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "dungeon_door": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "danger_sign": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "orange_block": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "sheet_music_piano_note": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "death_spikes": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "bush": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "bathtub": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "toilet": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "white_block": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "crappy_sign": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "brown_block": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "mushroom": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "green_block": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "door": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "window": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "dirt": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "sign": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "lava": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "pointy_sign": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "bricks": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "poppy": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "sheet_music_blank": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    },
+    "rock_bg": {
+      "normal": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_fuel": { "blocks_avg": 0, "seeds_avg": 0 },
+      "with_dcs_fuel": { "blocks_avg": 0, "seeds_avg": 0 }
+    }
+  },
+  "break": {
+    "science_station": { "seeds_avg": 0, "gems_avg": 0 },
+    "toxic_waste_barrel": { "seeds_avg": 0, "gems_avg": 0 },
+    "military_radio": { "seeds_avg": 0, "gems_avg": 0 },
+    "acid": { "seeds_avg": 0, "gems_avg": 0 },
+    "barrel": { "seeds_avg": 0, "gems_avg": 0 },
+    "biohazard_sign": { "seeds_avg": 0, "gems_avg": 0 },
+    "sheet_music_sharp_piano": { "seeds_avg": 0, "gems_avg": 0 },
+    "cactus": { "seeds_avg": 0, "gems_avg": 0 },
+    "plumbing": { "seeds_avg": 0, "gems_avg": 0 },
+    "super_crate_box": { "seeds_avg": 0, "gems_avg": 0 },
+    "dungeon_door": { "seeds_avg": 0, "gems_avg": 0 },
+    "danger_sign": { "seeds_avg": 0, "gems_avg": 0 },
+    "orange_block": { "seeds_avg": 0, "gems_avg": 0 },
+    "sheet_music_piano_note": { "seeds_avg": 0, "gems_avg": 0 },
+    "death_spikes": { "seeds_avg": 0, "gems_avg": 0 },
+    "bush": { "seeds_avg": 0, "gems_avg": 0 },
+    "bathtub": { "seeds_avg": 0, "gems_avg": 0 },
+    "toilet": { "seeds_avg": 0, "gems_avg": 0 },
+    "white_block": { "seeds_avg": 0, "gems_avg": 0 },
+    "crappy_sign": { "seeds_avg": 0, "gems_avg": 0 },
+    "brown_block": { "seeds_avg": 0, "gems_avg": 0 },
+    "mushroom": { "seeds_avg": 0, "gems_avg": 0 },
+    "green_block": { "seeds_avg": 0, "gems_avg": 0 },
+    "door": { "seeds_avg": 0, "gems_avg": 0 },
+    "window": { "seeds_avg": 0, "gems_avg": 0 },
+    "dirt": { "seeds_avg": 0, "gems_avg": 0 },
+    "sign": { "seeds_avg": 0, "gems_avg": 0 },
+    "lava": { "seeds_avg": 0, "gems_avg": 0 },
+    "pointy_sign": { "seeds_avg": 0, "gems_avg": 0 },
+    "bricks": { "seeds_avg": 0, "gems_avg": 0 },
+    "poppy": { "seeds_avg": 0, "gems_avg": 0 },
+    "sheet_music_blank": { "seeds_avg": 0, "gems_avg": 0 },
+    "rock_bg": { "seeds_avg": 0, "gems_avg": 0 }
+  }
+}
