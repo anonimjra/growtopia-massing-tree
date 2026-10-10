@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-10-10",
+  "currency": "WL",
+  "target_batch": 1000,
+  "description": "Template harga pasar Growtopia. Cukup ganti angka rate_per_wl sesuai harga pasar terkini!",
+  "items": {
+    "science_station": {
+      "name": "Science Station",
+      "rate_per_wl": 3.0,
+      "harvest_yield_per_1k": 2000,
+      "vial_rate_per_wl": 20.0,
+      "fuel_pack_rate_per_wl": 20.0,
+      "estimated_cuan": "~15 - 20 WL/hari",
+      "unit": "12H Provider"
+    },
+    "display_box": {
+      "name": "Display Box",
+      "rate_per_wl": 12.0,
+      "estimated_cuan": "~80 - 100 WL",
+      "unit": "per 1.000 items"
+    },
+    "display_block": {
+      "name": "Display Block",
+      "rate_per_wl": 6.5,
+      "estimated_cuan": "~140 - 180 WL",
+      "unit": "per 1.000 items"
+    },
+    "display_shelf": {
+      "name": "Display Shelf",
+      "rate_per_wl": 10.0,
+      "estimated_cuan": "~90 - 110 WL",
+      "unit": "per 1.000 items"
+    },
+    "donation_box": {
+      "name": "Donation Box",
+      "rate_per_wl": 5.0,
+      "estimated_cuan": "~180 - 220 WL",
+      "unit": "per 1.000 items"
+    },
+    "glowy_block": {
+      "name": "Glowy Block",
+      "rate_per_wl": 4.5,
+      "estimated_cuan": "~200 - 240 WL",
+      "unit": "per 1.000 items"
+    },
+    "cutaway_building": {
+      "name": "Cutaway Building",
+      "rate_per_wl": 7.0,
+      "estimated_cuan": "~130 - 160 WL",
+      "unit": "per 1.000 items"
+    },
+    "rainbow_block": {
+      "name": "Rainbow Block",
+      "rate_per_wl": 25.0,
+      "estimated_cuan": "~35 - 45 WL",
+      "unit": "per 1.000 items"
+    },
+    "magic_bacon_wallpaper": {
+      "name": "Magic Bacon Wallpaper",
+      "rate_per_wl": 8.0,
+      "estimated_cuan": "~110 - 135 WL",
+      "unit": "per 1.000 items"
+    }
+  }
+}
