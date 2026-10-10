@@ -2202,6 +2202,175 @@
     .action-btn-mini.btn-comic-speech { background: #f1f5f9; color: #000; }
     .action-btn-mini.btn-comic-speech.active { background: var(--shonen-yellow); }
 
+    /* SCIENCE MARKET ORACLE SPECIAL MODAL CSS */
+    .science-oracle-window {
+      max-width: 780px !important;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      border: 4px solid #000;
+      border-radius: 14px;
+      box-shadow: 8px 8px 0 #000;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .sci-tabs-nav {
+      display: flex;
+      background: #f1f5f9;
+      border-bottom: 3px solid #000;
+      gap: 6px;
+      padding: 8px 12px 0;
+      overflow-x: auto;
+    }
+
+    .sci-tab-btn {
+      font-family: 'Bangers', cursive;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      background: #e2e8f0;
+      color: #334155;
+      border: 2.5px solid #000;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .sci-tab-btn.active {
+      background: var(--shonen-yellow);
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: inset 0 -3px 0 var(--shonen-yellow);
+    }
+
+    .sci-tab-pane {
+      display: none;
+      padding: 16px;
+      overflow-y: auto;
+      max-height: calc(90vh - 140px);
+    }
+    .sci-tab-pane.active {
+      display: block;
+    }
+
+    .sci-input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .sci-input-card {
+      background: #f8fafc;
+      border: 2.5px solid #000;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 2.5px 2.5px 0 #000;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sci-input-card label {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .sci-num-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px 8px;
+      border: 2px solid #000;
+      border-radius: 6px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    /* Live Profit Dashboard Panel */
+    .sci-profit-dashboard {
+      background: #f0fdf4;
+      border: 3px solid #16a34a;
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 3px 3px 0 #000;
+      margin-bottom: 16px;
+    }
+
+    .sci-dash-title {
+      font-family: 'Bangers', cursive;
+      font-size: 18px;
+      letter-spacing: 0.8px;
+      color: #166534;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sci-dash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+
+    .sci-dash-cell {
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+      box-shadow: 2px 2px 0 #000;
+    }
+    .sci-dash-cell span {
+      font-size: 10px;
+      font-weight: 800;
+      color: #64748b;
+      display: block;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+    }
+    .sci-dash-cell strong {
+      font-family: 'Bangers', cursive;
+      font-size: 20px;
+      color: #15803d;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+      display: block;
+    }
+
+    /* Dropzone & Textarea */
+    .sci-dropzone {
+      border: 3px dashed #000;
+      background: #fffbeb;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+    .sci-dropzone:hover { background: #fef08a; }
+
+    .sci-textarea {
+      width: 100%;
+      height: 160px;
+      font-family: monospace;
+      font-size: 12px;
+      padding: 8px;
+      border: 2px solid #000;
+      border-radius: 8px;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+
     /* COMPACT VIEWPORT: ZERO WASTED SPACE */
     main {
       display: flex !important;
@@ -2302,7 +2471,7 @@
         </div>
       </div>
 
-      <!-- MENU 3: TOOLS (FORGE, BUFF SIM, BOTTLENECK, BALON KATA) -->
+      <!-- MENU 3: TOOLS (FORGE, BUFF SIM, BOTTLENECK, BALON KATA, HARGA AI) -->
       <div class="comic-nav-box" id="menu-3-tools">
         <span class="comic-nav-title">TOOLS:</span>
         <button class="action-btn-mini btn-forge" onclick="openForge()" title="Fusion Forge Simulator">
@@ -2317,7 +2486,15 @@
         <button class="action-btn-mini btn-comic-speech" id="btn-speech-toggle" onclick="toggleSpeechBubbles()" title="Toggle Balon Kata">
           <span>💬</span> BALON (OFF)
         </button>
+        <button class="action-btn-mini" onclick="openScienceOracleModal()" title="AI Market Oracle & Simulator Cuan Science Station" style="background: #f59e0b; color: #000; font-weight: bold;">
+          <span>📈</span> HARGA (AI)
+        </button>
       </div>
+
+      <!-- Hub Quick Link -->
+      <a href="../" class="action-btn-mini" title="Kembali ke Master Omnibus Hub" style="text-decoration:none; color:#000; background:#e0f2fe; border:2px solid #000; border-radius:6px; padding:3px 8px; font-family:'Bangers',cursive; font-size:12px; box-shadow:1.5px 1.5px 0 #000; height: 32px; display: inline-flex; align-items: center; gap: 4px;">
+        🏠 HUB
+      </a>
     </div>
 
     <!-- Header Collapsible Pull Tab (Center) -->
@@ -4763,7 +4940,409 @@
       centerViewport();
     }, 100);
 
+    /* =========================================================
+       SCIENCE STATION SPECIALIZED AI MARKET ORACLE ENGINE
+       ========================================================= */
+    const DEFAULT_SCIENCE_ORACLE_DATA = {
+      version: "1.0",
+      item_target: "Science Station",
+      rates: {
+        science_station_rate_per_wl: 3.0,
+        raw_vials_rate_per_wl: 20.0,
+        fuel_pack_rate_per_wl: 20.0,
+        mystery_pouch_rate_per_wl: 15.0
+      },
+      harvest_stats: {
+        station_count: 1000,
+        vials_per_harvest_1k: 2000,
+        daily_harvests: 2
+      }
+    };
+
+    let activeSciData = JSON.parse(JSON.stringify(DEFAULT_SCIENCE_ORACLE_DATA));
+
+    const MASTER_SCI_AI_PROMPT = `Kamu adalah Growtopia Science Station Economy & Yield Specialist.
+
+Tugas:
+Analisis catatan harga pasar terkini untuk Science Station dan Chemical Products, lalu keluarkan hasil dalam template JSON berikut.
+Pengguna cukup mengubah atau memberikan angka "rate_per_wl" (berapa biji item per 1 WL).
+
+Rumus Perhitungan Cuan Otomatis:
+1. 1.000 Science Station menghasilkan rata-rata 2.000 Chemical Vials per 12 jam (4.000 vials/hari jika panen 2x sehari on-time).
+2. Estimasi WL harian dari jual vial mentah = round((4000 / raw_vials_rate_per_wl)).
+3. Nilai aset massing jika 1.000 station dijual borongan = round(1000 / science_station_rate_per_wl).
+4. Estimasi bulanan (DL) = round((daily_vials_cuan_wl * 30) / 100).
+
+[DATA HARGA PASAR DARI USER / DISCORD / GAME]:
+<PASTE CATATAN HARGA KAMU DI SINI, CONTOH:
+- science station 3/wl atau 3.5/wl
+- chem vial 20/wl atau 22/wl
+- fuel pack 19/wl>
+
+[OUTPUT WAJIB JSON MURNI TANPA PENJELASAN TEKS]:
+${JSON.stringify(DEFAULT_SCIENCE_ORACLE_DATA, null, 2)}`;
+
+    function initScienceOracle() {
+      const stored = localStorage.getItem('gt_science_market_prices');
+      if (stored) {
+        try {
+          activeSciData = JSON.parse(stored);
+        } catch(e) {
+          activeSciData = JSON.parse(JSON.stringify(DEFAULT_SCIENCE_ORACLE_DATA));
+        }
+      }
+      syncSciInputsFromData();
+      calcSciLiveProfit();
+
+      const promptDisplay = document.getElementById('sci-prompt-display');
+      if (promptDisplay) promptDisplay.textContent = MASTER_SCI_AI_PROMPT;
+
+      setupSciDropzone();
+    }
+
+    function syncSciInputsFromData() {
+      const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val;
+      };
+      setVal('sci-input-station-rate', activeSciData.rates.science_station_rate_per_wl);
+      setVal('sci-input-vial-rate', activeSciData.rates.raw_vials_rate_per_wl);
+      setVal('sci-input-fuel-rate', activeSciData.rates.fuel_pack_rate_per_wl);
+      setVal('sci-input-count', activeSciData.harvest_stats.station_count || 1000);
+      setVal('sci-input-harvests-per-day', activeSciData.harvest_stats.daily_harvests || 2);
+    }
+
+    function calcSciLiveProfit() {
+      const stationRate = parseFloat(document.getElementById('sci-input-station-rate')?.value) || activeSciData.rates.science_station_rate_per_wl;
+      const vialRate = parseFloat(document.getElementById('sci-input-vial-rate')?.value) || activeSciData.rates.raw_vials_rate_per_wl;
+      const fuelRate = parseFloat(document.getElementById('sci-input-fuel-rate')?.value) || activeSciData.rates.fuel_pack_rate_per_wl;
+      const stationCount = parseInt(document.getElementById('sci-input-count')?.value) || activeSciData.harvest_stats.station_count || 1000;
+      const harvestsPerDay = parseInt(document.getElementById('sci-input-harvests-per-day')?.value) || activeSciData.harvest_stats.daily_harvests || 2;
+
+      // Yield calculations
+      const vialsPerHarvest = Math.round((stationCount / 1000) * 2000);
+      const vialsPerDay = vialsPerHarvest * harvestsPerDay;
+      const dailyWLVials = Math.round(vialsPerDay / Math.max(0.1, vialRate));
+      const weeklyWLVials = dailyWLVials * 7;
+      const monthlyDLVials = (dailyWLVials * 30 / 100).toFixed(1);
+      const stationAssetValue = Math.round(stationCount / Math.max(0.1, stationRate));
+      const roiDays = Math.max(1, Math.round(stationAssetValue / Math.max(1, dailyWLVials)));
+
+      // Update Dashboard DOM
+      const setText = (id, txt) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = txt;
+      };
+
+      setText('sci-res-vials-day', `${vialsPerDay.toLocaleString()} Vials`);
+      setText('sci-res-daily-cuan', `~${dailyWLVials.toLocaleString()} WL`);
+      setText('sci-res-weekly-cuan', `~${weeklyWLVials.toLocaleString()} WL`);
+      setText('sci-res-monthly-cuan', `~${monthlyDLVials} DL`);
+      setText('sci-res-asset-val', `~${stationAssetValue.toLocaleString()} WL`);
+      setText('sci-res-roi', `~${roiDays} Hari Panen`);
+    }
+
+    function saveScienceOraclePrices() {
+      try { sfxSparkle(); } catch(e) {}
+      activeSciData.rates.science_station_rate_per_wl = parseFloat(document.getElementById('sci-input-station-rate').value) || 3.0;
+      activeSciData.rates.raw_vials_rate_per_wl = parseFloat(document.getElementById('sci-input-vial-rate').value) || 20.0;
+      activeSciData.rates.fuel_pack_rate_per_wl = parseFloat(document.getElementById('sci-input-fuel-rate').value) || 20.0;
+      activeSciData.harvest_stats.station_count = parseInt(document.getElementById('sci-input-count').value) || 1000;
+      activeSciData.harvest_stats.daily_harvests = parseInt(document.getElementById('sci-input-harvests-per-day').value) || 2;
+
+      localStorage.setItem('gt_science_market_prices', JSON.stringify(activeSciData));
+      calcSciLiveProfit();
+      closeScienceOracleModal();
+      alert('⚡ SUKSES! Parameter harga pasar Science Station berhasil disimpan!');
+    }
+
+    function applySciJsonFromTextarea() {
+      const text = document.getElementById('sci-json-paste').value.trim();
+      if (!text) {
+        alert('Mohon paste teks JSON terlebih dahulu!');
+        return;
+      }
+      try {
+        const parsed = JSON.parse(text);
+        if (parsed.rates) {
+          activeSciData.rates = Object.assign(activeSciData.rates, parsed.rates);
+        }
+        if (parsed.harvest_stats) {
+          activeSciData.harvest_stats = Object.assign(activeSciData.harvest_stats, parsed.harvest_stats);
+        }
+        localStorage.setItem('gt_science_market_prices', JSON.stringify(activeSciData));
+        syncSciInputsFromData();
+        calcSciLiveProfit();
+        try { sfxSparkle(); } catch(e) {}
+        closeScienceOracleModal();
+        alert('⚡ SUKSES! Data JSON Science Station berhasil diterapkan & kalkulasi ter-update!');
+      } catch(err) {
+        alert('❌ Gagal membaca format JSON: ' + err.message);
+      }
+    }
+
+    function handleSciFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        document.getElementById('sci-json-paste').value = evt.target.result;
+        applySciJsonFromTextarea();
+      };
+      reader.readAsText(file);
+    }
+
+    function setupSciDropzone() {
+      const dropzone = document.getElementById('sci-dropzone');
+      if (!dropzone) return;
+      ['dragenter', 'dragover'].forEach(name => {
+        dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.style.background = '#fef08a'; });
+      });
+      ['dragleave', 'drop'].forEach(name => {
+        dropzone.addEventListener(name, (e) => { e.preventDefault(); dropzone.style.background = '#fffbeb'; });
+      });
+      dropzone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length) {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            document.getElementById('sci-json-paste').value = evt.target.result;
+            applySciJsonFromTextarea();
+          };
+          reader.readAsText(files[0]);
+        }
+      });
+    }
+
+    function downloadSciPricesJson() {
+      try { sfxTap(); } catch(e) {}
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(activeSciData, null, 2));
+      const dl = document.createElement('a');
+      dl.setAttribute("href", dataStr);
+      dl.setAttribute("download", "science_market_prices.json");
+      document.body.appendChild(dl);
+      dl.click();
+      dl.remove();
+    }
+
+    function resetSciDefaultPrices() {
+      if (!confirm('Kembalikan estimasi harga Science Station ke default pabrik?')) return;
+      localStorage.removeItem('gt_science_market_prices');
+      activeSciData = JSON.parse(JSON.stringify(DEFAULT_SCIENCE_ORACLE_DATA));
+      syncSciInputsFromData();
+      calcSciLiveProfit();
+      try { sfxSparkle(); } catch(e) {}
+      alert('🔄 Estimasi harga Science Station berhasil di-reset!');
+    }
+
+    function copySciAiPrompt() {
+      try { sfxSparkle(); } catch(e) {}
+      const btn = document.getElementById('btn-copy-sci-prompt');
+      navigator.clipboard.writeText(MASTER_SCI_AI_PROMPT).then(() => {
+        if (btn) {
+          const orig = btn.innerHTML;
+          btn.innerHTML = '✓ TERSALIN KE CLIPBOARD!';
+          setTimeout(() => { btn.innerHTML = orig; }, 2000);
+        }
+      }).catch(() => {
+        alert('Silakan salin teks prompt di kotak hitam.');
+      });
+    }
+
+    function switchSciTab(tabId) {
+      try { sfxTap(); } catch(e) {}
+      document.querySelectorAll('.sci-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.sci-tab-pane').forEach(p => p.classList.remove('active'));
+
+      const activeBtn = document.getElementById('sci-tab-btn-' + tabId);
+      const activePane = document.getElementById('sci-tab-pane-' + tabId);
+      if (activeBtn) activeBtn.classList.add('active');
+      if (activePane) activePane.classList.add('active');
+
+      if (tabId === 'json') {
+        const textarea = document.getElementById('sci-json-paste');
+        if (textarea && !textarea.value) {
+          textarea.value = JSON.stringify(activeSciData, null, 2);
+        }
+      }
+    }
+
+    function openScienceOracleModal() {
+      try { sfxSparkle(); } catch(e) {}
+      syncSciInputsFromData();
+      calcSciLiveProfit();
+      const modal = document.getElementById('science-oracle-modal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeScienceOracleModal(e) {
+      if (e && e.target !== e.currentTarget && !e.target.classList.contains('databook-close')) return;
+      const modal = document.getElementById('science-oracle-modal');
+      if (modal) modal.classList.remove('active');
+      try { sfxTap(); } catch(e) {}
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initScienceOracle();
+    });
   </script>
+
+  <!-- SCIENCE STATION SPECIALIZED AI MARKET ORACLE MODAL -->
+  <div class="manga-modal-overlay" id="science-oracle-modal" onclick="closeScienceOracleModal(event)">
+    <div class="science-oracle-window" onclick="event.stopPropagation()">
+      <div class="databook-header" style="background: #fbbf24; border-bottom: 3px solid #000; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-family: 'Bangers', cursive; font-size: 19px; margin: 0; color: #000; letter-spacing: 0.8px;">
+          🧪 SCIENCE STATION • AI MARKET & LAB CUAN ORACLE
+        </h3>
+        <button class="databook-close" onclick="closeScienceOracleModal()">&times;</button>
+      </div>
+
+      <!-- Tabs Navigation -->
+      <div class="sci-tabs-nav">
+        <button class="sci-tab-btn active" id="sci-tab-btn-form" onclick="switchSciTab('form')">
+          ✏️ TINGGAL GANTI ANGKA (LAB SIMULATOR)
+        </button>
+        <button class="sci-tab-btn" id="sci-tab-btn-json" onclick="switchSciTab('json')">
+          📥 UPLOAD / PASTE JSON
+        </button>
+        <button class="sci-tab-btn" id="sci-tab-btn-prompt" onclick="switchSciTab('prompt')">
+          📋 SALIN PROMPT AI
+        </button>
+      </div>
+
+      <!-- Tab 1: Form "Tinggal Ganti Angka" -->
+      <div class="sci-tab-pane active" id="sci-tab-pane-form">
+        <div style="background: #fef08a; border: 2px solid #000; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;">
+          <p style="margin: 0; font-size: 13px; font-weight: 700; color: #713f12;">
+            💡 <b>Cukup ganti angka rate:</b> Ubah rate Science Station, Chem Vial, atau jumlah pohon. Dashboard cuan di bawah langsung mengalkulasi profit harian, mingguan, & bulanan secara live!
+          </p>
+        </div>
+
+        <!-- Form Input Grid -->
+        <div class="sci-input-grid">
+          <div class="sci-input-card">
+            <label>🔬 Rate Science Station (/WL):</label>
+            <input type="number" step="0.5" min="0.1" id="sci-input-station-rate" class="sci-num-input" value="3.0" oninput="calcSciLiveProfit()">
+            <span style="font-size: 11px; color: #64748b; font-weight: 700;">Harga jual per WL (misal: 3/WL)</span>
+          </div>
+
+          <div class="sci-input-card">
+            <label>🧪 Rate Raw Chemical Vial (/WL):</label>
+            <input type="number" step="1" min="1" id="sci-input-vial-rate" class="sci-num-input" value="20.0" oninput="calcSciLiveProfit()">
+            <span style="font-size: 11px; color: #64748b; font-weight: 700;">Harga vial mentah (misal: 20/WL)</span>
+          </div>
+
+          <div class="sci-input-card">
+            <label>⚡ Rate Fuel Pack (/WL):</label>
+            <input type="number" step="1" min="1" id="sci-input-fuel-rate" class="sci-num-input" value="20.0" oninput="calcSciLiveProfit()">
+            <span style="font-size: 11px; color: #64748b; font-weight: 700;">Harga hasil racik fuel (misal: 20/WL)</span>
+          </div>
+
+          <div class="sci-input-card">
+            <label>🌳 Jumlah Stasiun Dimiliki:</label>
+            <input type="number" step="100" min="100" id="sci-input-count" class="sci-num-input" value="1000" oninput="calcSciLiveProfit()">
+            <span style="font-size: 11px; color: #64748b; font-weight: 700;">1 World penuh = ~2.600 stasiun</span>
+          </div>
+
+          <div class="sci-input-card" style="grid-column: span 2;">
+            <label>⏱️ Frekuensi Panen per Hari:</label>
+            <select id="sci-input-harvests-per-day" class="sci-num-input" onchange="calcSciLiveProfit()" style="cursor: pointer;">
+              <option value="2">⚡ 2x Sehari (Panen On-Time per 12 Jam - Maksimal!)</option>
+              <option value="1">🌱 1x Sehari (Panen Santai 24 Jam Sekali)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Live Dashboard Panel -->
+        <div class="sci-profit-dashboard">
+          <div class="sci-dash-title">
+            <span>📊</span> DASHBOARD HASIL PANEN & ESTIMASI CUAN LAB:
+          </div>
+          <div class="sci-dash-grid">
+            <div class="sci-dash-cell">
+              <span>Panen Vial / Hari</span>
+              <strong id="sci-res-vials-day">4,000 Vials</strong>
+            </div>
+            <div class="sci-dash-cell">
+              <span>Cuan Harian (WL)</span>
+              <strong id="sci-res-daily-cuan" style="color: #16a34a;">~200 WL</strong>
+            </div>
+            <div class="sci-dash-cell">
+              <span>Cuan Mingguan (WL)</span>
+              <strong id="sci-res-weekly-cuan" style="color: #0284c7;">~1,400 WL</strong>
+            </div>
+            <div class="sci-dash-cell">
+              <span>Cuan Bulanan (DL)</span>
+              <strong id="sci-res-monthly-cuan" style="color: #9333ea;">~60.0 DL</strong>
+            </div>
+            <div class="sci-dash-cell">
+              <span>Nilai Jual Pohon</span>
+              <strong id="sci-res-asset-val" style="color: #d97706;">~333 WL</strong>
+            </div>
+            <div class="sci-dash-cell">
+              <span>Balik Modal (ROI)</span>
+              <strong id="sci-res-roi" style="color: #e11d48;">~2 Hari Panen</strong>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="action-btn-mini" onclick="saveScienceOraclePrices()" style="background: #22c55e; color: #000; font-family: 'Bangers', cursive; font-size: 15px; padding: 6px 16px; height: 34px;">
+            💾 SIMPAN KE BROWSER
+          </button>
+          <button class="action-btn-mini" onclick="downloadSciPricesJson()" style="background: #facc15; color: #000; font-family: 'Bangers', cursive; font-size: 15px; padding: 6px 16px; height: 34px;">
+            📥 DOWNLOAD JSON
+          </button>
+          <button class="action-btn-mini" onclick="resetSciDefaultPrices()" style="background: #f87171; color: #000; font-family: 'Bangers', cursive; font-size: 15px; padding: 6px 16px; height: 34px;">
+            🔄 RESET DEFAULT
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 2: Upload / Paste JSON -->
+      <div class="sci-tab-pane" id="sci-tab-pane-json">
+        <div style="background: #e0f2fe; border: 2px solid #000; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;">
+          <p style="margin: 0; font-size: 13px; font-weight: 700; color: #0369a1;">
+            📁 <b>Drop & Paste File:</b> Tarik file <code>science_market_prices.json</code> ke bawah atau paste langsung JSON hasil AI.
+          </p>
+        </div>
+
+        <div class="sci-dropzone" id="sci-dropzone" onclick="document.getElementById('sci-file-input').click()">
+          <input type="file" id="sci-file-input" accept=".json" style="display:none;" onchange="handleSciFileSelect(event)">
+          <div style="font-size: 28px; margin-bottom: 4px;">📂</div>
+          <p style="font-size: 13px; font-weight: 800; margin: 0;">KLIK ATAU DRAG & DROP FILE .JSON KE SINI</p>
+          <span style="font-size: 11px; color: #64748b;">Mendukung format file science_market_prices.json</span>
+        </div>
+
+        <label style="font-size: 12px; font-weight: 800; display: block; margin-bottom: 4px;">ATAU PASTE JSON LANGSUNG DI SINI:</label>
+        <textarea id="sci-json-paste" class="sci-textarea" placeholder="Paste kode JSON hasil AI di sini..."></textarea>
+
+        <div style="display: flex; gap: 8px;">
+          <button class="action-btn-mini" onclick="applySciJsonFromTextarea()" style="background: #22c55e; color: #000; font-family: 'Bangers', cursive; font-size: 15px; padding: 6px 16px; height: 34px;">
+            ⚡ TERAPKAN DATA JSON
+          </button>
+          <button class="action-btn-mini" onclick="downloadSciPricesJson()" style="background: #facc15; color: #000; font-family: 'Bangers', cursive; font-size: 15px; padding: 6px 16px; height: 34px;">
+            📥 DOWNLOAD TEMPLATE
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab 3: Salin Prompt AI -->
+      <div class="sci-tab-pane" id="sci-tab-pane-prompt">
+        <div style="background: #f0fdf4; border: 2px solid #000; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;">
+          <p style="margin: 0; font-size: 13px; font-weight: 700; color: #166534;">
+            🤖 <b>Instruksi AI Khusus Science:</b> Salin prompt ini, buka AI (ChatGPT / Claude / Gemini / DeepSeek), paste bersama catatan harga Discord / world in-game. AI akan hitung dan berikan JSON yang tinggal lu masukkan ke sini!
+          </p>
+        </div>
+
+        <button class="action-btn-mini" onclick="copySciAiPrompt()" id="btn-copy-sci-prompt" style="background: #38bdf8; color: #000; font-family: 'Bangers', cursive; font-size: 15px; padding: 6px 16px; height: 34px; margin-bottom: 10px;">
+          📋 SALIN MASTER PROMPT AI SCIENCE
+        </button>
+
+        <pre id="sci-prompt-display" style="background: #0f172a; color: #f8fafc; padding: 12px; border: 2px solid #000; border-radius: 8px; font-size: 11px; font-family: monospace; overflow-x: auto; max-height: 240px; white-space: pre-wrap;"></pre>
+      </div>
+    </div>
+  </div>
 
   <!-- SAWERIA COMIC MODAL -->
   <div class="manga-modal-overlay" id="saweria-modal" onclick="closeSaweriaModal(event)">

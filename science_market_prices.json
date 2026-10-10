@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "item_target": "Science Station",
+  "rarity": 53,
+  "provider_cycle_hours": 12,
+  "currency": "WL",
+  "default_station_count": 1000,
+  "description": "Template harga pasar khusus Science Station & Chemical Vials. Tinggal ganti angka rate_per_wl!",
+  "rates": {
+    "science_station_rate_per_wl": 3.0,
+    "raw_vials_rate_per_wl": 20.0,
+    "fuel_pack_rate_per_wl": 20.0,
+    "mystery_pouch_rate_per_wl": 15.0
+  },
+  "harvest_stats": {
+    "vials_per_harvest_1k": 2000,
+    "daily_harvests": 2
+  },
+  "estimated_earnings": {
+    "daily_vials_cuan_wl": 200,
+    "weekly_vials_cuan_wl": 1400,
+    "monthly_vials_cuan_dl": 60,
+    "massing_sale_value_wl": 333
+  }
+}
