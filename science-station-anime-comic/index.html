@@ -5008,38 +5008,46 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       if (!grid) return;
       grid.innerHTML = '';
 
-      // 1. Output Selling Price Card
+      // 1. Output Selling Price Card (BLOCK)
       const sellCard = document.createElement('div');
       sellCard.className = 'sci-input-card';
       sellCard.style.border = '3px solid #16a34a';
       sellCard.style.background = '#f0fdf4';
       sellCard.innerHTML = `
-        <label style="color: #166534;">🏆 HARGA JUAL HASIL: Science Station</label>
-        <div style="display: flex; align-items: center; gap: 6px;">
+        <label style="color: #166534; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: space-between;">
+          <span>🏆 HARGA JUAL: Science Station</span>
+          <span style="background: #166534; color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 10px;">📦 BLOCK</span>
+        </label>
+        <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
           <input type="number" step="0.5" min="0.1" class="sci-num-input" id="sci-rate-sell" 
                  value="${activeSciMatData.selling_price.science_station_rate_per_wl}" oninput="calcSciMaterialsProfit()">
-          <span style="font-size: 11px; font-weight: 800; color: #166534; white-space: nowrap;">/ 1 WL</span>
+          <span style="font-size: 12px; font-weight: 800; color: #166534; white-space: nowrap;">BLOCKS / WL</span>
         </div>
-        <span style="font-size: 10px; color: #15803d; font-weight: 700;">Rate penjualan borongan Science Station</span>
+        <span style="font-size: 10.5px; color: #15803d; font-weight: 700; margin-top: 2px;">
+          Rate penjualan balok/block hasil panen (contoh: 3 blocks per WL)
+        </span>
       `;
       grid.appendChild(sellCard);
 
-      // 2. Ingredients Inputs
+      // 2. Ingredients Inputs (ALL ARE SEEDS!)
       for (const [key, item] of Object.entries(activeSciMatData.materials)) {
         const card = document.createElement('div');
         card.className = 'sci-input-card';
         card.innerHTML = `
-          <label>
-            <img src="${item.icon}" style="width: 18px; height: 18px; image-rendering: pixelated;" alt="${item.name}">
-            ${item.name}
+          <label style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="display: flex; align-items: center; gap: 4px;">
+              <img src="${item.icon}" style="width: 18px; height: 18px; image-rendering: pixelated;" alt="${item.name}">
+              ${item.name}
+            </span>
+            <span style="background: #facc15; color: #000; padding: 1px 5px; border-radius: 4px; font-size: 9.5px; border: 1px solid #000; font-weight: 800;">🌱 SEED</span>
           </label>
-          <div style="display: flex; align-items: center; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
             <input type="number" step="0.5" min="0.1" class="sci-num-input" id="sci-mat-${key}" 
                    value="${item.rate_per_wl}" oninput="calcSciMaterialsProfit()">
-            <span style="font-size: 11px; font-weight: 800; color: #64748b; white-space: nowrap;">/ 1 WL</span>
+            <span style="font-size: 11px; font-weight: 800; color: #64748b; white-space: nowrap;">SEEDS / WL</span>
           </div>
-          <span style="font-size: 10.5px; color: #64748b; font-weight: 700;">
-            Butuh: <b>${Math.round((activeSciMatData.target_trees || 1000) * item.needed_ratio).toLocaleString()}</b> bibit
+          <span style="font-size: 10.5px; color: #64748b; font-weight: 700; margin-top: 2px;">
+            Butuh: <b>${Math.round((activeSciMatData.target_trees || 1000) * item.needed_ratio).toLocaleString()}</b> Benih Bibit (Seeds)
           </span>
         `;
         grid.appendChild(card);
@@ -5284,29 +5292,29 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       <div class="sci-tab-pane active" id="sci-tab-pane-form">
         <div style="background: #fef08a; border: 2px solid #000; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
           <p style="margin: 0; font-size: 13px; font-weight: 700; color: #713f12;">
-            💡 <b>Cukup ubah angka rate bahan:</b> Ubah harga beli Death Spikes, Toxic Waste, dll. Dashboard di bawah langsung menghitung modal vs cuan bersih massing!
+            💡 <b>ATURAN SATUAN:</b> Hasil akhir Science Station adalah <b>[📦 BLOCK]</b> siap jual. Semua bahan di bawah adalah <b>[🌱 SEED]</b> (benih bibit untuk splicing).
           </p>
           <div style="display: flex; align-items: center; gap: 6px;">
             <span style="font-size: 12px; font-weight: 800;">Target Massing:</span>
             <input type="number" id="sci-target-trees" value="1000" step="100" min="100" class="sci-num-input" style="width: 90px;" oninput="calcSciMaterialsProfit()">
-            <span style="font-size: 12px; font-weight: 800;">Bibit</span>
+            <span style="font-size: 12px; font-weight: 800;">Pohon</span>
           </div>
         </div>
 
         <!-- Live Profit Engine Comparison Dashboard -->
         <div class="sci-profit-dashboard">
           <div class="sci-dash-title">
-            <span>📊</span> ANALISIS MODAL BAHAN VS PROFIT BERSIH MASSING:
+            <span>📊</span> ANALISIS MODAL SEED BAHAN VS PENJUALAN BLOCK:
           </div>
           <div class="sci-dash-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
             <div class="sci-dash-cell">
-              <span>Hasil Penjualan Science</span>
+              <span>Penjualan Science (BLOCK)</span>
               <strong id="sci-res-revenue" style="color: #16a34a;">+333 WL</strong>
             </div>
             <div class="sci-dash-cell" style="background: #fffbeb;">
-              <span>Modal Beli Cabang Jadi (A)</span>
+              <span>Modal Beli SEED Cabang (A)</span>
               <strong id="sci-cost-strat-a" style="color: #b45309;">308 WL</strong>
-              <small style="font-size: 10px; color: #78350f;">Toxic Waste + Radio</small>
+              <small style="font-size: 10px; color: #78350f;">Toxic Waste + Radio Seed</small>
             </div>
             <div class="sci-dash-cell" style="background: #fffbeb;">
               <span>Profit Bersih Strategi A</span>
@@ -5314,9 +5322,9 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
               <small id="sci-margin-strat-a" style="font-size: 10px; font-weight: bold; color: #166534;">7%</small>
             </div>
             <div class="sci-dash-cell" style="background: #f0fdf4; border-color: #16a34a;">
-              <span>Modal Bahan Splicing (B)</span>
+              <span>Modal Beli SEED Kunci (B)</span>
               <strong id="sci-cost-strat-b" style="color: #0369a1;">152 WL</strong>
-              <small style="font-size: 10px; color: #0284c7;">Death Spikes + Cactus + Sheet</small>
+              <small style="font-size: 10px; color: #0284c7;">Death Spikes + Cactus Seed</small>
             </div>
             <div class="sci-dash-cell" style="background: #f0fdf4; border-color: #16a34a;">
               <span>Profit Bersih Strategi B</span>
