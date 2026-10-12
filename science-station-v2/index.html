@@ -2295,19 +2295,33 @@
       transition: all 0.18s ease;
     }
 
+    .sci-input-card.checked-card {
+      background: #ffffff;
+      border: 2.5px solid #16a34a;
+      box-shadow: 2.5px 2.5px 0 #15803d;
+    }
+
+    .sci-input-card.splice-card {
+      background: #f0f9ff !important;
+      border: 2px dashed #0284c7 !important;
+      box-shadow: none !important;
+      opacity: 0.92;
+    }
+
     .sci-input-card.unchecked-card {
       background: #f1f5f9 !important;
       border: 2px dashed #94a3b8 !important;
       box-shadow: none !important;
-      opacity: 0.52;
-      filter: grayscale(0.45);
+      opacity: 0.78;
     }
-    .sci-input-card.unchecked-card:hover {
-      opacity: 0.85;
-      filter: grayscale(0.1);
+    .sci-input-card.unchecked-card:hover,
+    .sci-input-card.splice-card:hover {
+      opacity: 1;
     }
-    .sci-input-card.unchecked-card .sci-card-body-controls {
-      display: none;
+    .sci-card-body-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .sci-check-corner-btn {
@@ -2328,6 +2342,10 @@
     }
     .sci-check-corner-btn.checked {
       background: #22c55e;
+      color: #000;
+    }
+    .sci-check-corner-btn.splice {
+      background: #38bdf8;
       color: #000;
     }
     .sci-check-corner-btn.unchecked {
@@ -4305,9 +4323,13 @@
         decayBase = n;
       } else {
         quotaTarget = n;
+        const sciInp = document.getElementById('sci-target-trees');
+        if (sciInp) sciInp.value = n;
+        if (typeof activeSciMatData !== 'undefined') activeSciMatData.target_trees = n;
       }
       document.getElementById('target-val').value = n;
       updateTreeDisplay();
+      if (typeof calcSciMaterialsProfit === 'function') calcSciMaterialsProfit();
       sfxTap();
     }
 
@@ -4317,12 +4339,66 @@
         decayBase = val;
       } else {
         quotaTarget = val;
+        const sciInp = document.getElementById('sci-target-trees');
+        if (sciInp) sciInp.value = val;
+        if (typeof activeSciMatData !== 'undefined') activeSciMatData.target_trees = val;
       }
       updateTreeDisplay();
+      if (typeof calcSciMaterialsProfit === 'function') calcSciMaterialsProfit();
     });
 
     let treeUnitMode = 'BOTH'; // 'BOTH' | 'BLOCK' | 'SEED'
     let treeCheckedCards = {};
+
+    const TREE_NODE_HIERARCHY = {
+      'card-science_station': { itemKey: null, children: ['card-toxic_waste_barrel', 'card-military_radio'], ratio: 1.0 },
+      'card-toxic_waste_barrel': { itemKey: 'toxic_waste_barrel', children: ['card-acid', 'card-barrel'], ratio: 1.25 },
+      'card-military_radio': { itemKey: 'military_radio', children: ['card-biohazard_sign', 'card-sheet_music_sharp_piano'], ratio: 1.25 },
+      'card-acid': { itemKey: 'acid', children: ['card-cactus', 'card-plumbing'], ratio: 1.25 },
+      'card-barrel': { itemKey: 'barrel', children: ['card-super_crate_box', 'card-dungeon_door'], ratio: 1.25 },
+      'card-biohazard_sign': { itemKey: 'biohazard_sign', children: ['card-danger_sign_1', 'card-orange_block'], ratio: 1.25 },
+      'card-sheet_music_sharp_piano': { itemKey: 'sheet_music_sharp_piano', children: ['card-sheet_music_piano_note', 'card-death_spikes_2'], ratio: 1.25 },
+      'card-cactus': { itemKey: 'cactus', children: ['card-death_spikes_1', 'card-bush'], ratio: 1.25 },
+      'card-plumbing': { itemKey: 'plumbing', children: ['card-bathtub', 'card-green_block_1'], ratio: 1.25 },
+      'card-bathtub': { itemKey: 'bathtub', children: ['card-toilet', 'card-white_block'], ratio: 1.25 },
+      'card-toilet': { itemKey: 'toilet', children: ['card-crappy_sign', 'card-brown_block'], ratio: 1.25 },
+      'card-white_block': { itemKey: 'white_block', children: ['card-bricks_bt', 'card-mushroom'], ratio: 1.25 },
+      'card-super_crate_box': { itemKey: 'super_crate_box', children: ['card-dirt', 'card-sign'], ratio: 1.25 },
+      'card-dungeon_door': { itemKey: 'dungeon_door', children: ['card-door', 'card-window'], ratio: 1.25 },
+      'card-danger_sign_1': { itemKey: 'danger_sign', children: ['card-lava', 'card-pointy_sign'], ratio: 1.25 },
+      'card-orange_block': { itemKey: 'orange_block', children: ['card-bricks_1', 'card-poppy'], ratio: 1.25 },
+      'card-sheet_music_piano_note': { itemKey: 'sheet_music_piano_note', children: ['card-sheet_music_blank', 'card-green_block_2'], ratio: 1.25 },
+      'card-death_spikes_2': { itemKey: 'death_spikes', children: ['card-danger_sign_2', 'card-rock_bg'], ratio: 1.25 },
+      'card-death_spikes_1': { itemKey: 'death_spikes', children: [], ratio: 1.25 },
+      'card-bush': { itemKey: 'bush', children: [], ratio: 1.25 },
+      'card-crappy_sign': { itemKey: 'crappy_sign', children: [], ratio: 1.25 },
+      'card-brown_block': { itemKey: 'brown_block', children: [], ratio: 1.25 },
+      'card-bricks_bt': { itemKey: 'bricks', children: [], ratio: 1.25 },
+      'card-mushroom': { itemKey: 'mushroom', children: [], ratio: 1.25 },
+      'card-green_block_1': { itemKey: 'green_block', children: [], ratio: 1.25 },
+      'card-dirt': { itemKey: 'dirt', children: [], ratio: 1.25 },
+      'card-sign': { itemKey: 'sign', children: [], ratio: 1.25 },
+      'card-door': { itemKey: 'door', children: [], ratio: 1.25 },
+      'card-window': { itemKey: 'window', children: [], ratio: 1.25 },
+      'card-lava': { itemKey: 'lava', children: [], ratio: 1.25 },
+      'card-pointy_sign': { itemKey: 'pointy_sign', children: [], ratio: 1.25 },
+      'card-bricks_1': { itemKey: 'bricks', children: [], ratio: 1.25 },
+      'card-poppy': { itemKey: 'poppy', children: [], ratio: 1.25 },
+      'card-sheet_music_blank': { itemKey: 'sheet_music_blank', children: [], ratio: 1.25 },
+      'card-green_block_2': { itemKey: 'green_block', children: [], ratio: 1.25 },
+      'card-danger_sign_2': { itemKey: 'danger_sign', children: [], ratio: 1.25 },
+      'card-rock_bg': { itemKey: 'rock_bg', children: [], ratio: 1.25 }
+    };
+
+    function hasAnyCheckedDescendant(cardId) {
+      const node = TREE_NODE_HIERARCHY[cardId];
+      if (!node || !node.children || node.children.length === 0) return false;
+      for (const childId of node.children) {
+        if (treeCheckedCards[childId] !== false) return true;
+        if (hasAnyCheckedDescendant(childId)) return true;
+      }
+      return false;
+    }
 
     function cycleTreeUnitMode() {
       if (treeUnitMode === 'BOTH') treeUnitMode = 'BLOCK';
@@ -4352,6 +4428,22 @@
         if (saved) treeCheckedCards = JSON.parse(saved) || {};
       } catch(e) {}
 
+      // Default smart deep-splice checks if not initialized yet
+      if (Object.keys(treeCheckedCards).length === 0) {
+        const defaultActive = new Set([
+          'card-science_station',
+          'card-cactus', 'card-death_spikes_1', 'card-bush',
+          'card-plumbing', 'card-bathtub', 'card-toilet', 'card-crappy_sign', 'card-brown_block',
+          'card-white_block', 'card-bricks_bt', 'card-mushroom', 'card-green_block_1',
+          'card-super_crate_box', 'card-dungeon_door',
+          'card-danger_sign_1', 'card-orange_block', 'card-bricks_1', 'card-poppy',
+          'card-sheet_music_blank', 'card-green_block_2', 'card-death_spikes_2'
+        ]);
+        document.querySelectorAll('.manga-card').forEach(card => {
+          if (card.id) treeCheckedCards[card.id] = defaultActive.has(card.id);
+        });
+      }
+
       document.querySelectorAll('.manga-card').forEach(card => {
         if (!card.id) return;
         if (treeCheckedCards[card.id] === undefined) {
@@ -4362,7 +4454,6 @@
           chk = document.createElement('button');
           chk.type = 'button';
           chk.className = 'tree-card-check-btn';
-          chk.title = 'Ceklis Aktif / Fokus Massing (Klik untuk nyalakan/redupkan box ini)';
           chk.onclick = (ev) => {
             ev.stopPropagation();
             toggleTreeCardCheck(card.id);
@@ -4370,7 +4461,20 @@
           card.appendChild(chk);
         }
         const isChecked = !!treeCheckedCards[card.id];
+        const isSpliceStep = isChecked && card.id !== 'card-science_station' && hasAnyCheckedDescendant(card.id);
         chk.className = 'tree-card-check-btn ' + (isChecked ? 'checked' : 'unchecked');
+        if (isSpliceStep) {
+          chk.style.background = '#38bdf8';
+          chk.title = '⚗️ STEP SPLICE SENDIRI (Bahan bawahnya diceklis -> Modal = 0 WL di Kalkulator)';
+        } else if (isChecked) {
+          chk.style.background = '#22c55e';
+          chk.title = card.id === 'card-science_station'
+            ? '🏆 Target Utama Science Station'
+            : '🛒 BAHAN DASAR DIBELI (Ujung bawah ceklis -> Masuk Hitungan Modal WL di Kalkulator!)';
+        } else {
+          chk.style.background = '#e2e8f0';
+          chk.title = '⬜ OFF / SKIP (Klik untuk mengaktifkan box ini)';
+        }
         chk.innerHTML = isChecked ? '✓' : '☐';
         card.classList.toggle('tree-unchecked', !isChecked);
       });
@@ -4383,16 +4487,43 @@
         sfxTap();
       } catch(e) {}
       initTreeCardChecklists();
+      if (typeof syncOracleFromTreeChecks === 'function') {
+        syncOracleFromTreeChecks(false);
+      }
     }
 
     function setTreeChecklistPreset(mode) {
+      const smartDeepSet = new Set([
+        'card-science_station',
+        'card-cactus', 'card-death_spikes_1', 'card-bush',
+        'card-plumbing', 'card-bathtub', 'card-toilet', 'card-crappy_sign', 'card-brown_block',
+        'card-white_block', 'card-bricks_bt', 'card-mushroom', 'card-green_block_1',
+        'card-super_crate_box', 'card-dungeon_door',
+        'card-danger_sign_1', 'card-orange_block', 'card-bricks_1', 'card-poppy',
+        'card-sheet_music_blank', 'card-green_block_2', 'card-death_spikes_2'
+      ]);
+
+      if (mode === 'base') {
+        const subTree = document.getElementById('bathtub-sub-tree');
+        const expBtn = document.getElementById('btn-expand-bathtub');
+        if (subTree && subTree.classList.contains('collapsed')) {
+          subTree.classList.remove('collapsed');
+          if (expBtn) {
+            expBtn.innerHTML = '▲ TUTUP';
+            expBtn.classList.add('expanded');
+          }
+          setTimeout(() => { drawTreeLines(); }, 50);
+        }
+      }
+
       document.querySelectorAll('.manga-card').forEach(card => {
         if (!card.id) return;
         if (mode === 'all') {
           treeCheckedCards[card.id] = true;
         } else if (mode === 'base') {
-          const isBase = card.closest('.tier-4') || card.closest('.tier-5') || card.closest('.tier-6');
-          treeCheckedCards[card.id] = !!isBase;
+          treeCheckedCards[card.id] = smartDeepSet.has(card.id);
+        } else if (mode === 'none') {
+          treeCheckedCards[card.id] = (card.id === 'card-science_station');
         }
       });
       try {
@@ -4400,7 +4531,10 @@
         sfxSparkle();
       } catch(e) {}
       initTreeCardChecklists();
-      toast(mode === 'base' ? '☑️ FOKUS MASSING DASAR: Ceklis Bawah Aktif!' : '✅ SEMUA CEKLIS POHON AKTIF!');
+      if (typeof syncOracleFromTreeChecks === 'function') {
+        syncOracleFromTreeChecks(false);
+      }
+      toast(mode === 'base' ? '☑️ RUTE MASSING DASAR AKTIF & TERSINKRON KE KALKULATOR!' : '✅ SEMUA CEKLIS POHON AKTIF!');
     }
 
     function renderCardBlockSubBadge(badgeEl, seedCount) {
@@ -5336,7 +5470,7 @@
        SCIENCE STATION SPLICING INGREDIENTS & COST ORACLE
        ========================================================= */
     const DEFAULT_SCI_MATERIALS_DATA = {
-      version: "2.7",
+      version: "2.8",
       item_target: "Science Station",
       type: "Ingredients & Splicing Cost Oracle",
       target_trees: 1000,
@@ -5352,37 +5486,55 @@
         science_station_rate_per_wl: 0.5
       },
       materials: {
-        toxic_waste_barrel: { name: "Toxic Waste Barrel (Cabang Kiri)", tier: "TIER 1", checked: false, needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 2.7, block_mode: "PER_WL", block_val: 1.5, seed_mode: "WL_EACH", seed_val: 2.7, rate_per_wl: 0.37037, unit_note: "2.7 WL/Seed", icon: "icons/toxic_waste_barrel.png" },
-        military_radio: { name: "Military Radio (Cabang Kanan)", tier: "TIER 1", checked: false, needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.0, block_mode: "PER_WL", block_val: 4.0, seed_mode: "WL_EACH", seed_val: 1.0, rate_per_wl: 1.0, unit_note: "1 WL/Seed", icon: "icons/military_radio.png" },
-        acid: { name: "Acid (Bahan TWB)", tier: "TIER 2", checked: false, needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.6, block_mode: "PER_WL", block_val: 2.5, seed_mode: "WL_EACH", seed_val: 1.6, rate_per_wl: 0.625, unit_note: "1.6 WL/Seed", icon: "icons/acid.png" },
-        barrel: { name: "Barrel (Bahan TWB)", tier: "TIER 2", checked: false, needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 8.33, block_mode: "PER_WL", block_val: 33.0, seed_mode: "PER_WL", seed_val: 8.33, rate_per_wl: 8.33, unit_note: "8.33/1 WL", icon: "icons/barrel.png" },
-        biohazard_sign: { name: "Biohazard Sign (Bahan MR)", tier: "TIER 2", checked: true, needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 3.0, block_mode: "PER_WL", block_val: 12.0, seed_mode: "PER_WL", seed_val: 3.0, rate_per_wl: 3.0, unit_note: "3/1 WL", icon: "icons/biohazard_sign.png" },
-        sheet_music_sharp_piano: { name: "Sheet Music: Sharp Piano (Bahan MR)", tier: "TIER 2", checked: true, needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 5.0, block_mode: "PER_WL", block_val: 20.0, seed_mode: "PER_WL", seed_val: 5.0, rate_per_wl: 5.0, unit_note: "5/1 WL", icon: "icons/sheet_music_sharp_piano.png" },
-        cactus: { name: "Cactus (Bahan Acid)", tier: "TIER 3", checked: true, needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 3.0, block_mode: "PER_WL", block_val: 12.0, seed_mode: "PER_WL", seed_val: 3.0, rate_per_wl: 3.0, unit_note: "3/1 WL", icon: "icons/cactus.png" },
-        plumbing: { name: "Plumbing (Bahan Acid)", tier: "TIER 3", checked: false, needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.0, block_mode: "PER_WL", block_val: 4.0, seed_mode: "WL_EACH", seed_val: 1.0, rate_per_wl: 1.0, unit_note: "1 WL/Seed", icon: "icons/plumbing.png" },
-        bathtub: { name: "Bathtub (Bahan Plumbing)", tier: "TIER 4", checked: false, needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.0, block_mode: "PER_WL", block_val: 4.0, seed_mode: "WL_EACH", seed_val: 1.0, rate_per_wl: 1.0, unit_note: "1 WL/Seed", icon: "icons/bathtub.png" },
-        toilet: { name: "Toilet (Bahan Bathtub)", tier: "DASAR", checked: true, needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/toilet.png" },
-        crappy_sign: { name: "Crappy Sign (Bahan Bathtub)", tier: "DASAR", checked: true, needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 60.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 60.0, rate_per_wl: 60.0, unit_note: "60/1 WL", icon: "icons/crappy_sign.png" },
-        death_spikes: { name: "Death Spikes (Bahan Cactus & Piano)", tier: "DASAR", checked: false, needed_ratio: 2.5, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/death_spikes.png" },
-        danger_sign: { name: "Danger Sign (Bahan Biohazard & Spikes)", tier: "DASAR", checked: false, needed_ratio: 2.5, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/danger_sign.png" },
-        super_crate_box: { name: "Super Crate Box (Bahan Barrel)", tier: "DASAR", checked: true, needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 200.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 200.0, rate_per_wl: 200.0, unit_note: "200/1 WL", icon: "icons/super_crate_box.png" },
-        dungeon_door: { name: "Dungeon Door (Bahan Barrel)", tier: "DASAR", checked: true, needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/dungeon_door.png" },
-        orange_block: { name: "Orange Block (Bahan Biohazard)", tier: "DASAR", checked: false, needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/orange_block.png" }
+        // === BAHAN DASAR RUTE MASSING DARI BAWAH (DEFAULT AKTIF SESUAI CEKLIS POHON) ===
+        death_spikes: { name: "Death Spikes (Cactus & Piano)", tier: "DASAR", cardIds: ["card-death_spikes_1", "card-death_spikes_2"], checked: true, tree_status: "BUY", needed_ratio: 2.5, active_ratio: 2.5, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, icon: "icons/death_spikes.png" },
+        bush: { name: "Bush (Bahan Dasar Cactus)", tier: "DASAR", cardIds: ["card-bush"], checked: true, tree_status: "BUY", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 20.0, block_mode: "PER_WL", block_val: 80.0, seed_mode: "PER_WL", seed_val: 20.0, rate_per_wl: 20.0, icon: "icons/bush.png" },
+        crappy_sign: { name: "Crappy Sign (Bahan Dasar Toilet)", tier: "DASAR", cardIds: ["card-crappy_sign"], checked: true, tree_status: "BUY", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 60.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 60.0, rate_per_wl: 60.0, icon: "icons/crappy_sign.png" },
+        brown_block: { name: "Brown Block (Bahan Dasar Toilet)", tier: "DASAR", cardIds: ["card-brown_block"], checked: true, tree_status: "BUY", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 50.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 50.0, rate_per_wl: 50.0, icon: "icons/brown_block.png" },
+        bricks: { name: "Bricks (Bahan White & Orange Block)", tier: "DASAR", cardIds: ["card-bricks_bt", "card-bricks_1"], checked: true, tree_status: "BUY", needed_ratio: 2.5, active_ratio: 2.5, item_type: "SEED", price_mode: "PER_WL", price_value: 30.0, block_mode: "PER_WL", block_val: 120.0, seed_mode: "PER_WL", seed_val: 30.0, rate_per_wl: 30.0, icon: "icons/bricks.png" },
+        mushroom: { name: "Mushroom (Bahan Dasar White Block)", tier: "DASAR", cardIds: ["card-mushroom"], checked: true, tree_status: "BUY", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 50.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 50.0, rate_per_wl: 50.0, icon: "icons/mushroom.png" },
+        green_block: { name: "Green Block (Plumbing & Piano Note)", tier: "DASAR", cardIds: ["card-green_block_1", "card-green_block_2"], checked: true, tree_status: "BUY", needed_ratio: 2.5, active_ratio: 2.5, item_type: "SEED", price_mode: "PER_WL", price_value: 50.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 50.0, rate_per_wl: 50.0, icon: "icons/green_block.png" },
+        super_crate_box: { name: "Super Crate Box (Bahan Barrel)", tier: "DASAR", cardIds: ["card-super_crate_box"], checked: true, tree_status: "BUY", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 200.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 200.0, rate_per_wl: 200.0, icon: "icons/super_crate_box.png" },
+        dungeon_door: { name: "Dungeon Door (Bahan Barrel)", tier: "DASAR", cardIds: ["card-dungeon_door"], checked: true, tree_status: "BUY", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, icon: "icons/dungeon_door.png" },
+        danger_sign: { name: "Danger Sign (Biohazard & Spikes)", tier: "DASAR", cardIds: ["card-danger_sign_1", "card-danger_sign_2"], checked: true, tree_status: "BUY", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, icon: "icons/danger_sign.png" },
+        poppy: { name: "Poppy (Bahan Dasar Orange Block)", tier: "DASAR", cardIds: ["card-poppy"], checked: true, tree_status: "BUY", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 50.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 50.0, rate_per_wl: 50.0, icon: "icons/poppy.png" },
+        sheet_music_blank: { name: "Blank Sheet (Bahan Dasar Piano Note)", tier: "DASAR", cardIds: ["card-sheet_music_blank"], checked: true, tree_status: "BUY", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 20.0, block_mode: "PER_WL", block_val: 80.0, seed_mode: "PER_WL", seed_val: 20.0, rate_per_wl: 20.0, icon: "icons/sheet_music_blank.png" },
+
+        // === STEP SPLICE MENENGAH (TIER 3 & TIER 4) ===
+        cactus: { name: "Cactus (Bahan Acid)", tier: "TIER 3", cardIds: ["card-cactus"], checked: false, tree_status: "SPLICE", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 3.0, block_mode: "PER_WL", block_val: 12.0, seed_mode: "PER_WL", seed_val: 3.0, rate_per_wl: 3.0, icon: "icons/cactus.png" },
+        plumbing: { name: "Plumbing (Bahan Acid)", tier: "TIER 3", cardIds: ["card-plumbing"], checked: false, tree_status: "SPLICE", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.0, block_mode: "PER_WL", block_val: 4.0, seed_mode: "WL_EACH", seed_val: 1.0, rate_per_wl: 1.0, icon: "icons/plumbing.png" },
+        bathtub: { name: "Bathtub (Bahan Plumbing)", tier: "TIER 4", cardIds: ["card-bathtub"], checked: false, tree_status: "SPLICE", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.0, block_mode: "PER_WL", block_val: 4.0, seed_mode: "WL_EACH", seed_val: 1.0, rate_per_wl: 1.0, icon: "icons/bathtub.png" },
+        toilet: { name: "Toilet (Bahan Bathtub)", tier: "TIER 4", cardIds: ["card-toilet"], checked: false, tree_status: "SPLICE", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, icon: "icons/toilet.png" },
+        white_block: { name: "White Block (Bahan Bathtub)", tier: "TIER 4", cardIds: ["card-white_block"], checked: false, tree_status: "SPLICE", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 20.0, block_mode: "PER_WL", block_val: 80.0, seed_mode: "PER_WL", seed_val: 20.0, rate_per_wl: 20.0, icon: "icons/white_block.png" },
+        orange_block: { name: "Orange Block (Bahan Biohazard)", tier: "TIER 3", cardIds: ["card-orange_block"], checked: false, tree_status: "SPLICE", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, block_mode: "PER_WL", block_val: 36.0, seed_mode: "PER_WL", seed_val: 9.0, rate_per_wl: 9.0, icon: "icons/orange_block.png" },
+        sheet_music_piano_note: { name: "Piano Note (Bahan Sharp Piano)", tier: "TIER 3", cardIds: ["card-sheet_music_piano_note"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 8.0, block_mode: "PER_WL", block_val: 32.0, seed_mode: "PER_WL", seed_val: 8.0, rate_per_wl: 8.0, icon: "icons/sheet_music_piano_note.png" },
+
+        // === CABANG ATAS (TIER 1 & TIER 2) ===
+        toxic_waste_barrel: { name: "Toxic Waste Barrel (Cabang Kiri)", tier: "TIER 1", cardIds: ["card-toxic_waste_barrel"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 2.7, block_mode: "PER_WL", block_val: 1.5, seed_mode: "WL_EACH", seed_val: 2.7, rate_per_wl: 0.37037, icon: "icons/toxic_waste_barrel.png" },
+        military_radio: { name: "Military Radio (Cabang Kanan)", tier: "TIER 1", cardIds: ["card-military_radio"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.0, block_mode: "PER_WL", block_val: 4.0, seed_mode: "WL_EACH", seed_val: 1.0, rate_per_wl: 1.0, icon: "icons/military_radio.png" },
+        acid: { name: "Acid (Bahan TWB)", tier: "TIER 2", cardIds: ["card-acid"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.6, block_mode: "PER_WL", block_val: 2.5, seed_mode: "WL_EACH", seed_val: 1.6, rate_per_wl: 0.625, icon: "icons/acid.png" },
+        barrel: { name: "Barrel (Bahan TWB)", tier: "TIER 2", cardIds: ["card-barrel"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 8.33, block_mode: "PER_WL", block_val: 33.0, seed_mode: "PER_WL", seed_val: 8.33, rate_per_wl: 8.33, icon: "icons/barrel.png" },
+        biohazard_sign: { name: "Biohazard Sign (Bahan MR)", tier: "TIER 2", cardIds: ["card-biohazard_sign"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 3.0, block_mode: "PER_WL", block_val: 12.0, seed_mode: "PER_WL", seed_val: 3.0, rate_per_wl: 3.0, icon: "icons/biohazard_sign.png" },
+        sheet_music_sharp_piano: { name: "Sheet Music: Sharp Piano (Bahan MR)", tier: "TIER 2", cardIds: ["card-sheet_music_sharp_piano"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 5.0, block_mode: "PER_WL", block_val: 20.0, seed_mode: "PER_WL", seed_val: 5.0, rate_per_wl: 5.0, icon: "icons/sheet_music_sharp_piano.png" },
+
+        // === AKAR PALING BAWAH OPSIONAL (LAVA, POINTY, ROCK BG, DIRT, SIGN, DOOR, WINDOW) ===
+        lava: { name: "Lava (Akar Danger Sign)", tier: "AKAR", cardIds: ["card-lava"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 100.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 100.0, rate_per_wl: 100.0, icon: "icons/lava.png" },
+        pointy_sign: { name: "Pointy Sign (Akar Danger Sign)", tier: "AKAR", cardIds: ["card-pointy_sign"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 50.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 50.0, rate_per_wl: 50.0, icon: "icons/pointy_sign.png" },
+        rock_bg: { name: "Rock Bg (Akar Death Spikes)", tier: "AKAR", cardIds: ["card-rock_bg"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 80.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 80.0, rate_per_wl: 80.0, icon: "icons/rock_bg.png" },
+        dirt: { name: "Dirt (Akar Super Crate)", tier: "AKAR", cardIds: ["card-dirt"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 200.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 200.0, rate_per_wl: 200.0, icon: "icons/dirt.png" },
+        sign: { name: "Sign (Akar Super Crate)", tier: "AKAR", cardIds: ["card-sign"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 100.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 100.0, rate_per_wl: 100.0, icon: "icons/sign.png" },
+        door: { name: "Door (Akar Dungeon Door)", tier: "AKAR", cardIds: ["card-door"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 150.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 150.0, rate_per_wl: 150.0, icon: "icons/door.png" },
+        window: { name: "Window (Akar Dungeon Door)", tier: "AKAR", cardIds: ["card-window"], checked: false, tree_status: "OFF", needed_ratio: 1.25, active_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 100.0, block_mode: "PER_WL", block_val: 200.0, seed_mode: "PER_WL", seed_val: 100.0, rate_per_wl: 100.0, icon: "icons/window.png" }
       }
     };
 
     let activeSciMatData = JSON.parse(JSON.stringify(DEFAULT_SCI_MATERIALS_DATA));
+    let sciGridCategoryFilter = 'ALL'; // 'ALL' | 'CHECKED' | 'BASE' | 'UPPER'
+    let sciSortCheckedFirst = true;
 
     function getEffectiveRatePerWl(mode, val) {
       const v = Math.max(0.0001, parseFloat(val) || 1);
       return mode === 'WL_EACH' ? (1 / v) : v;
-    }
-
-    function getNeededQtyForItem(targetTrees, item) {
-      const seedNeed = Math.round(targetTrees * (item.needed_ratio || 1.25));
-      // Jika user memilih mode BLOCK pada bahan, bisa berarti jual/beli block bahan (1:1 kuota atau 4x untuk di-smash jadi seed)
-      const mult = item.item_type === 'BLOCK' ? (item.block_as_smash ? 4 : 1) : 1;
-      return Math.round(seedNeed * mult);
     }
 
     function getMatCostWL(qty, item) {
@@ -5391,6 +5543,47 @@
         return qty * v;
       }
       return qty / v;
+    }
+
+    function syncOracleFromTreeChecks(showFeedback) {
+      syncSciInputsFromDOM();
+      for (const [key, item] of Object.entries(activeSciMatData.materials)) {
+        const cids = item.cardIds || [`card-${key}`];
+        let buyBranches = 0;
+        let spliceBranches = 0;
+        for (const cid of cids) {
+          const isChk = treeCheckedCards[cid] !== false;
+          if (isChk) {
+            if (typeof hasAnyCheckedDescendant === 'function' && hasAnyCheckedDescendant(cid)) {
+              spliceBranches++;
+            } else {
+              buyBranches++;
+            }
+          }
+        }
+        if (buyBranches > 0) {
+          item.checked = true;
+          item.tree_status = 'BUY';
+          item.active_branches = buyBranches;
+          item.active_ratio = buyBranches * 1.25;
+        } else if (spliceBranches > 0) {
+          item.checked = false;
+          item.tree_status = 'SPLICE';
+          item.active_branches = spliceBranches;
+          item.active_ratio = spliceBranches * 1.25;
+        } else {
+          item.checked = false;
+          item.tree_status = 'OFF';
+          item.active_branches = cids.length;
+          item.active_ratio = item.needed_ratio || 1.25;
+        }
+      }
+      renderSciMaterialInputs();
+      calcSciMaterialsProfit();
+      if (showFeedback) {
+        try { sfxSparkle(); } catch(e) {}
+        toast('🌲 Ceklis Kalkulator Berhasil Disinkronkan dari Ujung Bawah Pohon!');
+      }
     }
 
     function normalizeSciData(parsed) {
@@ -5428,6 +5621,8 @@
           if (src) {
             defItem.item_type = src.item_type || defItem.item_type || 'SEED';
             if (typeof src.checked === 'boolean') defItem.checked = src.checked;
+            if (src.tree_status) defItem.tree_status = src.tree_status;
+            if (src.active_ratio) defItem.active_ratio = parseFloat(src.active_ratio) || defItem.needed_ratio;
             if (src.block_mode) defItem.block_mode = src.block_mode;
             if (src.block_val !== undefined) defItem.block_val = parseFloat(src.block_val) || defItem.block_val;
             if (src.seed_mode) defItem.seed_mode = src.seed_mode;
@@ -5472,17 +5667,16 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       if (stored) {
         try {
           const parsed = JSON.parse(stored);
-          if (parsed && parsed.version === "2.7") {
+          if (parsed && parsed.version === "2.8") {
             activeSciMatData = normalizeSciData(parsed);
           } else {
-            activeSciMatData = JSON.parse(JSON.stringify(DEFAULT_SCI_MATERIALS_DATA));
+            activeSciMatData = normalizeSciData(parsed);
           }
         } catch(e) {
           activeSciMatData = JSON.parse(JSON.stringify(DEFAULT_SCI_MATERIALS_DATA));
         }
       }
-      renderSciMaterialInputs();
-      calcSciMaterialsProfit();
+      syncOracleFromTreeChecks(false);
 
       const promptDisplay = document.getElementById('sci-prompt-display');
       if (promptDisplay) promptDisplay.textContent = MASTER_SCI_MATERIALS_PROMPT;
@@ -5524,6 +5718,19 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
           }
         }
       }
+    }
+
+    function onSciTargetTreesInput() {
+      const inp = document.getElementById('sci-target-trees');
+      const val = parseInt(inp?.value) || 1000;
+      activeSciMatData.target_trees = val;
+      if (typeof currentMode !== 'undefined' && currentMode === 'quota') {
+        quotaTarget = val;
+        const mainInp = document.getElementById('target-val');
+        if (mainInp) mainInp.value = val;
+        if (typeof updateTreeDisplay === 'function') updateTreeDisplay();
+      }
+      calcSciMaterialsProfit();
     }
 
     function setSciSellMode(mode) {
@@ -5603,6 +5810,41 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       const item = activeSciMatData.materials[key];
       if (!item) return;
       item.checked = !item.checked;
+      item.tree_status = item.checked ? 'BUY' : 'OFF';
+      if (!item.active_ratio) item.active_ratio = item.needed_ratio || 1.25;
+
+      // Update treeCheckedCards for this item's cards
+      if (item.cardIds && typeof treeCheckedCards !== 'undefined') {
+        item.cardIds.forEach(cid => {
+          treeCheckedCards[cid] = item.checked;
+        });
+        try { localStorage.setItem('gt_sci_tree_checks', JSON.stringify(treeCheckedCards)); } catch(e) {}
+        if (typeof initTreeCardChecklists === 'function') initTreeCardChecklists();
+      }
+      renderSciMaterialInputs();
+      calcSciMaterialsProfit();
+    }
+
+    function setSciCategoryFilter(cat) {
+      try { sfxTap(); } catch(e) {}
+      syncSciInputsFromDOM();
+      sciGridCategoryFilter = cat;
+      document.querySelectorAll('.sci-cat-filter-btn').forEach(b => b.classList.remove('active'));
+      const btn = document.getElementById('sci-cat-btn-' + cat);
+      if (btn) btn.classList.add('active');
+      renderSciMaterialInputs();
+      calcSciMaterialsProfit();
+    }
+
+    function toggleSciSortCheckedFirst() {
+      try { sfxTap(); } catch(e) {}
+      syncSciInputsFromDOM();
+      sciSortCheckedFirst = !sciSortCheckedFirst;
+      const btn = document.getElementById('btn-sci-sort-checked');
+      if (btn) {
+        btn.style.background = sciSortCheckedFirst ? '#22c55e' : '#e2e8f0';
+        btn.innerHTML = sciSortCheckedFirst ? '⬆️ URUTAN: ✅ DICEKLIS DI ATAS (ON)' : '⬆️ URUTAN: SESUAI TIER POHON';
+      }
       renderSciMaterialInputs();
       calcSciMaterialsProfit();
     }
@@ -5613,16 +5855,52 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       const m = activeSciMatData.materials;
       const tier1Keys = ['toxic_waste_barrel', 'military_radio'];
       const tier2Keys = ['acid', 'barrel', 'biohazard_sign', 'sheet_music_sharp_piano'];
-      const baseDeepKeys = ['cactus', 'toilet', 'crappy_sign', 'super_crate_box', 'dungeon_door', 'biohazard_sign', 'sheet_music_sharp_piano'];
-      const allBottomKeys = ['cactus', 'toilet', 'crappy_sign', 'death_spikes', 'danger_sign', 'super_crate_box', 'dungeon_door', 'orange_block'];
+      const smartDeepKeys = [
+        'death_spikes', 'bush', 'crappy_sign', 'brown_block', 'bricks',
+        'mushroom', 'green_block', 'super_crate_box', 'dungeon_door',
+        'danger_sign', 'poppy', 'sheet_music_blank'
+      ];
+      const pureLeafKeys = [
+        'death_spikes', 'bush', 'crappy_sign', 'brown_block', 'bricks',
+        'mushroom', 'green_block', 'dirt', 'sign', 'door', 'window',
+        'lava', 'pointy_sign', 'poppy', 'sheet_music_blank', 'danger_sign', 'rock_bg'
+      ];
+
+      if (preset === 'tree') {
+        syncOracleFromTreeChecks(true);
+        return;
+      }
+
+      if (preset === 'deep' && typeof setTreeChecklistPreset === 'function') {
+        setTreeChecklistPreset('base');
+        return;
+      }
 
       for (const [k, item] of Object.entries(m)) {
-        if (preset === 'all') item.checked = true;
-        else if (preset === 'none') item.checked = false;
-        else if (preset === 'tier1') item.checked = tier1Keys.includes(k);
-        else if (preset === 'tier2') item.checked = tier2Keys.includes(k);
-        else if (preset === 'deep') item.checked = baseDeepKeys.includes(k);
-        else if (preset === 'bottom') item.checked = allBottomKeys.includes(k);
+        if (preset === 'all') {
+          item.checked = true;
+          item.tree_status = 'BUY';
+          item.active_ratio = item.needed_ratio;
+        } else if (preset === 'none') {
+          item.checked = false;
+          item.tree_status = 'OFF';
+        } else if (preset === 'tier1') {
+          item.checked = tier1Keys.includes(k);
+          item.tree_status = item.checked ? 'BUY' : 'OFF';
+          item.active_ratio = item.needed_ratio;
+        } else if (preset === 'tier2') {
+          item.checked = tier2Keys.includes(k);
+          item.tree_status = item.checked ? 'BUY' : 'OFF';
+          item.active_ratio = item.needed_ratio;
+        } else if (preset === 'deep') {
+          item.checked = smartDeepKeys.includes(k);
+          item.tree_status = item.checked ? 'BUY' : 'OFF';
+          item.active_ratio = (k === 'danger_sign') ? 1.25 : item.needed_ratio;
+        } else if (preset === 'bottom') {
+          item.checked = pureLeafKeys.includes(k);
+          item.tree_status = item.checked ? 'BUY' : 'OFF';
+          item.active_ratio = (k === 'death_spikes' || k === 'danger_sign') ? 1.25 : item.needed_ratio;
+        }
       }
       renderSciMaterialInputs();
       calcSciMaterialsProfit();
@@ -5675,7 +5953,7 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
 
       // 1. Output Selling Price Card (Science Station: Explicit BLOCK vs SEED buttons!)
       const sellCard = document.createElement('div');
-      sellCard.className = 'sci-input-card';
+      sellCard.className = 'sci-input-card checked-card';
       sellCard.style.border = '3px solid #16a34a';
       sellCard.style.background = '#f0fdf4';
       sellCard.innerHTML = `
@@ -5688,7 +5966,6 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
             TARGET UTAMA ★
           </span>
         </div>
-        <!-- PILIH WUJUD JUAL: BLOCK ATAU SEED -->
         <div class="sci-type-toggle-group">
           <button type="button" class="sci-type-btn type-block ${sellIsBlock ? 'active' : ''}" onclick="setSciSellType('BLOCK')">
             📦 JUAL BLOCK
@@ -5697,7 +5974,6 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
             🌱 JUAL SEED
           </button>
         </div>
-        <!-- PILIH SATUAN HARGA: PER 1 WL ATAU WL PER 1 BIJI -->
         <div class="sci-unit-toggle-group">
           <button type="button" class="sci-unit-btn mode-per-wl ${sellMode === 'PER_WL' ? 'active' : ''}" onclick="setSciSellMode('PER_WL')">
             ${sellPlural} / 1 WL
@@ -5719,35 +5995,54 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       `;
       grid.appendChild(sellCard);
 
-      // 2. Ingredients Inputs (TWB, Military Radio, Acid, Barrel, dll. -> Lengkap dengan CEKLIST di Kanan Atas + Tombol BLOCK & SEED!)
-      for (const [key, item] of Object.entries(activeSciMatData.materials)) {
+      // 2. Sort & Filter Materials
+      let entries = Object.entries(activeSciMatData.materials);
+      if (sciSortCheckedFirst) {
+        entries.sort((a, b) => {
+          const scoreA = a[1].checked ? 2 : (a[1].tree_status === 'SPLICE' ? 1 : 0);
+          const scoreB = b[1].checked ? 2 : (b[1].tree_status === 'SPLICE' ? 1 : 0);
+          return scoreB - scoreA;
+        });
+      }
+
+      for (const [key, item] of entries) {
         const isChecked = item.checked !== false;
+        const isSplice = !isChecked && item.tree_status === 'SPLICE';
+        const tierBadge = item.tier || 'BAHAN';
+
+        if (sciGridCategoryFilter === 'CHECKED' && !isChecked) continue;
+        if (sciGridCategoryFilter === 'BASE' && tierBadge !== 'DASAR' && tierBadge !== 'AKAR') continue;
+        if (sciGridCategoryFilter === 'UPPER' && (tierBadge === 'DASAR' || tierBadge === 'AKAR')) continue;
+
         const isBlock = item.item_type === 'BLOCK';
         const uPlural = isBlock ? 'BLOCKS' : 'SEEDS';
         const uSingular = isBlock ? 'BLOCK' : 'SEED';
         const pMode = item.price_mode || 'PER_WL';
         const pVal = item.price_value !== undefined ? item.price_value : item.rate_per_wl;
         const activeUnitLabel = pMode === 'WL_EACH' ? `WL / 1 ${uSingular}` : `${uPlural} / 1 WL`;
-        const tierBadge = item.tier || 'BAHAN';
+
+        let cardStateClass = isChecked ? 'checked-card' : (isSplice ? 'splice-card' : 'unchecked-card');
+        let btnStateClass = isChecked ? 'checked' : (isSplice ? 'splice' : 'unchecked');
+        let btnLabelText = isChecked ? '✅ BELI' : (isSplice ? '⚗️ SPLICE' : '⬜ OFF');
+        let tierBg = tierBadge === 'DASAR' ? '#bbf7d0' : (tierBadge === 'AKAR' ? '#fde047' : '#e2e8f0');
 
         const card = document.createElement('div');
-        card.className = 'sci-input-card' + (isChecked ? '' : ' unchecked-card');
+        card.className = `sci-input-card ${cardStateClass}`;
         card.id = `sci-card-box-${key}`;
         card.innerHTML = `
           <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 6px;">
             <label style="display: flex; align-items: center; gap: 5px; line-height: 1.2; cursor: pointer;" onclick="toggleSciItemCheck('${key}')">
               <img src="${item.icon}" style="width: 20px; height: 20px; image-rendering: pixelated; flex-shrink: 0;" alt="${item.name}">
               <span>
-                <span style="display: inline-block; font-size: 9px; background: #e2e8f0; color: #0f172a; padding: 0 4px; border: 1px solid #000; border-radius: 3px; margin-right: 3px;">${tierBadge}</span>
+                <span style="display: inline-block; font-size: 9px; background: ${tierBg}; color: #0f172a; padding: 0 4px; border: 1px solid #000; border-radius: 3px; margin-right: 3px; font-weight: 900;">${tierBadge}</span>
                 ${item.name}
               </span>
             </label>
-            <button type="button" class="sci-check-corner-btn ${isChecked ? 'checked' : 'unchecked'}" onclick="toggleSciItemCheck('${key}')" title="Klik Ceklis di kanan atas ini untuk Aktifkan/Matikan bahan ini sesuai step massing lu!">
-              ${isChecked ? '✅ CEKLIS' : '⬜ OFF'}
+            <button type="button" class="sci-check-corner-btn ${btnStateClass}" onclick="toggleSciItemCheck('${key}')" title="Klik untuk ganti status: ✅ BELI (dihitung modal WL) vs ⬜ OFF/SPLICE (0 WL)">
+              ${btnLabelText}
             </button>
           </div>
           <div class="sci-card-body-controls">
-            <!-- PILIH WUJUD BAHAN: BLOCK ATAU SEED -->
             <div class="sci-type-toggle-group">
               <button type="button" class="sci-type-btn type-block ${isBlock ? 'active' : ''}" onclick="setSciItemType('${key}', 'BLOCK')">
                 📦 BLOCK
@@ -5756,7 +6051,6 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
                 🌱 SEED
               </button>
             </div>
-            <!-- PILIH SATUAN HARGA: PER 1 WL ATAU WL PER 1 BIJI -->
             <div class="sci-unit-toggle-group">
               <button type="button" class="sci-unit-btn mode-per-wl ${pMode === 'PER_WL' ? 'active' : ''}" onclick="setSciItemMode('${key}', 'PER_WL')">
                 ${uPlural} / 1 WL
@@ -5782,7 +6076,8 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
     }
 
     function calcSciMaterialsProfit() {
-      const targetCount = parseInt(document.getElementById('sci-target-trees')?.value) || activeSciMatData.target_trees || 1000;
+      const targetInp = document.getElementById('sci-target-trees');
+      const targetCount = parseInt(targetInp?.value) || activeSciMatData.target_trees || quotaTarget || 1000;
       activeSciMatData.target_trees = targetCount;
 
       const sp = activeSciMatData.selling_price;
@@ -5799,6 +6094,7 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
 
       let customCheckedCostWL = 0;
       let checkedCount = 0;
+      let checkedNames = [];
 
       // Update materials in state & update each card's live subtext
       for (const [key, item] of Object.entries(activeSciMatData.materials)) {
@@ -5813,28 +6109,35 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
         }
         item.rate_per_wl = getEffectiveRatePerWl(item.price_mode || 'PER_WL', item.price_value);
 
-        const seedQty = Math.round(targetCount * item.needed_ratio);
+        const effRatio = item.active_ratio || item.needed_ratio || 1.25;
+        const branchesCount = Math.round(effRatio / 1.25);
+        const seedQty = Math.round(targetCount * effRatio);
         const blockQty = Math.round(seedQty * 4);
         const activeQty = item.item_type === 'BLOCK' ? blockQty : seedQty;
         const itemCostWL = Math.round(getMatCostWL(activeQty, item));
         const isChecked = item.checked !== false;
+        const isSplice = !isChecked && item.tree_status === 'SPLICE';
 
         if (isChecked) {
           customCheckedCostWL += itemCostWL;
           checkedCount++;
+          checkedNames.push(item.name.split(' (')[0]);
         }
 
         const unitName = item.item_type === 'BLOCK' ? 'Blocks' : 'Seeds';
-        const altInfo = item.item_type === 'BLOCK' ? `(~${seedQty.toLocaleString()} Seeds)` : `(~${blockQty.toLocaleString()} Blocks)`;
+        const altInfo = item.item_type === 'BLOCK' ? `(🌱${seedQty.toLocaleString()} Seeds)` : `(📦${blockQty.toLocaleString()} Blocks)`;
+        const branchTag = branchesCount > 1 ? `<span style="color:#7c3aed; font-weight:900;">[${branchesCount} Cabang]</span> ` : '';
         const rateDesc = item.price_mode === 'WL_EACH'
-          ? `${item.price_value} WL / 1 ${unitName.slice(0, -1)}`
-          : `${item.price_value} ${unitName} / 1 WL`;
+          ? `${item.price_value} WL/1 ${unitName.slice(0, -1)}`
+          : `${item.price_value}/${unitName === 'Blocks' ? '1 WL (Block)' : '1 WL (Seed)'}`;
         const subEl = document.getElementById(`sci-mat-sub-${key}`);
         if (subEl) {
           if (isChecked) {
-            subEl.innerHTML = `Butuh: <b>${activeQty.toLocaleString()} ${unitName}</b> <small>${altInfo}</small><br>💰 Modal Ceklis: <b style="color:#0369a1;">${itemCostWL.toLocaleString()} WL</b> <small>(${rateDesc})</small>`;
+            subEl.innerHTML = `${branchTag}Butuh: <b>${activeQty.toLocaleString()} ${unitName}</b> <small>${altInfo}</small><br>💰 <b style="color:#15803d;">DIHITUNG BELI: ${itemCostWL.toLocaleString()} WL</b> <small>(${rateDesc})</small>`;
+          } else if (isSplice) {
+            subEl.innerHTML = `⚗️ <b style="color:#0369a1;">STEP SPLICE DARI BAWAH (0 WL)</b> • <small>Jika beli langsung: <b>${itemCostWL.toLocaleString()} WL</b> (${activeQty.toLocaleString()} ${unitName}) — Klik tombol kanan atas jika kurang & mau beli!</small>`;
           } else {
-            subEl.innerHTML = `⏭️ <b>SKIP / SPLICE SENDIRI (0 WL)</b> • <small>Butuh ${seedQty.toLocaleString()} Seeds / ${blockQty.toLocaleString()} Blocks (Klik ✅ di kanan atas jika kurang & mau beli)</small>`;
+            subEl.innerHTML = `⬜ <b style="color:#64748b;">OFF / SKIP (0 WL)</b> • <small>Estimasi jika beli: <b>${itemCostWL.toLocaleString()} WL</b> (${activeQty.toLocaleString()} ${unitName})</small>`;
           }
         }
       }
@@ -5861,43 +6164,51 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       // Modal Fuel Pack panen akhir pohon Science Station (104 FP per 1000 trees = ~83 WL)
       const fpCostFinalHarvest = sellIsBlock ? Math.round(targetCount * 0.083) : 0;
 
-      // Custom Checked Strategy (Sesuai Ceklis User!)
+      // Custom Checked Strategy (Sesuai Ceklis Pohon / User!)
       const totalCheckedCost = customCheckedCostWL + fpCostFinalHarvest;
       const profitChecked = totalRevenue - totalCheckedCost;
       const marginChecked = Math.round((profitChecked / Math.max(1, totalRevenue)) * 100);
 
-      // Helper untuk hitung cost per item sesuai mode aktifnya
-      const calcItemWL = (it) => {
-        const sQ = Math.round(targetCount * it.needed_ratio);
+      const calcItemWL = (it, customRatio) => {
+        if (!it) return 0;
+        const r = customRatio !== undefined ? customRatio : (it.needed_ratio || 1.25);
+        const sQ = Math.round(targetCount * r);
         const q = it.item_type === 'BLOCK' ? Math.round(sQ * 4) : sQ;
         return Math.round(getMatCostWL(q, it));
       };
 
       // 2. Strategy A (Beli Cabang Jadi: Toxic Waste Barrel + Military Radio)
       const m = activeSciMatData.materials;
-      const costTWB = calcItemWL(m.toxic_waste_barrel);
-      const costMR = calcItemWL(m.military_radio);
+      const costTWB = calcItemWL(m.toxic_waste_barrel, 1.25);
+      const costMR = calcItemWL(m.military_radio, 1.25);
       const costStratA = costTWB + costMR + fpCostFinalHarvest;
       const profitStratA = totalRevenue - costStratA;
       const marginStratA = Math.round((profitStratA / Math.max(1, totalRevenue)) * 100);
 
       // 3. Strategy B (Beli Tier 2: Acid, Barrel, Biohazard, Sharp Piano)
-      const costAcid = calcItemWL(m.acid);
-      const costBarrel = calcItemWL(m.barrel);
-      const costBio = calcItemWL(m.biohazard_sign);
-      const costSheet = calcItemWL(m.sheet_music_sharp_piano);
+      const costAcid = calcItemWL(m.acid, 1.25);
+      const costBarrel = calcItemWL(m.barrel, 1.25);
+      const costBio = calcItemWL(m.biohazard_sign, 1.25);
+      const costSheet = calcItemWL(m.sheet_music_sharp_piano, 1.25);
       const costStratB = costAcid + costBarrel + costBio + costSheet + fpCostFinalHarvest;
       const profitStratB = totalRevenue - costStratB;
       const marginStratB = Math.round((profitStratB / Math.max(1, totalRevenue)) * 100);
 
-      // 4. Strategy C (Master Deep Splice: Bikin Bathtub dari Toilet+Crappy, Bikin Acid dari Cactus+Plumbing, dll)
-      const costCactus = calcItemWL(m.cactus);
-      const costToilet = calcItemWL(m.toilet);
-      const costCrappy = calcItemWL(m.crappy_sign);
-      const costGreen = Math.round((targetCount * 1.25) / 100); // 100/1 Green Block
-      const costDungeon = calcItemWL(m.dungeon_door);
-      const costCrate = calcItemWL(m.super_crate_box);
-      const costStratC = costCactus + costToilet + costCrappy + costGreen + costDungeon + costCrate + costBio + costSheet + fpCostFinalHarvest;
+      // 4. Strategy C (Rute Massing Dasar Lengkap sesuai Gambar Pohon User!)
+      const costStratC =
+        calcItemWL(m.death_spikes, 2.5) +
+        calcItemWL(m.bush, 1.25) +
+        calcItemWL(m.crappy_sign, 1.25) +
+        calcItemWL(m.brown_block, 1.25) +
+        calcItemWL(m.bricks, 2.5) +
+        calcItemWL(m.mushroom, 1.25) +
+        calcItemWL(m.green_block, 2.5) +
+        calcItemWL(m.super_crate_box, 1.25) +
+        calcItemWL(m.dungeon_door, 1.25) +
+        calcItemWL(m.danger_sign, 1.25) +
+        calcItemWL(m.poppy, 1.25) +
+        calcItemWL(m.sheet_music_blank, 1.25) +
+        fpCostFinalHarvest;
       const profitStratC = totalRevenue - costStratC;
       const marginStratC = Math.round((profitStratC / Math.max(1, totalRevenue)) * 100);
 
@@ -5909,7 +6220,7 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
 
       // Custom Checklist DOM
       setText('sci-cost-checked', `${totalCheckedCost.toLocaleString()} WL`);
-      setText('sci-checked-count-note', `${checkedCount} Bahan Diceklis ${sellIsBlock ? '+ FP' : ''}`);
+      setText('sci-checked-count-note', `${checkedCount} Bahan Dasar Dibeli ${sellIsBlock ? '+ FP (' + fpCostFinalHarvest + ' WL)' : ''}`);
       setText('sci-profit-checked', `${profitChecked >= 0 ? '+' : ''}${profitChecked.toLocaleString()} WL`);
       setText('sci-margin-checked', `${marginChecked}% (${(profitChecked/100).toFixed(1)} DL SESUAI CEKLIS)`);
       const profitChkEl = document.getElementById('sci-profit-checked');
@@ -5939,7 +6250,8 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       // Recommendation Text
       const recoEl = document.getElementById('sci-reco-text');
       if (recoEl) {
-        recoEl.innerHTML = `✅ <b>MODE CEKLIS AKTIF (${checkedCount} Bahan Dipilih):</b> Modal sesuai ceklis lu saat ini adalah <b>${totalCheckedCost.toLocaleString()} WL</b> dengan Profit Bersih <b style="color:#16a34a; font-size:14px;">${profitChecked >= 0 ? '+' : ''}${profitChecked.toLocaleString()} WL (${(profitChecked/100).toFixed(1)} DL)</b>! Kalau lu massing dari dasar dan pas naik step ada bahan yang kurang/lebih, tinggal nyalakan/matikan tombol <b>✅ CEKLIS</b> di kanan atas kotak bahan terkait!`;
+        const listStr = checkedNames.length ? checkedNames.join(', ') : 'Belum ada bahan dipilih';
+        recoEl.innerHTML = `🌲 <b>SINKRON POHON & CEKLIS AKTIF (${checkedCount} Bahan Dibeli):</b> <span style="color:#0f172a; font-weight:600;">[${listStr}]</span><br>Modal bahan dasar lu = <b>${customCheckedCostWL.toLocaleString()} WL</b> ${sellIsBlock ? `+ Harvester FP <b>${fpCostFinalHarvest.toLocaleString()} WL</b> = <b>${totalCheckedCost.toLocaleString()} WL</b>` : ''} ➔ Profit Bersih: <b style="color:#16a34a; font-size:14px;">${profitChecked >= 0 ? '+' : ''}${profitChecked.toLocaleString()} WL (${(profitChecked/100).toFixed(1)} DL)</b>! <small style="color:#475569;">(Box yang berstatus <b>⚗️ SPLICE</b> otomatis 0 WL karena bahan dasarnya di bawah sudah dihitung!)</small>`;
       }
     }
 
@@ -5948,7 +6260,7 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       calcSciMaterialsProfit();
       localStorage.setItem('gt_science_materials_prices', JSON.stringify(activeSciMatData));
       closeScienceOracleModal();
-      alert('⚡ SUKSES! Harga bahan, pilihan BLOCK/SEED, dan Ceklis berhasil disimpan!');
+      alert('⚡ SUKSES! Harga semua bahan dasar, pilihan BLOCK/SEED, dan Ceklis berhasil disimpan!');
     }
 
     function applySciJsonFromTextarea() {
@@ -6019,10 +6331,9 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       if (!confirm('Kembalikan harga bahan Science Station ke default pabrik?')) return;
       localStorage.removeItem('gt_science_materials_prices');
       activeSciMatData = JSON.parse(JSON.stringify(DEFAULT_SCI_MATERIALS_DATA));
-      renderSciMaterialInputs();
-      calcSciMaterialsProfit();
+      syncOracleFromTreeChecks(false);
       try { sfxSparkle(); } catch(e) {}
-      alert('🔄 Estimasi harga bahan Science Station berhasil di-reset!');
+      alert('🔄 Estimasi harga bahan Science Station berhasil di-reset & disinkronkan dengan pohon!');
     }
 
     function copySciAiPrompt() {
@@ -6059,8 +6370,16 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
 
     function openScienceOracleModal() {
       try { sfxSparkle(); } catch(e) {}
-      renderSciMaterialInputs();
-      calcSciMaterialsProfit();
+      const mainTargetInp = document.getElementById('target-val');
+      const sciTargetInp = document.getElementById('sci-target-trees');
+      if (mainTargetInp && sciTargetInp && typeof currentMode !== 'undefined' && currentMode === 'quota') {
+        const v = parseInt(mainTargetInp.value);
+        if (!isNaN(v) && v > 0) {
+          sciTargetInp.value = v;
+          activeSciMatData.target_trees = v;
+        }
+      }
+      syncOracleFromTreeChecks(false);
       const modal = document.getElementById('science-oracle-modal');
       if (modal) modal.classList.add('active');
     }
@@ -6104,11 +6423,11 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       <div class="sci-tab-pane active" id="sci-tab-pane-form">
         <div style="background: #fef08a; border: 2px solid #000; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
           <p style="margin: 0; font-size: 12px; font-weight: 700; color: #713f12; max-width: 680px;">
-            💡 <b>FITUR BARU BLOCK/SEED & CEKLIS KANAN ATAS:</b> Semua kotak (Science Station, TWB, Military Radio, dll.) kini punya tombol <b>[📦 BLOCK]</b> & <b>[🌱 SEED]</b> + <b>[PER 1 WL / WL PER BIJI]</b>! Gunakan <b>✅ CEKLIS di kanan atas tiap box</b> untuk memilih bahan mana saja yang lu beli (yang tidak diceklis otomatis redup biar gak ganggu visual saat massing dari dasar!).
+            🌲 <b>SINKRON OTOMATIS DARI POHON UTAMA:</b> Apa yang lu ceklis di Pohon Utama otomatis tersinkron ke sini! Sistem mendeteksi <b>Ujung Bawah Ceklis Pohon</b> sebagai <b>✅ BELI (Dihitung Modal WL)</b>, sedangkan box di atasnya otomatis jadi <b>⚗️ SPLICE (0 WL, gak ke-double count!)</b>. Semua bahan dasar (<i>Bush, Bricks, Brown/White/Green Block, Mushroom, Poppy, Blank Sheet</i>, dll.) sekarang lengkap & kolom harganya selalu tampil!
           </p>
           <div style="display: flex; align-items: center; gap: 6px;">
             <span style="font-size: 12px; font-weight: 800;">Target Massing:</span>
-            <input type="number" id="sci-target-trees" value="1000" step="100" min="100" class="sci-num-input" style="width: 90px;" oninput="calcSciMaterialsProfit()">
+            <input type="number" id="sci-target-trees" value="1000" step="100" min="100" class="sci-num-input" style="width: 90px;" oninput="onSciTargetTreesInput()">
             <span style="font-size: 12px; font-weight: 800;">Pohon</span>
           </div>
         </div>
@@ -6116,7 +6435,7 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
         <!-- Live Profit Engine Comparison Dashboard -->
         <div class="sci-profit-dashboard">
           <div class="sci-dash-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-            <span>📊 ANALISIS OMZET JUAL (BLOCK / SEED) VS MODAL CEKLIS & 3 STRATEGI:</span>
+            <span>📊 ANALISIS OMZET JUAL (BLOCK / SEED) VS MODAL CEKLIS POHON & 3 STRATEGI:</span>
             <span style="font-size: 11px; color: #166534; background: #dcfce7; padding: 2px 8px; border: 1.5px solid #000; border-radius: 4px;">Panen Block SS = 2.95x Pohon</span>
           </div>
           <div class="sci-dash-grid" style="grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));">
@@ -6127,13 +6446,13 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
             </div>
             <div class="sci-dash-cell" style="background: #fef08a; border: 2.5px solid #000;">
               <span style="color: #000; font-weight: 900;">✅ MODAL SESUAI CEKLIS</span>
-              <strong id="sci-cost-checked" style="color: #b45309; font-size: 20px;">1,492 WL</strong>
-              <small id="sci-checked-count-note" style="font-size: 10px; color: #713f12; font-weight: bold;">7 Bahan Diceklis + FP</small>
+              <strong id="sci-cost-checked" style="color: #b45309; font-size: 20px;">1,020 WL</strong>
+              <small id="sci-checked-count-note" style="font-size: 10px; color: #713f12; font-weight: bold;">12 Bahan Dasar Dibeli + FP</small>
             </div>
             <div class="sci-dash-cell" style="background: #dcfce7; border: 2.5px solid #16a34a;">
               <span style="color: #166534; font-weight: 900;">💰 PROFIT SESUAI CEKLIS</span>
-              <strong id="sci-profit-checked" style="color: #16a34a; font-size: 21px;">+4,408 WL</strong>
-              <small id="sci-margin-checked" style="font-size: 10px; font-weight: bold; color: #15803d;">75% (44.1 DL SESUAI CEKLIS)</small>
+              <strong id="sci-profit-checked" style="color: #16a34a; font-size: 21px;">+4,880 WL</strong>
+              <small id="sci-margin-checked" style="font-size: 10px; font-weight: bold; color: #15803d;">83% (48.8 DL SESUAI CEKLIS)</small>
             </div>
             <div class="sci-dash-cell" style="background: #fffbeb;">
               <span>Modal Cabang Jadi (A)</span>
@@ -6148,10 +6467,10 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
               <small id="sci-margin-strat-b" style="display:block; font-size: 9.5px; color: #1e40af;">Acid+Barrel+Bio+Piano</small>
             </div>
             <div class="sci-dash-cell" style="background: #f0fdf4; border: 2px solid #16a34a;">
-              <span style="color: #15803d; font-weight: 800;">👑 Deep Splice (C)</span>
-              <strong id="sci-cost-strat-c" style="color: #15803d;">1,492 WL</strong>
-              <small id="sci-profit-strat-c" style="font-size: 11px; font-weight: 800; color: #16a34a;">+4,408 WL</small>
-              <small id="sci-margin-strat-c" style="display:block; font-size: 9.5px; color: #15803d;">75% CUAN</small>
+              <span style="color: #15803d; font-weight: 800;">👑 Rute Dasar (C)</span>
+              <strong id="sci-cost-strat-c" style="color: #15803d;">1,020 WL</strong>
+              <small id="sci-profit-strat-c" style="font-size: 11px; font-weight: 800; color: #16a34a;">+4,880 WL</small>
+              <small id="sci-margin-strat-c" style="display:block; font-size: 9.5px; color: #15803d;">83% CUAN</small>
             </div>
           </div>
           <div id="sci-reco-text" style="margin-top: 10px; font-size: 12.5px; font-weight: 700; color: #166534; background: #fff; padding: 10px 14px; border: 2.5px solid #000; border-radius: 6px; box-shadow: 2px 2px 0 #000;">
@@ -6163,20 +6482,23 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
         <div style="background: #f8fafc; border: 2px solid #000; border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px;">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
             <span style="font-family: 'Bangers', cursive; font-size: 14.5px; letter-spacing: 0.5px;">
-              ☑️ FILTER CEKLIS CEPAT (SESUAI STEP MASSING LU):
+              ☑️ PILIH RUTE CEKLIS MASSING:
             </span>
             <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+              <button type="button" class="action-btn-mini" onclick="setSciChecklistPreset('tree')" style="background: #10b981; color: #000; font-size: 10px; font-weight: 900; padding: 3px 8px; height: 25px;">
+                🌲 Sinkron dari Ceklis Pohon Utama
+              </button>
               <button type="button" class="action-btn-mini" onclick="setSciChecklistPreset('deep')" style="background: #22c55e; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 25px;">
-                🌱 Massing dari Dasar (Deep Splice)
+                🌱 Rute Massing Dasar (12 Bahan Dasar)
               </button>
               <button type="button" class="action-btn-mini" onclick="setSciChecklistPreset('bottom')" style="background: #a3e635; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 25px;">
-                🪵 Ceklis Akar Bawah Saja
+                🪵 Semua Akar Paling Bawah
               </button>
               <button type="button" class="action-btn-mini" onclick="setSciChecklistPreset('tier2')" style="background: #38bdf8; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 25px;">
-                ⚡ Ceklis Tier 2 (Acid/Barrel/Bio/Piano)
+                ⚡ Tier 2 (Acid/Barrel/Bio/Piano)
               </button>
               <button type="button" class="action-btn-mini" onclick="setSciChecklistPreset('tier1')" style="background: #fbbf24; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 25px;">
-                🚀 Ceklis TWB + MR Saja
+                🚀 TWB + MR Saja
               </button>
               <button type="button" class="action-btn-mini" onclick="setSciChecklistPreset('all')" style="background: #e2e8f0; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 25px;">
                 ✅ Ceklis Semua
@@ -6187,21 +6509,36 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
             </div>
           </div>
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; border-top: 1.5px dashed #cbd5e1; padding-top: 6px;">
-            <span style="font-family: 'Bangers', cursive; font-size: 14.5px; letter-spacing: 0.5px;">
-              🛒 UBAH SEMUA WUJUD & SATUAN BAHAN SEKALIGUS:
-            </span>
+            <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">
+              <span style="font-family: 'Bangers', cursive; font-size: 14px; letter-spacing: 0.5px;">🔍 FILTER TAMPILAN:</span>
+              <button type="button" id="sci-cat-btn-ALL" class="action-btn-mini sci-cat-filter-btn active" onclick="setSciCategoryFilter('ALL')" style="background: #fde047; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 24px;">
+                🌐 Semua Bahan (32)
+              </button>
+              <button type="button" id="sci-cat-btn-CHECKED" class="action-btn-mini sci-cat-filter-btn" onclick="setSciCategoryFilter('CHECKED')" style="background: #dcfce7; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 24px;">
+                ✅ Hanya yang Diceklis Beli
+              </button>
+              <button type="button" id="sci-cat-btn-BASE" class="action-btn-mini sci-cat-filter-btn" onclick="setSciCategoryFilter('BASE')" style="background: #e0f2fe; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 24px;">
+                🌱 Bahan Dasar & Akar Saja
+              </button>
+              <button type="button" id="sci-cat-btn-UPPER" class="action-btn-mini sci-cat-filter-btn" onclick="setSciCategoryFilter('UPPER')" style="background: #f1f5f9; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 24px;">
+                ⚡ Cabang Tier 1–4
+              </button>
+              <button type="button" id="btn-sci-sort-checked" class="action-btn-mini" onclick="toggleSciSortCheckedFirst()" style="background: #22c55e; color: #000; font-size: 10px; font-weight: 800; padding: 3px 7px; height: 24px;">
+                ⬆️ URUTAN: ✅ DICEKLIS DI ATAS (ON)
+              </button>
+            </div>
             <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-              <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsType('BLOCK')" style="background: #16a34a; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; height: 25px;">
-                📦 Semua Bahan: MODE BLOCK
+              <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsType('BLOCK')" style="background: #16a34a; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; height: 24px;">
+                📦 Semua: BLOCK
               </button>
-              <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsType('SEED')" style="background: #facc15; color: #000; font-size: 10px; font-weight: 800; padding: 3px 8px; height: 25px;">
-                🌱 Semua Bahan: MODE SEED
+              <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsType('SEED')" style="background: #facc15; color: #000; font-size: 10px; font-weight: 800; padding: 3px 8px; height: 24px;">
+                🌱 Semua: SEED
               </button>
-              <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsMode('PER_WL')" style="background: #38bdf8; color: #000; font-size: 10px; font-weight: 800; padding: 3px 8px; height: 25px;">
-                ⚡ Semua: BLOCKS·SEEDS / 1 WL
+              <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsMode('PER_WL')" style="background: #38bdf8; color: #000; font-size: 10px; font-weight: 800; padding: 3px 8px; height: 24px;">
+                ⚡ Semua: PER 1 WL
               </button>
-              <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsMode('WL_EACH')" style="background: #fde047; color: #000; font-size: 10px; font-weight: 800; padding: 3px 8px; height: 25px;">
-                💎 Semua: WL / 1 BLOCK·SEED
+              <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsMode('WL_EACH')" style="background: #fde047; color: #000; font-size: 10px; font-weight: 800; padding: 3px 8px; height: 24px;">
+                💎 Semua: WL / 1 BIJI
               </button>
             </div>
           </div>
