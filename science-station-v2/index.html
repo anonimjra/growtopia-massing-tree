@@ -2314,6 +2314,60 @@
       background: #fff;
     }
 
+    .sci-unit-toggle-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      background: #e2e8f0;
+      padding: 3px;
+      border: 2px solid #000;
+      border-radius: 6px;
+      margin-top: 2px;
+    }
+
+    .sci-unit-btn {
+      font-family: 'Plus Jakarta Sans', 'Comic Neue', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 3px;
+      border: 1.5px solid transparent;
+      border-radius: 4px;
+      background: transparent;
+      color: #475569;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.12s ease;
+      white-space: nowrap;
+    }
+
+    .sci-unit-btn:hover {
+      color: #000;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .sci-unit-btn.active.mode-per-wl {
+      background: #38bdf8;
+      color: #000;
+      border-color: #000;
+      box-shadow: 1.5px 1.5px 0 #000;
+    }
+
+    .sci-unit-btn.active.mode-wl-each {
+      background: #facc15;
+      color: #000;
+      border-color: #000;
+      box-shadow: 1.5px 1.5px 0 #000;
+    }
+
+    .sci-type-badge-btn {
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.1s ease;
+    }
+    .sci-type-badge-btn:hover {
+      transform: scale(1.06);
+    }
+
     /* Live Profit Dashboard Panel */
     .sci-profit-dashboard {
       background: #f0fdf4;
@@ -3254,7 +3308,7 @@
     const DB = {
       science_station: {
         name: "Science Station",
-        rarity: 53,
+        rarity: 82,
         grow: "5d 16h",
         farmable: "Non-Farmable (Decay)",
         rank: "SS-RANK [CLIMAX]",
@@ -3320,7 +3374,7 @@
       },
       sheet_music_sharp_piano: {
         name: "Sharp Piano",
-        rarity: 28,
+        rarity: 22,
         grow: "15h 40m",
         farmable: "Non-Farmable",
         rank: "A-RANK [CATALYST]",
@@ -3618,7 +3672,7 @@
     };
 
     const RARITY_MAP = {
-      'b-science_station': 'R-53 🌟',
+      'b-science_station': 'R-82 🌟',
       'b-toxic_waste_barrel': 'R-34 🌟',
       'b-military_radio': 'R-38 🌟',
       'b-acid': 'R-20 🌟',
@@ -3642,7 +3696,7 @@
       'b-door': 'R-4 🌟',
       'b-window': 'R-8 🌟',
       'b-biohazard_sign': 'R-24 🌟',
-      'b-sheet_music_sharp_piano': 'R-28 🌟',
+      'b-sheet_music_sharp_piano': 'R-22 🌟',
       'b-danger_sign_1': 'R-15 🌟',
       'b-orange_block': 'R-14 🌟',
       'b-sheet_music_piano_note': 'R-19 🌟',
@@ -4761,23 +4815,43 @@
       const item = DB[key] || { name: key, rarity: 20, farmable: "Farmable" };
       const isFarmable = (item.farmable || "").toLowerCase().includes("farmable") && !(item.farmable || "").toLowerCase().includes("non");
       
-      // 1. HARVEST CALCULATIONS
-      let blockPerTree = isFarmable ? 3.0 : 2.65;
-      if (buffs.harvester) blockPerTree *= 1.15; // +15% block drop dari Harvester of Sorrows
-      if (buffs.dcs) blockPerTree *= 1.05;       // +5% bonus dari DCS
+      // 1. HARVEST CALCULATIONS (Calibrated with empirical Droid-Pet harvest data)
+      // Empiris: Non-farmable base block = 2.575 (6953/2700), with Harvester = 2.95 (7965/2700, +14.55% bonus)
+      const baseBlockRate = isFarmable ? 3.0 : 2.575;
+      let blockPerTree = baseBlockRate;
+      if (buffs.harvester) blockPerTree = isFarmable ? 3.45 : 2.95; // Empiris Droid-Pet: 7,965 blocks / 2,700 trees = exactly 2.95 blocks/tree
       
       const totalBlocks = Math.round(treeCount * blockPerTree);
-      const htSeedDrops = Math.round(treeCount * 0.14); // Flat 14% dari pohon
-      const gemMultiplier = buffs.dcs ? 1.25 : 1.0;
-      const htGems = Math.round(treeCount * (0.8 + (item.rarity * 0.05)) * gemMultiplier);
-      const htXp = treeCount * (item.rarity >= 30 ? 6 : 4);
+      const baseBlocks = Math.round(treeCount * baseBlockRate);
+      const extraBlocksFromHarvester = buffs.harvester ? Math.max(0, totalBlocks - baseBlocks) : 0;
+
+      // Seed drops: Non-farmable Sharp Piano empiris = 12% (324 seeds / 2700 trees), Science Station (Rarity 82) = 4% (108 seeds / 2700 trees). Harvester TIDAK menambah seed!
+      const seedDropRate = isFarmable ? 0.14 : (item.rarity >= 80 ? 0.04 : 0.12);
+      const htSeedDrops = Math.round(treeCount * seedDropRate);
+
+      // Fuel Pack Burn & Cost: 280 FP / 2700 trees = 0.1037037 FP/tree. Rate: 200 FP = 160 WL => 0.80 WL/FP
+      const fpBurn = buffs.harvester ? Math.round(treeCount * (280 / 2700)) : 0;
+      const fpCostWl = buffs.harvester ? Math.round(fpBurn * 0.8) : 0;
+      const costPerExtraBlock = extraBlocksFromHarvester > 0 ? (fpCostWl / extraBlocksFromHarvester).toFixed(3) : "0";
+
+      // Empiris Droid-Pet: Rarity 22 = 1.086 gem/tree & 5 XP/tree. Rarity 82 = 6.074 gem/tree & 17 XP/tree
+      const gemRate = item.rarity >= 80 ? 6.074 : (0.8 + (item.rarity * 0.015));
+      const xpRate = item.rarity >= 80 ? 17 : (item.rarity >= 30 ? 6 : 5);
+      const htGems = Math.round(treeCount * gemRate * (buffs.dcs ? 1.0 : 0.95));
+      const htXp = treeCount * xpRate;
+
+      // Estimated Harvesting Time (Seconds)
+      const timeTractorSec = Math.round(treeCount / 4.0);
+      const timeHandSec = Math.round(treeCount / 2.3);
+      const timeSpeedyTractorSec = Math.round(treeCount / 4.08);
 
       // 2. BREAK CALCULATIONS
       const blocksToBreak = totalBlocks;
       const extraBlockRate = buffs.buddy ? 0.12 : 0.0833;
       const extraBlocksBroken = Math.round(blocksToBreak * extraBlockRate);
       
-      let baseSeedChance = isFarmable ? 0.25 : Math.max(0.04, 0.25 - (item.rarity * 0.0022));
+      // Empiris: Sheet Music (Sharp Piano) memiliki base seed break chance 25% + extra return
+      let baseSeedChance = (isFarmable || key.includes('sheet_music')) ? 0.25 : Math.max(0.04, 0.25 - (item.rarity * 0.0022));
       if (buffs.ances) baseSeedChance *= 1.10; // +10% Ancestral Level 5
       if (buffs.arroz) baseSeedChance *= 1.10; // +10% Arroz Con Pollo
       if (buffs.luck) baseSeedChance *= 1.05;  // +5% Lucky Mod / Clover
@@ -4798,6 +4872,14 @@
         isFarmable,
         treeCount,
         totalBlocks,
+        baseBlocks,
+        extraBlocksFromHarvester,
+        fpBurn,
+        fpCostWl,
+        costPerExtraBlock,
+        timeTractorSec,
+        timeHandSec,
+        timeSpeedyTractorSec,
         htSeedDrops,
         htGems,
         htXp,
@@ -4853,9 +4935,16 @@
           <div style="background: #18181b; padding: 10px; border-radius: 6px; border: 1px solid #333;">
             <div style="color: #86efac; font-weight: bold; margin-bottom: 6px;">🌾 DROPS FROM HARVESTING ${treeCount.toLocaleString()} TREES:</div>
             <div>• Gem drops: <span style="color: #cbd5e1;">${res.htGems.toLocaleString()}</span></div>
-            <div>• Block drops: <span style="color: #facc15; font-weight: bold;">${res.totalBlocks.toLocaleString()}</span></div>
-            <div>• Seed drops: <span style="color: #60a5fa; font-weight: bold;">${res.htSeedDrops.toLocaleString()}</span> (14% tree drop)</div>
+            <div>• Block drops: <span style="color: #facc15; font-weight: bold;">${res.totalBlocks.toLocaleString()}</span> ${buffs.harvester ? `<small style="color:#fdba74;">(+${res.extraBlocksFromHarvester.toLocaleString()} Harvester)</small>` : ''}</div>
+            <div>• Seed drops: <span style="color: #60a5fa; font-weight: bold;">${res.htSeedDrops.toLocaleString()}</span> (${res.isFarmable ? '14%' : '12%'} tree drop)</div>
             <div>• XP Earned: <span style="color: #cbd5e1;">${res.htXp.toLocaleString()}</span></div>
+            
+            <div style="margin-top: 8px; padding-top: 6px; border-top: 1px dashed #444; font-size: 11.5px; color: #94a3b8;">
+              ⏱️ <b>ESTIMATED HARVEST TIME:</b><br>
+              • Tractor: <span style="color:#fde047;">${res.timeTractorSec}s</span> (~${(res.timeTractorSec/60).toFixed(1)}m)<br>
+              • By Hand: <span style="color:#f87171;">${res.timeHandSec}s</span> (~${(res.timeHandSec/60).toFixed(1)}m)<br>
+              • Tractor + Speedy: <span style="color:#4ade80;">${res.timeSpeedyTractorSec}s</span>
+            </div>
           </div>
 
           <div style="background: #18181b; padding: 10px; border-radius: 6px; border: 1px solid #333;">
@@ -4867,6 +4956,28 @@
             <div>• Gem drops: <span style="color: #cbd5e1;">${res.breakGems.toLocaleString()}</span></div>
           </div>
         </div>
+
+        ${buffs.harvester ? `
+        <!-- FUEL PACK CONSUMPTION & FINANCIAL ROI TRACKER -->
+        <div style="margin-top: 10px; padding: 10px; background: #1c1917; border: 1.5px solid #ea580c; border-radius: 6px; font-size: 12.5px;">
+          <div style="color: #fb923c; font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+            <span>⛽ FUEL PACK (FP) CONSUMPTION & ROI:</span>
+            <span style="font-size: 11px; color: #fdba74;">Rate: 200 FP = 160 WL (0.80 WL/FP)</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 14px; color: #e2e8f0; font-size: 12px;">
+            <div>• FP Terbakar: <b style="color: #fdba74;">${res.fpBurn.toLocaleString()} FP</b> (~0.1037 FP/pohon)</div>
+            <div>• Biaya Modal FP: <b style="color: #f87171;">${res.fpCostWl.toLocaleString()} WL</b></div>
+            <div>• Ekstra Block Gain: <b style="color: #facc15;">+${res.extraBlocksFromHarvester.toLocaleString()} Block</b></div>
+            <div>• Modal per Ekstra Block: <b style="color: #38bdf8;">${res.costPerExtraBlock} WL/block</b></div>
+          </div>
+          <div style="margin-top: 6px; font-size: 11.5px; padding: 5px 8px; border-radius: 4px; ${res.isFarmable ? 'background: #064e3b; color: #6ee7b7;' : 'background: #450a0a; color: #fca5a5; border: 1px solid #b91c1c;'}">
+            ${res.isFarmable ? 
+              '💡 <b>FARMABLE CROP:</b> Harvester layak pakai bila harga jual block / hasil break bernilai lebih tinggi dari modal ' + res.fpCostWl + ' WL.' : 
+              '🚨 <b>VERDICT KEUANGAN: SAMA SEKALI GAK WORTH IT!</b> Harvester TIDAK menambah seed drop (0 bonus seed). Modal ' + res.fpCostWl + ' WL hangus cuma dapat block tambahan seharga ' + res.costPerExtraBlock + ' WL/block (padahal seed cuma 5/WL). Gunakan panen tangan manual / tanpa FP!'
+            }
+          </div>
+        </div>
+        ` : ''}
 
         <div style="margin-top: 10px; padding: 8px 12px; background: #27272a; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 13px;">
           <div><b>TOTAL SEEDS RECOVERED (HT + BREAK):</b> <span style="color: #38bdf8; font-size: 15px; font-weight: bold;">${res.totalNetSeeds.toLocaleString()}</span> / ${treeCount.toLocaleString()} input</div>
@@ -4965,39 +5076,108 @@
        SCIENCE STATION SPLICING INGREDIENTS & COST ORACLE
        ========================================================= */
     const DEFAULT_SCI_MATERIALS_DATA = {
-      version: "2.0",
+      version: "2.6",
       item_target: "Science Station",
       type: "Ingredients & Splicing Cost Oracle",
       target_trees: 1000,
       selling_price: {
-        science_station_rate_per_wl: 3.0
+        item_type: "BLOCK",
+        price_mode: "WL_EACH",
+        price_value: 2.0,
+        science_station_price_per_block: 2.0,
+        science_station_rate_per_wl: 0.5
       },
       materials: {
-        toxic_waste_barrel: { name: "Toxic Waste Barrel (Cabang Kiri)", needed_ratio: 1.0, rate_per_wl: 6.5, icon: "icons/toxic_waste_barrel.png" },
-        military_radio: { name: "Military Radio (Cabang Kanan)", needed_ratio: 1.0, rate_per_wl: 6.5, icon: "icons/military_radio.png" },
-        death_spikes: { name: "Death Spikes (Bottleneck di 2 Cabang)", needed_ratio: 2.5, rate_per_wl: 50.0, icon: "icons/death_spikes.png" },
-        cactus: { name: "Cactus (Non-Farmable)", needed_ratio: 1.25, rate_per_wl: 25.0, icon: "icons/cactus.png" },
-        sheet_music_sharp_piano: { name: "Sheet Music: Sharp Piano", needed_ratio: 1.25, rate_per_wl: 12.0, icon: "icons/sheet_music_sharp_piano.png" },
-        acid: { name: "Acid", needed_ratio: 1.25, rate_per_wl: 14.0, icon: "icons/acid.png" },
-        barrel: { name: "Barrel", needed_ratio: 1.25, rate_per_wl: 30.0, icon: "icons/barrel.png" },
-        plumbing: { name: "Plumbing", needed_ratio: 1.25, rate_per_wl: 18.0, icon: "icons/plumbing.png" },
-        biohazard_sign: { name: "Biohazard Sign", needed_ratio: 1.25, rate_per_wl: 18.0, icon: "icons/biohazard_sign.png" },
-        danger_sign: { name: "Danger Sign", needed_ratio: 2.5, rate_per_wl: 70.0, icon: "icons/danger_sign.png" }
+        toxic_waste_barrel: { name: "Toxic Waste Barrel (Cabang Kiri)", needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 2.7, rate_per_wl: 0.37037, unit_note: "2.7 WL/Seed", icon: "icons/toxic_waste_barrel.png" },
+        military_radio: { name: "Military Radio (Cabang Kanan)", needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.0, rate_per_wl: 1.0, unit_note: "1 WL/Seed", icon: "icons/military_radio.png" },
+        acid: { name: "Acid (Bahan TWB)", needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.6, rate_per_wl: 0.625, unit_note: "1.6 WL/Seed", icon: "icons/acid.png" },
+        barrel: { name: "Barrel (Bahan TWB)", needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 8.33, rate_per_wl: 8.33, unit_note: "8.33/1 WL", icon: "icons/barrel.png" },
+        biohazard_sign: { name: "Biohazard Sign (Bahan MR)", needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 3.0, rate_per_wl: 3.0, unit_note: "3/1 WL", icon: "icons/biohazard_sign.png" },
+        sheet_music_sharp_piano: { name: "Sheet Music: Sharp Piano (Bahan MR)", needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 5.0, rate_per_wl: 5.0, unit_note: "5/1 WL", icon: "icons/sheet_music_sharp_piano.png" },
+        cactus: { name: "Cactus (Bahan Acid)", needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 3.0, rate_per_wl: 3.0, unit_note: "3/1 WL", icon: "icons/cactus.png" },
+        plumbing: { name: "Plumbing (Bahan Acid)", needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.0, rate_per_wl: 1.0, unit_note: "1 WL/Seed", icon: "icons/plumbing.png" },
+        bathtub: { name: "Bathtub (Bahan Plumbing)", needed_ratio: 1.25, item_type: "SEED", price_mode: "WL_EACH", price_value: 1.0, rate_per_wl: 1.0, unit_note: "1 WL/Seed", icon: "icons/bathtub.png" },
+        toilet: { name: "Toilet (Bahan Bathtub)", needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/toilet.png" },
+        crappy_sign: { name: "Crappy Sign (Bahan Bathtub)", needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 60.0, rate_per_wl: 60.0, unit_note: "60/1 WL", icon: "icons/crappy_sign.png" },
+        death_spikes: { name: "Death Spikes (Bahan Cactus & Piano)", needed_ratio: 2.5, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/death_spikes.png" },
+        danger_sign: { name: "Danger Sign (Bahan Biohazard & Spikes)", needed_ratio: 2.5, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/danger_sign.png" },
+        super_crate_box: { name: "Super Crate Box (Bahan Barrel)", needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 200.0, rate_per_wl: 200.0, unit_note: "200/1 WL", icon: "icons/super_crate_box.png" },
+        dungeon_door: { name: "Dungeon Door (Bahan Barrel)", needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/dungeon_door.png" },
+        orange_block: { name: "Orange Block (Bahan Biohazard)", needed_ratio: 1.25, item_type: "SEED", price_mode: "PER_WL", price_value: 9.0, rate_per_wl: 9.0, unit_note: "9/1 WL", icon: "icons/orange_block.png" }
       }
     };
 
     let activeSciMatData = JSON.parse(JSON.stringify(DEFAULT_SCI_MATERIALS_DATA));
 
+    function getEffectiveRatePerWl(mode, val) {
+      const v = Math.max(0.0001, parseFloat(val) || 1);
+      return mode === 'WL_EACH' ? (1 / v) : v;
+    }
+
+    function getMatCostWL(qty, item) {
+      const v = Math.max(0.0001, parseFloat(item.price_value) || 1);
+      if (item.price_mode === 'WL_EACH') {
+        return qty * v;
+      }
+      return qty / v;
+    }
+
+    function normalizeSciData(parsed) {
+      const base = JSON.parse(JSON.stringify(DEFAULT_SCI_MATERIALS_DATA));
+      if (!parsed || typeof parsed !== 'object') return base;
+      if (parsed.target_trees) base.target_trees = parseInt(parsed.target_trees) || 1000;
+
+      if (parsed.selling_price) {
+        const sp = parsed.selling_price;
+        base.selling_price.item_type = sp.item_type || 'BLOCK';
+        if (sp.price_mode && sp.price_value !== undefined) {
+          base.selling_price.price_mode = sp.price_mode;
+          base.selling_price.price_value = parseFloat(sp.price_value) || 2.0;
+        } else if (sp.science_station_rate_per_wl !== undefined) {
+          const r = parseFloat(sp.science_station_rate_per_wl) || 0.5;
+          if (r < 1) {
+            base.selling_price.price_mode = 'WL_EACH';
+            base.selling_price.price_value = Number((1 / r).toFixed(2));
+          } else {
+            base.selling_price.price_mode = 'PER_WL';
+            base.selling_price.price_value = r;
+          }
+        }
+        base.selling_price.science_station_rate_per_wl = getEffectiveRatePerWl(base.selling_price.price_mode, base.selling_price.price_value);
+      }
+
+      if (parsed.materials) {
+        for (const [k, defItem] of Object.entries(base.materials)) {
+          const src = parsed.materials[k];
+          if (src) {
+            defItem.item_type = src.item_type || defItem.item_type || 'SEED';
+            if (src.price_mode && src.price_value !== undefined) {
+              defItem.price_mode = src.price_mode;
+              defItem.price_value = parseFloat(src.price_value) || defItem.price_value;
+            } else if (src.rate_per_wl !== undefined) {
+              const r = parseFloat(src.rate_per_wl) || defItem.rate_per_wl;
+              if (r < 1) {
+                defItem.price_mode = 'WL_EACH';
+                defItem.price_value = Number((1 / r).toFixed(2));
+              } else {
+                defItem.price_mode = 'PER_WL';
+                defItem.price_value = r;
+              }
+            }
+            defItem.rate_per_wl = getEffectiveRatePerWl(defItem.price_mode, defItem.price_value);
+          }
+        }
+      }
+      return base;
+    }
+
     const MASTER_SCI_MATERIALS_PROMPT = `Kamu adalah Growtopia Splicing Economics Specialist.
 
 Tugas:
-Sesuaikan angka harga pasar terbaru (rate_per_wl) untuk BAHAN-BAHAN MASSING SCIENCE STATION ke dalam template JSON di bawah.
-Bahan-bahan ini adalah bibit atau balok yang dibutuhkan untuk melakukan splicing Science Station (bukan hasil panen chem vial).
-CUKUP PERBARUI / GANTI ANGKA "rate_per_wl" (berapa biji item per 1 WL) berdasarkan data harga yang aku berikan.
-
-Resep Pohon Massing Science Station:
-- Science Station (Output) = Toxic Waste Barrel + Military Radio
-- Bahan Kunci: Death Spikes (dibutuhkan 2x di cabang kiri & kanan), Cactus, Acid, Barrel, Plumbing, Biohazard Sign, Sheet Music Sharp Piano, Danger Sign.
+Sesuaikan angka harga pasar terbaru untuk BAHAN-BAHAN MASSING SCIENCE STATION ke dalam template JSON di bawah.
+Mendukung 2 mode satuan harga ("price_mode"):
+- "PER_WL" = Berapa BLOCKS / SEEDS per 1 WL (contoh: 9/1 WL -> "price_mode": "PER_WL", "price_value": 9)
+- "WL_EACH" = Berapa WL per 1 BLOCK / SEED (contoh: 2.7 WL per biji -> "price_mode": "WL_EACH", "price_value": 2.7)
 
 [DATA HARGA BAHAN DARI USER / DISCORD / GAME]:
 <PASTE HARGA PASAR BAHAN DI SINI>
@@ -5010,7 +5190,11 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       if (stored) {
         try {
           const parsed = JSON.parse(stored);
-          if (parsed.materials) activeSciMatData = parsed;
+          if (parsed && parsed.version === "2.6") {
+            activeSciMatData = normalizeSciData(parsed);
+          } else {
+            activeSciMatData = JSON.parse(JSON.stringify(DEFAULT_SCI_MATERIALS_DATA));
+          }
         } catch(e) {
           activeSciMatData = JSON.parse(JSON.stringify(DEFAULT_SCI_MATERIALS_DATA));
         }
@@ -5024,12 +5208,90 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       setupSciDropzone();
     }
 
+    function syncSciInputsFromDOM() {
+      const sellInp = document.getElementById('sci-rate-sell');
+      if (sellInp) {
+        const val = parseFloat(sellInp.value);
+        if (!isNaN(val) && val > 0) {
+          activeSciMatData.selling_price.price_value = val;
+          activeSciMatData.selling_price.science_station_rate_per_wl = getEffectiveRatePerWl(activeSciMatData.selling_price.price_mode, val);
+        }
+      }
+      for (const [key, item] of Object.entries(activeSciMatData.materials)) {
+        const inp = document.getElementById(`sci-mat-${key}`);
+        if (inp) {
+          const val = parseFloat(inp.value);
+          if (!isNaN(val) && val > 0) {
+            item.price_value = val;
+            item.rate_per_wl = getEffectiveRatePerWl(item.price_mode, val);
+          }
+        }
+      }
+    }
+
+    function setSciSellMode(mode) {
+      try { sfxTap(); } catch(e) {}
+      syncSciInputsFromDOM();
+      activeSciMatData.selling_price.price_mode = mode;
+      activeSciMatData.selling_price.science_station_rate_per_wl = getEffectiveRatePerWl(mode, activeSciMatData.selling_price.price_value);
+      renderSciMaterialInputs();
+      calcSciMaterialsProfit();
+    }
+
+    function toggleSciSellType() {
+      try { sfxTap(); } catch(e) {}
+      syncSciInputsFromDOM();
+      activeSciMatData.selling_price.item_type = activeSciMatData.selling_price.item_type === 'SEED' ? 'BLOCK' : 'SEED';
+      renderSciMaterialInputs();
+      calcSciMaterialsProfit();
+    }
+
+    function setSciItemMode(key, mode) {
+      try { sfxTap(); } catch(e) {}
+      syncSciInputsFromDOM();
+      const item = activeSciMatData.materials[key];
+      if (!item) return;
+      item.price_mode = mode;
+      item.rate_per_wl = getEffectiveRatePerWl(mode, item.price_value);
+      renderSciMaterialInputs();
+      calcSciMaterialsProfit();
+    }
+
+    function toggleSciItemType(key) {
+      try { sfxTap(); } catch(e) {}
+      syncSciInputsFromDOM();
+      const item = activeSciMatData.materials[key];
+      if (!item) return;
+      item.item_type = item.item_type === 'BLOCK' ? 'SEED' : 'BLOCK';
+      renderSciMaterialInputs();
+      calcSciMaterialsProfit();
+    }
+
+    function setAllSciMaterialsMode(mode) {
+      try { sfxSparkle(); } catch(e) {}
+      syncSciInputsFromDOM();
+      for (const item of Object.values(activeSciMatData.materials)) {
+        item.price_mode = mode;
+        item.rate_per_wl = getEffectiveRatePerWl(mode, item.price_value);
+      }
+      renderSciMaterialInputs();
+      calcSciMaterialsProfit();
+    }
+
     function renderSciMaterialInputs() {
       const grid = document.getElementById('sci-materials-grid');
       if (!grid) return;
       grid.innerHTML = '';
 
-      // 1. Output Selling Price Card (BLOCK)
+      const sp = activeSciMatData.selling_price;
+      const sellIsBlock = (sp.item_type || 'BLOCK') === 'BLOCK';
+      const sellPlural = sellIsBlock ? 'BLOCKS' : 'SEEDS';
+      const sellSingular = sellIsBlock ? 'BLOCK' : 'SEED';
+      const sellMode = sp.price_mode || 'WL_EACH';
+      const sellVal = sp.price_value !== undefined ? sp.price_value : 2.0;
+      const sellActiveUnitText = sellMode === 'WL_EACH' ? `WL / 1 ${sellSingular}` : `${sellPlural} / 1 WL`;
+
+      // 1. Output Selling Price Card
       const sellCard = document.createElement('div');
       sellCard.className = 'sci-input-card';
       sellCard.style.border = '3px solid #16a34a';
@@ -5037,21 +5299,40 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       sellCard.innerHTML = `
         <label style="color: #166534; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: space-between;">
           <span>🏆 HARGA JUAL: Science Station</span>
-          <span style="background: #166534; color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 10px;">📦 BLOCK</span>
+          <span class="sci-type-badge-btn" onclick="toggleSciSellType()" title="Klik untuk ganti BLOCK ↔ SEED" style="background: ${sellIsBlock ? '#166534' : '#facc15'}; color: ${sellIsBlock ? '#fff' : '#000'}; padding: 2px 6px; border-radius: 4px; font-size: 9.5px; border: 1.5px solid #000; font-weight: 800;">
+            ${sellIsBlock ? '📦 BLOCK ⇄' : '🌱 SEED ⇄'}
+          </span>
         </label>
-        <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
-          <input type="number" step="0.5" min="0.1" class="sci-num-input" id="sci-rate-sell" 
-                 value="${activeSciMatData.selling_price.science_station_rate_per_wl}" oninput="calcSciMaterialsProfit()">
-          <span style="font-size: 12px; font-weight: 800; color: #166534; white-space: nowrap;">BLOCKS / WL</span>
+        <div class="sci-unit-toggle-group">
+          <button type="button" class="sci-unit-btn mode-per-wl ${sellMode === 'PER_WL' ? 'active' : ''}" onclick="setSciSellMode('PER_WL')">
+            ${sellPlural} / 1 WL
+          </button>
+          <button type="button" class="sci-unit-btn mode-wl-each ${sellMode === 'WL_EACH' ? 'active' : ''}" onclick="setSciSellMode('WL_EACH')">
+            WL / 1 ${sellSingular}
+          </button>
         </div>
-        <span style="font-size: 10.5px; color: #15803d; font-weight: 700; margin-top: 2px;">
-          Rate penjualan balok/block hasil panen (contoh: 3 blocks per WL)
+        <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+          <input type="number" step="0.1" min="0.01" class="sci-num-input" id="sci-rate-sell" style="width: 90px; flex-shrink: 0;"
+                 value="${sellVal}" oninput="calcSciMaterialsProfit()">
+          <span id="sci-sell-unit-label" onclick="setSciSellMode('${sellMode === 'WL_EACH' ? 'PER_WL' : 'WL_EACH'}')" title="Klik untuk tukar satuan" style="font-size: 11px; font-weight: 800; color: #166534; white-space: nowrap; cursor: pointer; background: #dcfce7; padding: 4px 7px; border: 1.5px solid #166534; border-radius: 5px;">
+            ${sellActiveUnitText} ⇄
+          </span>
+        </div>
+        <span id="sci-sell-subtext" style="font-size: 10.5px; color: #15803d; font-weight: 700; margin-top: 2px;">
+          <!-- Diisi live oleh calcSciMaterialsProfit -->
         </span>
       `;
       grid.appendChild(sellCard);
 
-      // 2. Ingredients Inputs (ALL ARE SEEDS!)
+      // 2. Ingredients Inputs
       for (const [key, item] of Object.entries(activeSciMatData.materials)) {
+        const isBlock = item.item_type === 'BLOCK';
+        const uPlural = isBlock ? 'BLOCKS' : 'SEEDS';
+        const uSingular = isBlock ? 'BLOCK' : 'SEED';
+        const pMode = item.price_mode || 'PER_WL';
+        const pVal = item.price_value !== undefined ? item.price_value : item.rate_per_wl;
+        const activeUnitLabel = pMode === 'WL_EACH' ? `WL / 1 ${uSingular}` : `${uPlural} / 1 WL`;
+
         const card = document.createElement('div');
         card.className = 'sci-input-card';
         card.innerHTML = `
@@ -5060,15 +5341,27 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
               <img src="${item.icon}" style="width: 18px; height: 18px; image-rendering: pixelated;" alt="${item.name}">
               ${item.name}
             </span>
-            <span style="background: #facc15; color: #000; padding: 1px 5px; border-radius: 4px; font-size: 9.5px; border: 1px solid #000; font-weight: 800;">🌱 SEED</span>
+            <span class="sci-type-badge-btn" onclick="toggleSciItemType('${key}')" title="Klik untuk ganti SEED ↔ BLOCK" style="background: ${isBlock ? '#166534' : '#facc15'}; color: ${isBlock ? '#fff' : '#000'}; padding: 2px 5px; border-radius: 4px; font-size: 9.5px; border: 1.5px solid #000; font-weight: 800; flex-shrink: 0;">
+              ${isBlock ? '📦 BLOCK ⇄' : '🌱 SEED ⇄'}
+            </span>
           </label>
-          <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
-            <input type="number" step="0.5" min="0.1" class="sci-num-input" id="sci-mat-${key}" 
-                   value="${item.rate_per_wl}" oninput="calcSciMaterialsProfit()">
-            <span style="font-size: 11px; font-weight: 800; color: #64748b; white-space: nowrap;">SEEDS / WL</span>
+          <div class="sci-unit-toggle-group">
+            <button type="button" class="sci-unit-btn mode-per-wl ${pMode === 'PER_WL' ? 'active' : ''}" onclick="setSciItemMode('${key}', 'PER_WL')">
+              ${uPlural} / 1 WL
+            </button>
+            <button type="button" class="sci-unit-btn mode-wl-each ${pMode === 'WL_EACH' ? 'active' : ''}" onclick="setSciItemMode('${key}', 'WL_EACH')">
+              WL / 1 ${uSingular}
+            </button>
           </div>
-          <span style="font-size: 10.5px; color: #64748b; font-weight: 700; margin-top: 2px;">
-            Butuh: <b>${Math.round((activeSciMatData.target_trees || 1000) * item.needed_ratio).toLocaleString()}</b> Benih Bibit (Seeds)
+          <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+            <input type="number" step="0.1" min="0.01" class="sci-num-input" id="sci-mat-${key}" style="width: 90px; flex-shrink: 0;"
+                   value="${pVal}" oninput="calcSciMaterialsProfit()">
+            <span onclick="setSciItemMode('${key}', '${pMode === 'WL_EACH' ? 'PER_WL' : 'WL_EACH'}')" title="Klik untuk tukar satuan" style="font-size: 11px; font-weight: 800; color: #0f172a; white-space: nowrap; cursor: pointer; background: ${pMode === 'WL_EACH' ? '#fef08a' : '#e0f2fe'}; padding: 4px 7px; border: 1.5px solid #000; border-radius: 5px;">
+              ${activeUnitLabel} ⇄
+            </span>
+          </div>
+          <span id="sci-mat-sub-${key}" style="font-size: 10.5px; color: #475569; font-weight: 700; margin-top: 2px;">
+            <!-- Diisi live oleh calcSciMaterialsProfit -->
           </span>
         `;
         grid.appendChild(card);
@@ -5079,67 +5372,118 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       const targetCount = parseInt(document.getElementById('sci-target-trees')?.value) || activeSciMatData.target_trees || 1000;
       activeSciMatData.target_trees = targetCount;
 
-      const sellRate = parseFloat(document.getElementById('sci-rate-sell')?.value) || activeSciMatData.selling_price.science_station_rate_per_wl;
-      activeSciMatData.selling_price.science_station_rate_per_wl = sellRate;
+      const sp = activeSciMatData.selling_price;
+      const sellInp = document.getElementById('sci-rate-sell');
+      if (sellInp) {
+        const val = parseFloat(sellInp.value);
+        if (!isNaN(val) && val > 0) {
+          sp.price_value = val;
+        }
+      }
+      sp.science_station_rate_per_wl = getEffectiveRatePerWl(sp.price_mode || 'WL_EACH', sp.price_value);
 
-      // Update rates in state
-      for (const key of Object.keys(activeSciMatData.materials)) {
+      // Update materials in state & update each card's live subtext
+      for (const [key, item] of Object.entries(activeSciMatData.materials)) {
         const inp = document.getElementById(`sci-mat-${key}`);
-        if (inp) activeSciMatData.materials[key].rate_per_wl = parseFloat(inp.value) || activeSciMatData.materials[key].rate_per_wl;
+        if (inp) {
+          const val = parseFloat(inp.value);
+          if (!isNaN(val) && val > 0) {
+            item.price_value = val;
+          }
+        }
+        item.rate_per_wl = getEffectiveRatePerWl(item.price_mode || 'PER_WL', item.price_value);
+
+        const neededQty = Math.round(targetCount * item.needed_ratio);
+        const itemCostWL = Math.round(getMatCostWL(neededQty, item));
+        const unitName = item.item_type === 'BLOCK' ? 'Blocks' : 'Seeds';
+        const rateDesc = item.price_mode === 'WL_EACH'
+          ? `${item.price_value} WL / 1 ${unitName.slice(0, -1)}`
+          : `${item.price_value} ${unitName} / 1 WL`;
+        const subEl = document.getElementById(`sci-mat-sub-${key}`);
+        if (subEl) {
+          subEl.innerHTML = `Butuh: <b>${neededQty.toLocaleString()} ${unitName}</b> • Modal: <b style="color:#0369a1;">${itemCostWL.toLocaleString()} WL</b> <small>(${rateDesc})</small>`;
+        }
       }
 
-      // Calculations
-      // 1. Total Revenue:
-      const totalRevenue = Math.round(targetCount / Math.max(0.1, sellRate));
+      // 1. Total Revenue
+      const sellIsBlock = (sp.item_type || 'BLOCK') === 'BLOCK';
+      const outputQty = sellIsBlock ? Math.round(targetCount * 2.95) : targetCount;
+      const totalRevenue = sp.price_mode === 'WL_EACH'
+        ? Math.round(outputQty * Math.max(0.0001, sp.price_value))
+        : Math.round(outputQty / Math.max(0.0001, sp.price_value));
+      const totalRevenueDL = (totalRevenue / 100).toFixed(1);
 
-      // 2. Strategy A Cost (Beli Cabang Jadi: Toxic Waste + Military Radio)
-      const toxicRate = activeSciMatData.materials.toxic_waste_barrel.rate_per_wl;
-      const radioRate = activeSciMatData.materials.military_radio.rate_per_wl;
-      const costStratA = Math.round((targetCount / Math.max(0.1, toxicRate)) + (targetCount / Math.max(0.1, radioRate)));
+      const sellSubEl = document.getElementById('sci-sell-subtext');
+      if (sellSubEl) {
+        const unitLabel = sellIsBlock ? 'Blocks (2.95x Panen)' : 'Seeds (1:1)';
+        const rateExplain = sp.price_mode === 'WL_EACH'
+          ? `1 ${sellIsBlock ? 'Block' : 'Seed'} = ${sp.price_value} WL`
+          : `${sp.price_value} ${sellIsBlock ? 'Blocks' : 'Seeds'} = 1 WL`;
+        sellSubEl.innerHTML = `⚡ ${rateExplain} • Output <b>${outputQty.toLocaleString()} ${unitLabel}</b> = <b>+${totalRevenue.toLocaleString()} WL</b>`;
+      }
+
+      // Modal Fuel Pack panen akhir pohon Science Station (104 FP per 1000 trees = ~83 WL)
+      const fpCostFinalHarvest = sellIsBlock ? Math.round(targetCount * 0.083) : 0;
+
+      // 2. Strategy A (Beli Cabang Jadi: Toxic Waste Barrel + Military Radio)
+      const m = activeSciMatData.materials;
+      const costTWB = Math.round(getMatCostWL(targetCount * m.toxic_waste_barrel.needed_ratio, m.toxic_waste_barrel));
+      const costMR = Math.round(getMatCostWL(targetCount * m.military_radio.needed_ratio, m.military_radio));
+      const costStratA = costTWB + costMR + fpCostFinalHarvest;
       const profitStratA = totalRevenue - costStratA;
       const marginStratA = Math.round((profitStratA / Math.max(1, totalRevenue)) * 100);
 
-      // 3. Strategy B Cost (Beli Bahan Kunci Intermediate):
-      // Death Spikes (2.5x) + Cactus (1.25x) + Sheet Music (1.25x) + Barrel (1.25x) + Plumbing (1.25x) + Biohazard (1.25x)
-      const costSpikes = Math.round((targetCount * 2.5) / Math.max(0.1, activeSciMatData.materials.death_spikes.rate_per_wl));
-      const costCactus = Math.round((targetCount * 1.25) / Math.max(0.1, activeSciMatData.materials.cactus.rate_per_wl));
-      const costSheet = Math.round((targetCount * 1.25) / Math.max(0.1, activeSciMatData.materials.sheet_music_sharp_piano.rate_per_wl));
-      const costBarrel = Math.round((targetCount * 1.25) / Math.max(0.1, activeSciMatData.materials.barrel.rate_per_wl));
-      const costPlumb = Math.round((targetCount * 1.25) / Math.max(0.1, activeSciMatData.materials.plumbing.rate_per_wl));
-      const costBio = Math.round((targetCount * 1.25) / Math.max(0.1, activeSciMatData.materials.biohazard_sign.rate_per_wl));
-      const costStratB = costSpikes + costCactus + costSheet + costBarrel + costPlumb + costBio;
+      // 3. Strategy B (Beli Tier 2: Acid, Barrel, Biohazard, Sharp Piano)
+      const costAcid = Math.round(getMatCostWL(targetCount * m.acid.needed_ratio, m.acid));
+      const costBarrel = Math.round(getMatCostWL(targetCount * m.barrel.needed_ratio, m.barrel));
+      const costBio = Math.round(getMatCostWL(targetCount * m.biohazard_sign.needed_ratio, m.biohazard_sign));
+      const costSheet = Math.round(getMatCostWL(targetCount * m.sheet_music_sharp_piano.needed_ratio, m.sheet_music_sharp_piano));
+      const costStratB = costAcid + costBarrel + costBio + costSheet + fpCostFinalHarvest;
       const profitStratB = totalRevenue - costStratB;
       const marginStratB = Math.round((profitStratB / Math.max(1, totalRevenue)) * 100);
+
+      // 4. Strategy C (Master Deep Splice: Bikin Bathtub dari Toilet+Crappy, Bikin Acid dari Cactus+Plumbing, dll)
+      const costCactus = Math.round(getMatCostWL(targetCount * m.cactus.needed_ratio, m.cactus));
+      const costToilet = Math.round(getMatCostWL(targetCount * m.toilet.needed_ratio, m.toilet));
+      const costCrappy = Math.round(getMatCostWL(targetCount * m.crappy_sign.needed_ratio, m.crappy_sign));
+      const costGreen = Math.round((targetCount * 1.25) / 100); // 100/1 Green Block
+      const costDungeon = Math.round(getMatCostWL(targetCount * m.dungeon_door.needed_ratio, m.dungeon_door));
+      const costCrate = Math.round(getMatCostWL(targetCount * m.super_crate_box.needed_ratio, m.super_crate_box));
+      const costStratC = costCactus + costToilet + costCrappy + costGreen + costDungeon + costCrate + costBio + costSheet + fpCostFinalHarvest;
+      const profitStratC = totalRevenue - costStratC;
+      const marginStratC = Math.round((profitStratC / Math.max(1, totalRevenue)) * 100);
 
       // Update DOM Dashboard
       const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
       setText('sci-res-revenue', `+${totalRevenue.toLocaleString()} WL`);
+      setText('sci-res-revenue-dl', `${totalRevenueDL} DL (${outputQty.toLocaleString()} ${sellIsBlock ? 'Blocks' : 'Seeds'})`);
       
       // Strategy A DOM
       setText('sci-cost-strat-a', `${costStratA.toLocaleString()} WL`);
       setText('sci-profit-strat-a', `${profitStratA >= 0 ? '+' : ''}${profitStratA.toLocaleString()} WL`);
-      setText('sci-margin-strat-a', `${marginStratA}%`);
+      setText('sci-margin-strat-a', `${marginStratA}% (${(profitStratA/100).toFixed(1)} DL)`);
       const profitAEl = document.getElementById('sci-profit-strat-a');
       if (profitAEl) profitAEl.style.color = profitStratA >= 0 ? '#16a34a' : '#dc2626';
 
       // Strategy B DOM
       setText('sci-cost-strat-b', `${costStratB.toLocaleString()} WL`);
       setText('sci-profit-strat-b', `${profitStratB >= 0 ? '+' : ''}${profitStratB.toLocaleString()} WL`);
-      setText('sci-margin-strat-b', `${marginStratB}%`);
+      setText('sci-margin-strat-b', `${marginStratB}% (${(profitStratB/100).toFixed(1)} DL)`);
       const profitBEl = document.getElementById('sci-profit-strat-b');
       if (profitBEl) profitBEl.style.color = profitStratB >= 0 ? '#16a34a' : '#dc2626';
+
+      // Strategy C DOM
+      setText('sci-cost-strat-c', `${costStratC.toLocaleString()} WL`);
+      setText('sci-profit-strat-c', `${profitStratC >= 0 ? '+' : ''}${profitStratC.toLocaleString()} WL`);
+      setText('sci-margin-strat-c', `${marginStratC}% (${(profitStratC/100).toFixed(1)} DL CUAN!)`);
+      const profitCEl = document.getElementById('sci-profit-strat-c');
+      if (profitCEl) profitCEl.style.color = profitStratC >= 0 ? '#16a34a' : '#dc2626';
 
       // Recommendation Text
       const recoEl = document.getElementById('sci-reco-text');
       if (recoEl) {
-        if (profitStratB > profitStratA + 30) {
-          recoEl.innerHTML = `💡 <b>REKOMENDASI CUAN MAKSIMAL:</b> Lakukan <b>Strategi B (Splicing dari Bahan Kunci)</b>! Lu bisa kantongin profit bersih <b style="color:#16a34a;">+${profitStratB} WL</b> (Lebih untung <b>+${profitStratB - profitStratA} WL</b> dibanding beli cabang Toxic/Radio jadi)!`;
-        } else if (profitStratA > profitStratB) {
-          recoEl.innerHTML = `💡 <b>REKOMENDASI PRAKTIS:</b> Harga Toxic Waste & Military Radio sedang sangat murah! Lebih hemat beli cabang jadi (Strategi A) dengan margin <b style="color:#16a34a;">+${profitStratA} WL</b> tanpa repot splice berjam-jam!`;
-        } else {
-          recoEl.innerHTML = `💡 <b>REKOMENDASI:</b> Kedua strategi seimbang (Margin ~${marginStratB}%). Pilih Strategi B jika lu mau hemat modal dan punya waktu luang!`;
-        }
+        recoEl.innerHTML = `👑 <b>REKOMENDASI MASTER ARCHITECT:</b> Jalankan <b>Strategi C (Master Deep Splice)</b>! Dengan merakit Bathtub sendiri dari Toilet + Crappy dan menyilangkan Acid sendiri, modal lu cuma <b>${costStratC.toLocaleString()} WL</b> dan lu mengantongi cuan bersih <b style="color:#16a34a; font-size:14px;">+${profitStratC.toLocaleString()} WL (${(profitStratC/100).toFixed(1)} DIAMOND LOCKS / Margin ${marginStratC}%)</b>! Lu hemat <b>+${(costStratA - costStratC).toLocaleString()} WL</b> dibanding beli cabang jadi!`;
       }
     }
 
@@ -5148,7 +5492,7 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       calcSciMaterialsProfit();
       localStorage.setItem('gt_science_materials_prices', JSON.stringify(activeSciMatData));
       closeScienceOracleModal();
-      alert('⚡ SUKSES! Harga bahan dan kalkulasi profit massing Science Station berhasil disimpan!');
+      alert('⚡ SUKSES! Harga bahan dan satuan (Per 1 WL / WL per Biji) berhasil disimpan!');
     }
 
     function applySciJsonFromTextarea() {
@@ -5159,16 +5503,7 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       }
       try {
         const parsed = JSON.parse(text);
-        if (parsed.materials) {
-          for (const [key, item] of Object.entries(parsed.materials)) {
-            if (activeSciMatData.materials[key]) {
-              activeSciMatData.materials[key].rate_per_wl = item.rate_per_wl || activeSciMatData.materials[key].rate_per_wl;
-            }
-          }
-        }
-        if (parsed.selling_price) {
-          activeSciMatData.selling_price.science_station_rate_per_wl = parsed.selling_price.science_station_rate_per_wl || activeSciMatData.selling_price.science_station_rate_per_wl;
-        }
+        activeSciMatData = normalizeSciData(parsed);
         localStorage.setItem('gt_science_materials_prices', JSON.stringify(activeSciMatData));
         renderSciMaterialInputs();
         calcSciMaterialsProfit();
@@ -5312,8 +5647,8 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
       <!-- Tab 1: Form "Tinggal Ganti Angka Bahan" -->
       <div class="sci-tab-pane active" id="sci-tab-pane-form">
         <div style="background: #fef08a; border: 2px solid #000; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-          <p style="margin: 0; font-size: 13px; font-weight: 700; color: #713f12;">
-            💡 <b>ATURAN SATUAN:</b> Hasil akhir Science Station adalah <b>[📦 BLOCK]</b> siap jual. Semua bahan di bawah adalah <b>[🌱 SEED]</b> (benih bibit untuk splicing).
+          <p style="margin: 0; font-size: 12.5px; font-weight: 700; color: #713f12;">
+            💡 <b>MODE FLEKSIBEL:</b> Tiap item bisa dipilih <b>[BLOCKS·SEEDS / 1 WL]</b> <i>(dapet berapa per 1 WL)</i> atau <b>[WL / 1 BLOCK·SEED]</b> <i>(harga WL per 1 biji)</i>! Klik badge <b>📦/🌱</b> untuk ganti tipe.
           </p>
           <div style="display: flex; align-items: center; gap: 6px;">
             <span style="font-size: 12px; font-weight: 800;">Target Massing:</span>
@@ -5324,43 +5659,65 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
 
         <!-- Live Profit Engine Comparison Dashboard -->
         <div class="sci-profit-dashboard">
-          <div class="sci-dash-title">
-            <span>📊</span> ANALISIS MODAL SEED BAHAN VS PENJUALAN BLOCK:
+          <div class="sci-dash-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <span>📊 ANALISIS OMZET PANEN 2.95x BLOCK VS 3 STRATEGI MODAL:</span>
+            <span style="font-size: 11px; color: #fdba74;">Panen Pohon SS Wajib Harvester (FP)</span>
           </div>
-          <div class="sci-dash-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
-            <div class="sci-dash-cell">
-              <span>Penjualan Science (BLOCK)</span>
-              <strong id="sci-res-revenue" style="color: #16a34a;">+333 WL</strong>
+          <div class="sci-dash-grid" style="grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));">
+            <div class="sci-dash-cell" style="background: #18181b; color: #fff; border-color: #22c55e;">
+              <span style="color: #4ade80;">Omzet Penjualan Output</span>
+              <strong id="sci-res-revenue" style="color: #4ade80; font-size: 20px;">+5,900 WL</strong>
+              <small id="sci-res-revenue-dl" style="font-size: 11px; color: #cbd5e1; font-weight: bold;">59.0 DLs</small>
             </div>
             <div class="sci-dash-cell" style="background: #fffbeb;">
-              <span>Modal Beli SEED Cabang (A)</span>
-              <strong id="sci-cost-strat-a" style="color: #b45309;">308 WL</strong>
-              <small style="font-size: 10px; color: #78350f;">Toxic Waste + Radio Seed</small>
+              <span>Modal Cabang Jadi (A)</span>
+              <strong id="sci-cost-strat-a" style="color: #b45309;">4,708 WL</strong>
+              <small style="font-size: 10px; color: #78350f;">TWB + MR Jadi</small>
             </div>
             <div class="sci-dash-cell" style="background: #fffbeb;">
               <span>Profit Bersih Strategi A</span>
-              <strong id="sci-profit-strat-a" style="color: #16a34a;">+25 WL</strong>
-              <small id="sci-margin-strat-a" style="font-size: 10px; font-weight: bold; color: #166534;">7%</small>
+              <strong id="sci-profit-strat-a" style="color: #16a34a;">+1,192 WL</strong>
+              <small id="sci-margin-strat-a" style="font-size: 10px; font-weight: bold; color: #166534;">20% (11.9 DL)</small>
             </div>
-            <div class="sci-dash-cell" style="background: #f0fdf4; border-color: #16a34a;">
-              <span>Modal Beli SEED Kunci (B)</span>
-              <strong id="sci-cost-strat-b" style="color: #0369a1;">152 WL</strong>
-              <small style="font-size: 10px; color: #0284c7;">Death Spikes + Cactus Seed</small>
+            <div class="sci-dash-cell" style="background: #eff6ff; border-color: #3b82f6;">
+              <span>Modal Tier 2 (B)</span>
+              <strong id="sci-cost-strat-b" style="color: #1d4ed8;">2,900 WL</strong>
+              <small style="font-size: 10px; color: #1e40af;">Acid + Barrel + Bio + Piano</small>
             </div>
-            <div class="sci-dash-cell" style="background: #f0fdf4; border-color: #16a34a;">
+            <div class="sci-dash-cell" style="background: #eff6ff; border-color: #3b82f6;">
               <span>Profit Bersih Strategi B</span>
-              <strong id="sci-profit-strat-b" style="color: #16a34a; font-size: 22px;">+181 WL</strong>
-              <small id="sci-margin-strat-b" style="font-size: 10px; font-weight: bold; color: #15803d;">54% CUAN GEDE!</small>
+              <strong id="sci-profit-strat-b" style="color: #1d4ed8;">+3,000 WL</strong>
+              <small id="sci-margin-strat-b" style="font-size: 10px; font-weight: bold; color: #1e40af;">51% (30.0 DL)</small>
+            </div>
+            <div class="sci-dash-cell" style="background: #f0fdf4; border: 2.5px solid #16a34a;">
+              <span style="color: #15803d; font-weight: 800;">👑 Modal Deep Splice (C)</span>
+              <strong id="sci-cost-strat-c" style="color: #15803d;">1,492 WL</strong>
+              <small style="font-size: 10px; color: #166534; font-weight: bold;">Bikin Bathtub & Acid Sendiri</small>
+            </div>
+            <div class="sci-dash-cell" style="background: #f0fdf4; border: 2.5px solid #16a34a;">
+              <span style="color: #15803d; font-weight: 800;">👑 PROFIT MAX (C)</span>
+              <strong id="sci-profit-strat-c" style="color: #16a34a; font-size: 22px;">+4,408 WL</strong>
+              <small id="sci-margin-strat-c" style="font-size: 10px; font-weight: bold; color: #15803d;">75% CUAN (44.1 DL!)</small>
             </div>
           </div>
-          <div id="sci-reco-text" style="margin-top: 10px; font-size: 12px; font-weight: 700; color: #166534; background: #fff; padding: 8px 12px; border: 2px solid #000; border-radius: 6px;">
+          <div id="sci-reco-text" style="margin-top: 10px; font-size: 12.5px; font-weight: 700; color: #166534; background: #fff; padding: 10px 14px; border: 2.5px solid #000; border-radius: 6px; box-shadow: 2px 2px 0 #000;">
             <!-- Diisi otomatis oleh JavaScript -->
           </div>
         </div>
 
-        <h4 style="font-family: 'Bangers', cursive; font-size: 16px; margin: 0 0 8px; letter-spacing: 0.5px;">
-          🛒 DAFTAR HARGA PASAR BAHAN-BAHAN MASSING:
-        </h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <h4 style="font-family: 'Bangers', cursive; font-size: 16px; margin: 0; letter-spacing: 0.5px;">
+            🛒 DAFTAR HARGA PASAR BAHAN-BAHAN MASSING:
+          </h4>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsMode('PER_WL')" style="background: #38bdf8; color: #000; font-size: 10.5px; font-weight: 800; padding: 3px 8px; height: 26px;">
+              ⚡ Set Semua Bahan: SEEDS / 1 WL
+            </button>
+            <button type="button" class="action-btn-mini" onclick="setAllSciMaterialsMode('WL_EACH')" style="background: #facc15; color: #000; font-size: 10.5px; font-weight: 800; padding: 3px 8px; height: 26px;">
+              💎 Set Semua Bahan: WL / 1 SEED
+            </button>
+          </div>
+        </div>
 
         <!-- Form Input Grid for Materials -->
         <div class="sci-input-grid" id="sci-materials-grid">

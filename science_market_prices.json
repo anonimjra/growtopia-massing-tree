@@ -1,85 +1,145 @@
 {
-  "version": "2.1",
+  "version": "2.6",
   "item_target": "Science Station",
-  "type": "Massing Ingredients & Recipe Cost Oracle",
-  "note": "Output penjualan adalah BLOCK, sedangkan semua bahan yang dibeli/displice adalah SEED (Benih).",
-  "target_batch": 1000,
+  "type": "Ingredients & Splicing Cost Oracle",
+  "note": "Mendukung 2 mode satuan: 'PER_WL' (berapa BLOCKS/SEEDS per 1 WL) dan 'WL_EACH' (berapa WL per 1 BLOCK/SEED).",
+  "target_trees": 1000,
   "selling_price": {
-    "item": "Science Station (BLOCK)",
-    "unit": "Blocks per WL",
-    "science_station_rate_per_wl": 3.0,
-    "revenue_1k_wl": 333
+    "item": "Science Station",
+    "item_type": "BLOCK",
+    "price_mode": "WL_EACH",
+    "price_value": 2.0,
+    "science_station_rate_per_wl": 0.5,
+    "revenue_1k_wl": 5900
   },
   "materials": {
     "toxic_waste_barrel": {
-      "name": "Toxic Waste Barrel Seed",
-      "type": "SEED",
-      "needed_seeds_per_1k": 1000,
-      "rate_per_wl": 6.5,
-      "unit": "Seeds per WL"
+      "name": "Toxic Waste Barrel (Cabang Kiri)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "WL_EACH",
+      "price_value": 2.7,
+      "rate_per_wl": 0.37037
     },
     "military_radio": {
-      "name": "Military Radio Seed",
-      "type": "SEED",
-      "needed_seeds_per_1k": 1000,
-      "rate_per_wl": 6.5,
-      "unit": "Seeds per WL"
-    },
-    "death_spikes": {
-      "name": "Death Spikes Seed (Core Bottleneck)",
-      "type": "SEED",
-      "needed_seeds_per_1k": 2500,
-      "rate_per_wl": 50.0,
-      "unit": "Seeds per WL"
-    },
-    "cactus": {
-      "name": "Cactus Seed (Non-Farmable)",
-      "type": "SEED",
-      "needed_seeds_per_1k": 1250,
-      "rate_per_wl": 25.0,
-      "unit": "Seeds per WL"
+      "name": "Military Radio (Cabang Kanan)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "WL_EACH",
+      "price_value": 1.0,
+      "rate_per_wl": 1.0
     },
     "acid": {
-      "name": "Acid Seed",
-      "type": "SEED",
-      "needed_seeds_per_1k": 1250,
-      "rate_per_wl": 14.0,
-      "unit": "Seeds per WL"
+      "name": "Acid (Bahan TWB)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "WL_EACH",
+      "price_value": 1.6,
+      "rate_per_wl": 0.625
     },
     "barrel": {
-      "name": "Barrel Seed",
-      "type": "SEED",
-      "needed_seeds_per_1k": 1250,
-      "rate_per_wl": 30.0,
-      "unit": "Seeds per WL"
-    },
-    "plumbing": {
-      "name": "Plumbing Seed",
-      "type": "SEED",
-      "needed_seeds_per_1k": 1250,
-      "rate_per_wl": 18.0,
-      "unit": "Seeds per WL"
+      "name": "Barrel (Bahan TWB)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "PER_WL",
+      "price_value": 8.33,
+      "rate_per_wl": 8.33
     },
     "biohazard_sign": {
-      "name": "Biohazard Sign Seed",
-      "type": "SEED",
-      "needed_seeds_per_1k": 1250,
-      "rate_per_wl": 18.0,
-      "unit": "Seeds per WL"
+      "name": "Biohazard Sign (Bahan MR)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "PER_WL",
+      "price_value": 3.0,
+      "rate_per_wl": 3.0
     },
     "sheet_music_sharp_piano": {
-      "name": "Sheet Music: Sharp Piano Seed",
-      "type": "SEED",
-      "needed_seeds_per_1k": 1250,
-      "rate_per_wl": 12.0,
-      "unit": "Seeds per WL"
+      "name": "Sheet Music: Sharp Piano (Bahan MR)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "PER_WL",
+      "price_value": 5.0,
+      "rate_per_wl": 5.0
+    },
+    "cactus": {
+      "name": "Cactus (Bahan Acid)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "PER_WL",
+      "price_value": 3.0,
+      "rate_per_wl": 3.0
+    },
+    "plumbing": {
+      "name": "Plumbing (Bahan Acid)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "WL_EACH",
+      "price_value": 1.0,
+      "rate_per_wl": 1.0
+    },
+    "bathtub": {
+      "name": "Bathtub (Bahan Plumbing)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "WL_EACH",
+      "price_value": 1.0,
+      "rate_per_wl": 1.0
+    },
+    "toilet": {
+      "name": "Toilet (Bahan Bathtub)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "PER_WL",
+      "price_value": 9.0,
+      "rate_per_wl": 9.0
+    },
+    "crappy_sign": {
+      "name": "Crappy Sign (Bahan Bathtub)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "PER_WL",
+      "price_value": 60.0,
+      "rate_per_wl": 60.0
+    },
+    "death_spikes": {
+      "name": "Death Spikes (Bahan Cactus & Piano)",
+      "item_type": "SEED",
+      "needed_ratio": 2.5,
+      "price_mode": "PER_WL",
+      "price_value": 9.0,
+      "rate_per_wl": 9.0
     },
     "danger_sign": {
-      "name": "Danger Sign Seed",
-      "type": "SEED",
-      "needed_seeds_per_1k": 2500,
-      "rate_per_wl": 70.0,
-      "unit": "Seeds per WL"
+      "name": "Danger Sign (Bahan Biohazard & Spikes)",
+      "item_type": "SEED",
+      "needed_ratio": 2.5,
+      "price_mode": "PER_WL",
+      "price_value": 9.0,
+      "rate_per_wl": 9.0
+    },
+    "super_crate_box": {
+      "name": "Super Crate Box (Bahan Barrel)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "PER_WL",
+      "price_value": 200.0,
+      "rate_per_wl": 200.0
+    },
+    "dungeon_door": {
+      "name": "Dungeon Door (Bahan Barrel)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "PER_WL",
+      "price_value": 9.0,
+      "rate_per_wl": 9.0
+    },
+    "orange_block": {
+      "name": "Orange Block (Bahan Biohazard)",
+      "item_type": "SEED",
+      "needed_ratio": 1.25,
+      "price_mode": "PER_WL",
+      "price_value": 9.0,
+      "rate_per_wl": 9.0
     }
   }
 }
