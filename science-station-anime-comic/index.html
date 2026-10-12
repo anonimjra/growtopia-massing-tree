@@ -2296,23 +2296,23 @@
     }
 
     .sci-input-card.checked-card {
-      background: #ffffff;
-      border: 2.5px solid #16a34a;
-      box-shadow: 2.5px 2.5px 0 #15803d;
+      background: linear-gradient(145deg, #bbf7d0 0%, #dcfce7 65%, #f0fdf4 100%) !important;
+      border: 3px solid #15803d !important;
+      box-shadow: 3px 3px 0 #064e3b !important;
     }
 
     .sci-input-card.splice-card {
-      background: #f0f9ff !important;
-      border: 2px dashed #0284c7 !important;
-      box-shadow: none !important;
-      opacity: 0.92;
+      background: linear-gradient(145deg, #bae6fd 0%, #e0f2fe 70%, #f0f9ff 100%) !important;
+      border: 2.5px dashed #0284c7 !important;
+      box-shadow: 2px 2px 0 #0369a1 !important;
+      opacity: 0.96;
     }
 
     .sci-input-card.unchecked-card {
-      background: #f1f5f9 !important;
-      border: 2px dashed #94a3b8 !important;
+      background: linear-gradient(145deg, #fecaca 0%, #fee2e2 55%, #e2e8f0 100%) !important;
+      border: 2.5px dashed #dc2626 !important;
       box-shadow: none !important;
-      opacity: 0.78;
+      opacity: 0.85;
     }
     .sci-input-card.unchecked-card:hover,
     .sci-input-card.splice-card:hover {
@@ -2328,12 +2328,12 @@
       display: inline-flex;
       align-items: center;
       gap: 3px;
-      padding: 2px 7px;
+      padding: 3px 8px;
       border: 2px solid #000;
       border-radius: 5px;
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 10px;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
       user-select: none;
       box-shadow: 1.5px 1.5px 0 #000;
@@ -2341,21 +2341,24 @@
       flex-shrink: 0;
     }
     .sci-check-corner-btn.checked {
-      background: #22c55e;
-      color: #000;
+      background: #16a34a;
+      color: #fff;
+      text-shadow: 0 1px 0 #000;
     }
     .sci-check-corner-btn.splice {
-      background: #38bdf8;
-      color: #000;
+      background: #0284c7;
+      color: #fff;
+      text-shadow: 0 1px 0 #000;
     }
     .sci-check-corner-btn.unchecked {
-      background: #e2e8f0;
-      color: #475569;
-      border-style: dashed;
-      box-shadow: none;
+      background: #ef4444;
+      color: #fff;
+      border-style: solid;
+      text-shadow: 0 1px 0 #000;
+      box-shadow: 1.5px 1.5px 0 #000;
     }
     .sci-check-corner-btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.06);
     }
 
     .sci-type-toggle-group {
@@ -2403,7 +2406,7 @@
     .sci-input-card label {
       font-size: 11.5px;
       font-weight: 800;
-      color: #334155;
+      color: #0f172a;
       display: flex;
       align-items: center;
       gap: 4px;
@@ -2480,8 +2483,8 @@
       position: absolute;
       top: -7px;
       right: -7px;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border-radius: 5px;
       border: 2px solid #000;
       background: #22c55e;
@@ -2502,20 +2505,31 @@
       transform: scale(1.15);
     }
     .tree-card-check-btn.unchecked {
-      background: #cbd5e1;
-      color: #64748b;
-      border-style: dashed;
-      box-shadow: none;
+      background: #ef4444 !important;
+      color: #fff !important;
+      border-style: solid;
+      box-shadow: 1.5px 1.5px 0 #000;
+    }
+    .manga-card.tree-checked-buy {
+      background: linear-gradient(145deg, #bbf7d0 0%, #dcfce7 100%) !important;
+      border-color: #15803d !important;
+      box-shadow: 4px 4px 0 #15803d !important;
+    }
+    .manga-card.tree-checked-splice {
+      background: linear-gradient(145deg, #bae6fd 0%, #e0f2fe 100%) !important;
+      border-color: #0284c7 !important;
+      box-shadow: 3.5px 3.5px 0 #0369a1 !important;
     }
     .manga-card.tree-unchecked {
-      opacity: 0.38 !important;
-      filter: grayscale(0.75) !important;
-      border-style: dashed !important;
-      box-shadow: 1px 1px 0 #64748b !important;
+      background: linear-gradient(145deg, #fecaca 0%, #e2e8f0 100%) !important;
+      opacity: 0.48 !important;
+      filter: grayscale(0.4) !important;
+      border: 2px dashed #dc2626 !important;
+      box-shadow: none !important;
     }
     .manga-card.tree-unchecked:hover {
-      opacity: 0.85 !important;
-      filter: grayscale(0.15) !important;
+      opacity: 0.9 !important;
+      filter: grayscale(0) !important;
     }
     .comic-badge-block-sub {
       display: inline-block;
@@ -4464,18 +4478,23 @@
         const isSpliceStep = isChecked && card.id !== 'card-science_station' && hasAnyCheckedDescendant(card.id);
         chk.className = 'tree-card-check-btn ' + (isChecked ? 'checked' : 'unchecked');
         if (isSpliceStep) {
-          chk.style.background = '#38bdf8';
-          chk.title = '⚗️ STEP SPLICE SENDIRI (Bahan bawahnya diceklis -> Modal = 0 WL di Kalkulator)';
+          chk.style.background = '#0284c7';
+          chk.style.color = '#fff';
+          chk.title = '⚗️ ON • STEP SPLICE SENDIRI (Bahan bawahnya diceklis -> Modal = 0 WL di Kalkulator)';
         } else if (isChecked) {
-          chk.style.background = '#22c55e';
+          chk.style.background = '#16a34a';
+          chk.style.color = '#fff';
           chk.title = card.id === 'card-science_station'
             ? '🏆 Target Utama Science Station'
-            : '🛒 BAHAN DASAR DIBELI (Ujung bawah ceklis -> Masuk Hitungan Modal WL di Kalkulator!)';
+            : '✅ ON • BAHAN DASAR DIBELI (Ujung bawah ceklis -> Masuk Hitungan Modal WL di Kalkulator!)';
         } else {
-          chk.style.background = '#e2e8f0';
-          chk.title = '⬜ OFF / SKIP (Klik untuk mengaktifkan box ini)';
+          chk.style.background = '#ef4444';
+          chk.style.color = '#fff';
+          chk.title = '❌ OFF / SKIP (Klik untuk mengaktifkan box ini)';
         }
-        chk.innerHTML = isChecked ? '✓' : '☐';
+        chk.innerHTML = isChecked ? '✓' : '✕';
+        card.classList.toggle('tree-checked-buy', isChecked && !isSpliceStep && card.id !== 'card-science_station');
+        card.classList.toggle('tree-checked-splice', isSpliceStep);
         card.classList.toggle('tree-unchecked', !isChecked);
       });
     }
@@ -6023,8 +6042,8 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
 
         let cardStateClass = isChecked ? 'checked-card' : (isSplice ? 'splice-card' : 'unchecked-card');
         let btnStateClass = isChecked ? 'checked' : (isSplice ? 'splice' : 'unchecked');
-        let btnLabelText = isChecked ? '✅ BELI' : (isSplice ? '⚗️ SPLICE' : '⬜ OFF');
-        let tierBg = tierBadge === 'DASAR' ? '#bbf7d0' : (tierBadge === 'AKAR' ? '#fde047' : '#e2e8f0');
+        let btnLabelText = isChecked ? '✅ ON • BELI' : (isSplice ? '⚗️ SPLICE' : '❌ OFF');
+        let tierBg = tierBadge === 'DASAR' ? '#86efac' : (tierBadge === 'AKAR' ? '#fde047' : '#e2e8f0');
 
         const card = document.createElement('div');
         card.className = `sci-input-card ${cardStateClass}`;
@@ -6038,7 +6057,7 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
                 ${item.name}
               </span>
             </label>
-            <button type="button" class="sci-check-corner-btn ${btnStateClass}" onclick="toggleSciItemCheck('${key}')" title="Klik untuk ganti status: ✅ BELI (dihitung modal WL) vs ⬜ OFF/SPLICE (0 WL)">
+            <button type="button" class="sci-check-corner-btn ${btnStateClass}" onclick="toggleSciItemCheck('${key}')" title="Klik untuk ganti status: ✅ ON • BELI (dihitung modal WL) vs ❌ OFF (0 WL)">
               ${btnLabelText}
             </button>
           </div>
@@ -6067,7 +6086,7 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
               </span>
             </div>
           </div>
-          <span id="sci-mat-sub-${key}" style="font-size: 10.5px; color: #475569; font-weight: 700; margin-top: 2px;">
+          <span id="sci-mat-sub-${key}" style="font-size: 10.5px; color: #0f172a; font-weight: 700; margin-top: 3px; padding: 4px 6px; border-radius: 5px; background: rgba(255,255,255,0.65); border: 1px solid rgba(0,0,0,0.2);">
             <!-- Diisi live oleh calcSciMaterialsProfit -->
           </span>
         `;
@@ -6133,11 +6152,11 @@ ${JSON.stringify(DEFAULT_SCI_MATERIALS_DATA, null, 2)}`;
         const subEl = document.getElementById(`sci-mat-sub-${key}`);
         if (subEl) {
           if (isChecked) {
-            subEl.innerHTML = `${branchTag}Butuh: <b>${activeQty.toLocaleString()} ${unitName}</b> <small>${altInfo}</small><br>💰 <b style="color:#15803d;">DIHITUNG BELI: ${itemCostWL.toLocaleString()} WL</b> <small>(${rateDesc})</small>`;
+            subEl.innerHTML = `🟢 <b style="color:#15803d;">ON (DIHITUNG BELI): ${itemCostWL.toLocaleString()} WL</b> <small>(${rateDesc})</small><br>${branchTag}Butuh: <b>${activeQty.toLocaleString()} ${unitName}</b> <small>${altInfo}</small>`;
           } else if (isSplice) {
-            subEl.innerHTML = `⚗️ <b style="color:#0369a1;">STEP SPLICE DARI BAWAH (0 WL)</b> • <small>Jika beli langsung: <b>${itemCostWL.toLocaleString()} WL</b> (${activeQty.toLocaleString()} ${unitName}) — Klik tombol kanan atas jika kurang & mau beli!</small>`;
+            subEl.innerHTML = `🔵 <b style="color:#0369a1;">STEP SPLICE DARI BAWAH (0 WL)</b><br><small>Jika beli langsung: <b>${itemCostWL.toLocaleString()} WL</b> (${activeQty.toLocaleString()} ${unitName})</small>`;
           } else {
-            subEl.innerHTML = `⬜ <b style="color:#64748b;">OFF / SKIP (0 WL)</b> • <small>Estimasi jika beli: <b>${itemCostWL.toLocaleString()} WL</b> (${activeQty.toLocaleString()} ${unitName})</small>`;
+            subEl.innerHTML = `🔴 <b style="color:#b91c1c;">OFF / SKIP (0 WL)</b><br><small>Estimasi jika beli: <b>${itemCostWL.toLocaleString()} WL</b> (${activeQty.toLocaleString()} ${unitName})</small>`;
           }
         }
       }
